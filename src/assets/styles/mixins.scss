@@ -1,0 +1,10 @@
+@mixin ellipse {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin no_select {
+  -webkit-user-select: none;
+  user-select: none;
+}
