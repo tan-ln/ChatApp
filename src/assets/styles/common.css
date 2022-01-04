@@ -10,17 +10,23 @@ body {
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
+  -ms-overflow-style: none;
 }
 
-*::-webkit-scrollbar {
+div::-webkit-scrollbar {
   display: none;
 }
 
-input {
+input, textarea {
   background: none;
   outline: none;
   border: none;
 }
+
+textarea{
+  resize: none;
+}
+
 input[type=search]::-webkit-search-cancel-button{
   -webkit-appearance: none;
 }

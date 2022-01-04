@@ -1,34 +1,34 @@
 <template>
   <div class="contact__card__wrapper" :class="{ 'active__contact' : idx === 1 }">
     <div class="wrapper__left__avatars">
-      <img :src="require(`@/assets/images/${contact.avatarUrl}`)" :alt="contact.contact">
+      <img :src="require(`@/assets/images/${entry.avatarUrl}`)" :alt="entry.name">
       <div class="wrapper__side--bubble">
         <Bubble num="99+" />
       </div>
     </div>
     <div class="wrapper__right__content">
       <div class="content__hd">
-        <h3 class="content__hd--title">{{contact.contact}}</h3>
-        <span class="content__hd--timeStamp">{{contact.timeStamp}}</span>
+        <h3 class="content__hd--title">{{entry.name}}</h3>
+        <span class="content__hd--timeStamp">{{entry.timeStamp}}</span>
       </div>
       <div class="content__main">
-        <p class="content__main--msg">{{contact.content}}</p>
+        <p class="content__main--msg">{{entry.content}}</p>
       </div>
     </div>
     <!-- <div class="wrapper__side--bubble">
       <Bubble num="2" />
     </div> -->
-    <div class="wrapper__side--icon" v-if="contact.top || contact.mute">
-      <i class="iconfont opt__icons" v-html="contact.mute ? '&#xe6ba;' : '&#xe770;'"></i>
+    <div class="wrapper__side--icon" v-if="entry.top || entry.mute">
+      <i class="iconfont opt__icons" v-html="entry.mute ? '&#xe6ba;' : '&#xe770;'"></i>
     </div>
   </div>
 </template>
 
 <script>
-import Bubble from './Bubble.vue'
+import Bubble from '../Bubble.vue'
 export default {
-  name: 'ContactCard',
-  props: ['contact', 'idx'],
+  name: 'MsgEntry',
+  props: ['entry', 'idx'],
   components: {
     Bubble
   }
@@ -44,7 +44,7 @@ export default {
   flex-direction: row;
   align-items: center;
   padding: .06rem .1rem;
-  width: 2.6rem;
+  width: 2.5rem;
   font-size: 0.12rem;
   position: relative;
   cursor: pointer;
@@ -88,7 +88,7 @@ export default {
     .content__main {
       font-size: 0.12rem;
       color: $middle_font_color;
-      width: 1.6rem;
+      width: 1.5rem;
       line-height: 0.2rem;
       &--msg {
         @include ellipse;
@@ -124,7 +124,7 @@ export default {
   }
 }
 .active__contact {
-  border-left: .02rem solid $bubble_color;
+  border-left: .02rem solid $card_active_border_color;
   background: linear-gradient(to right, #FFF, $border_color);
 }
 </style>

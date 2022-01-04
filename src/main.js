@@ -4,7 +4,6 @@ import App from './App'
 import router from './router'
 import '@/plugins/moment'
 import store from './store'
-import 'normalize.css'
 
 // Vue.use(new VueSocketio({
 //   connection: 'http://localhost:8888'

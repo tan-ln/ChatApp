@@ -1,0 +1,37 @@
+/*滚动条整体样式*/
+textarea::-webkit-scrollbar {
+  width: .04rem;
+  height: .01rem;
+}
+/*滚动条滑块*/
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 40%;
+  -webkit-box-shadow: inset 0 0 .05rem rgba(0,0,0,0.2);
+  background: #7b9bfb;
+}
+/*滚动条轨道*/
+textarea::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 .01rem rgba(0,0,0,0);
+  border-radius: 40%;
+  background: #ebebeb;
+}
+
+/*滚动条整体样式*/
+main::-webkit-scrollbar {
+  width: .036rem;
+  height: .01rem;
+}
+/*滚动条滑块*/
+main::-webkit-scrollbar-thumb {
+  border-radius: 20%;
+  // -webkit-box-shadow: inset 0 0 .2rem rgba(0,0,0,0.2);
+  background: $msg_bg_color linear-gradient(to top, rgba(255, 240, 191, 0), $selection_color);
+}
+/*滚动条轨道*/
+main::-webkit-scrollbar-track {
+  // -webkit-box-shadow: inset 0 0 .1rem rgba(0,0,0,0);
+  border-radius: 20%;
+  background: #ebebeb;
+  // background: $msg_bg_color linear-gradient(to right, rgba(255, 240, 191, 0), $selection_color);
+}
+

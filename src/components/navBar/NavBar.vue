@@ -3,24 +3,24 @@
     <div class="navbar__top">
       <img class="user__avatar" :src="require('@/assets/images/yong.jpg')" alt="someone" />
     </div>
-    <div class="navbar__center menu__list">
-      <div class="menu__list__item" :class="{ 'active__item' : idx === 1 }" v-for="(item, idx) in tabList" :key="item.title">
-        <div class="menu__list__item--icon">
+    <nav class="navbar__center menu__list">
+      <router-link replace :to="item.to" class="menu__list__item" :class="{ 'active__item' : item.name === $route.name }" v-for="(item, idx) in tabList" :key="item.title" :title="item.title">
+        <div class="menu__list__item--icon" @click="handleNavClick(idx)">
           <i class="icon__btn iconfont" v-html="item.fontCode"></i>
         </div>
-      </div>
-    </div>
+      </router-link>
+    </nav>
     <div class="navbar__bottom">
-      <div class="menu__list__item">
+      <a class="menu__list__item" title="Setting">
         <div class="menu__list__item--icon">
           <i class="icon__btn iconfont">&#xe8b8;</i>
         </div>
-      </div>
-      <div class="menu__list__item">
+      </a>
+      <a class="menu__list__item" title="Dark Mode">
         <div class="menu__list__item--icon">
           <i class="icon__btn iconfont">&#xe664;</i>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </template>
@@ -30,28 +30,44 @@ export default {
   name: 'NavBar',
   data () {
     return {
+      activeId: 0,
       tabList: [
         {
           title: 'Home',
-          fontCode: '&#xe690;'
+          name: 'home',
+          fontCode: '&#xe690;',
+          to: '/'
         },
         {
-          title: 'Message',
-          fontCode: '&#xe601;'
+          title: 'Messages',
+          name: 'messages',
+          fontCode: '&#xe601;',
+          to: '/messages'
         },
         {
           title: 'Contacts',
-          fontCode: '&#xe61f;'
+          name: 'contacts',
+          fontCode: '&#xe61f;',
+          to: 'contacts'
         },
         {
-          title: 'Folder',
-          fontCode: '&#xeac5;'
+          title: 'Folders',
+          name: 'folders',
+          fontCode: '&#xeac5;',
+          to: 'folders'
         },
         {
-          title: 'Collection',
-          fontCode: '&#xeac6;'
+          title: 'Collections',
+          name: 'collections',
+          fontCode: '&#xeac6;',
+          to: 'collections'
         }
       ]
+    }
+  },
+  methods: {
+    handleNavClick (idx) {
+      this.activeId = idx
     }
   }
 }
@@ -65,7 +81,7 @@ export default {
   box-sizing: border-box;
   margin: 0.14rem 0 .14rem .14rem;
   width: .64rem;
-  overflow: hidden;
+  height: 6.52rem;
   color: #fff;
   background-color: $nav_bg_color;
   display: flex;
@@ -79,7 +95,7 @@ export default {
     align-items: center;
     justify-content: center;
     .user__avatar {
-      box-shadow: 0rem 0rem .04rem #FFF;
+      box-shadow: 0rem 0rem .04rem $shadow_color;
       cursor: pointer;
     }
   }
@@ -98,6 +114,10 @@ export default {
       width: 0.3rem;
       height: 0.3rem;
       line-height: 0.3rem;
+
+      i.iconfont {
+        font-size: 0.18rem;
+      }
     }
     .active__item {
       color: #fff;
@@ -119,6 +139,5 @@ export default {
       font-size: 0.2re;
     }
   }
-
 }
 </style>

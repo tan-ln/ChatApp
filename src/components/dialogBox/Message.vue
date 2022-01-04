@@ -1,0 +1,116 @@
+<template>
+  <div id="message__block" v-if="msg" :class="!sender ? 'toLeft' : 'toRight'">
+    <span>{{parseMsg}}</span>
+    <div></div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Message',
+  props: ['msg', 'sender'],
+  computed: {
+    parseMsg () {
+      // const reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/
+      // if (reg.test(this.msg)) {
+      //   console.log(this.msg)
+      // }
+      return this.msg
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+@import "@/assets/styles/valiable.scss";
+#message__block {
+  padding: .1rem .2rem;
+  position: relative;
+  top: 0.04rem;
+  // border: .01rem solid $border_color;
+  max-width: 4.8rem;
+  font-family: 'Comic Sans MS', PingFang SC;
+  span {
+    display: inline-block;
+    font-size: 0.12rem;
+    color: $deep_font_color;
+    letter-spacing: .008rem;
+    cursor: text;
+
+    /* 文字选中 */
+    &::selection {
+      background-color: $selection_color;
+      color: white;
+    }
+    &::-moz-selection {
+      background-color: $selection_color;
+      color: white;
+    }
+    &::-webkit-selection {
+      background-color: $selection_color;
+      color: white
+    }
+  }
+}
+// 左侧消息
+#message__block.toLeft {
+  border-bottom-left-radius: .6rem;
+  border-top-right-radius: .6rem;
+  border-bottom-right-radius: .6rem;
+  background-color: $bg_color;
+  margin-left: .2rem;
+  box-shadow: .02rem .04rem .06rem $shadow_color;
+  &::before {
+    content: "";
+    position: absolute;
+    left: -.16rem;
+    top: 0;
+    width: 0;
+    height: 0;
+    border: .14rem solid;
+    border-color:  $bg_color transparent transparent;
+  }
+  div {
+    position: absolute;
+    top: 0;
+    left: -.16rem;
+    width: 0.14rem;
+    height: 0.2rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    z-index: 999;
+    transform: rotate(-45deg);
+  }
+}
+// 右侧消息
+#message__block.toRight {
+  border-bottom-left-radius: .6rem;
+  border-top-left-radius: .6rem;
+  border-bottom-right-radius: .6rem;
+  background-color: $msg_bg_color;
+  margin-right: .2rem;
+  box-shadow: -.02rem .04rem .06rem $shadow_color;
+  &::after {
+    content: "";
+    position: absolute;
+    right: -.12rem;
+    top: 0;
+    width: 0;
+    height: 0;
+    border: .16rem solid;
+    border-color:  $msg_bg_color transparent transparent;
+  }
+
+  div {
+    position: absolute;
+    top: -.01rem;
+    right: -.16rem;
+    width: 0.14rem;
+    height: 0.2rem;
+    background-color: #fff;
+    border-radius: 50%;
+    z-index: 999;
+    transform: rotate(45deg);
+  }
+}
+</style>

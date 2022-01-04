@@ -1,24 +1,21 @@
 <template>
   <div id="app">
     <NavBar />
-    <Contacts />
-    <Dialog />
+    <SubPage />
+    <MainPage />
   </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar'
-import Contacts from '@/components/Contacts'
-import Dialog from '@/components/Dialog'
+import NavBar from '@/components/navBar/NavBar'
+import SubPage from '@/views/SubPage'
+import MainPage from '@/views/MainPage'
 export default {
   name: 'App',
   components: {
     NavBar,
-    Contacts,
-    Dialog
-  },
-  data () {
-    return {}
+    SubPage,
+    MainPage
   }
 }
 </script>
