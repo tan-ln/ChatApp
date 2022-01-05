@@ -1,13 +1,15 @@
+// 消息输入框 textarea
 /*滚动条整体样式*/
 textarea::-webkit-scrollbar {
-  width: .04rem;
+  width: .036rem;
   height: .01rem;
 }
 /*滚动条滑块*/
 textarea::-webkit-scrollbar-thumb {
   border-radius: 40%;
   -webkit-box-shadow: inset 0 0 .05rem rgba(0,0,0,0.2);
-  background: #7b9bfb;
+  background: $msg_bg_color linear-gradient(to top, rgba(255, 240, 191, 0.1rem), $card_active_border_color);
+  // background: #7b9bfb;
 }
 /*滚动条轨道*/
 textarea::-webkit-scrollbar-track {
@@ -16,6 +18,7 @@ textarea::-webkit-scrollbar-track {
   background: #ebebeb;
 }
 
+// 聊天窗口
 /*滚动条整体样式*/
 main::-webkit-scrollbar {
   width: .036rem;
@@ -25,13 +28,13 @@ main::-webkit-scrollbar {
 main::-webkit-scrollbar-thumb {
   border-radius: 20%;
   // -webkit-box-shadow: inset 0 0 .2rem rgba(0,0,0,0.2);
-  background: $msg_bg_color linear-gradient(to top, rgba(255, 240, 191, 0), $selection_color);
+  background: $card_active_border_color linear-gradient(to top, rgba(255, 240, 191, 0.2), $msg_bg_color);
 }
 /*滚动条轨道*/
 main::-webkit-scrollbar-track {
   // -webkit-box-shadow: inset 0 0 .1rem rgba(0,0,0,0);
   border-radius: 20%;
-  background: #ebebeb;
+  background: $border_color;
   // background: $msg_bg_color linear-gradient(to right, rgba(255, 240, 191, 0), $selection_color);
 }
 

@@ -1,26 +1,13 @@
-import * as types from './mutation-types'
 import axios from 'axios'
 
-export const createSession = ({ commit }, payload) => {
-  commit(types.CREATE_SESSION, payload)
-}
-
-export const setPageName = ({ commit }, payload) => {
-  commit(types.SET_PAGE_NAME, payload)
-}
-
-export const setCurrentSession = ({ commit }, payload) => {
-  commit(types.SET_CURRENT_SESSION, payload)
-}
-
 export const requestSendMsg = ({ commit }, payload) => {
-  commit(types.SEND_MESSAGE_SUCCESS, payload)
+  // commit(types.SEND_MESSAGE_SUCCESS, payload)
   console.log(...payload)
   axios.post('/api/sendMsg', {
     ...payload
   }).then(res => {
     if (res) {
-      commit(types.SEND_MESSAGE_SUCCESS, payload)
+      // commit(types.SEND_MESSAGE_SUCCESS, payload)
     }
   })
 }

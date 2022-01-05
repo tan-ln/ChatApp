@@ -45,3 +45,64 @@ methods: {
   }
 }
 ```
+
+## 聊天气泡
+```css
+#message__block.toLeft {
+  border-bottom-left-radius: .6rem;
+  border-top-right-radius: .6rem;
+  border-bottom-right-radius: .6rem;
+  background-color: $bg_color;
+  margin-left: .2rem;
+  box-shadow: .02rem .04rem .06rem $shadow_color;
+  /* 三角箭头 */
+  &::before {
+    content: "";
+    position: absolute;
+    left: -.16rem;
+    top: 0;
+    width: 0;
+    height: 0;
+    border: .14rem solid;
+    border-color:  $bg_color transparent transparent;
+  }
+  /* 空元素 实现圆角 */
+  div {
+    position: absolute;
+    top: 0;
+    left: -.16rem;
+    width: 0.14rem;
+    height: 0.2rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    z-index: 999;
+    transform: rotate(-45deg);
+  }
+}
+```
+
+## 过滤 url
+```js
+export function isURL (str) {
+  // 正则匹配 http/https... 返回匹配成功数组
+  return str.match(/(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g)
+}
+
+res.forEach(item => {
+  data = data.replace(item, `<a href="${item}" target="_blank">${item}</a>`)
+})
+```
+
+## _self 的问题
+使用 `_self` 当作属性，报错 `...was assigned to but it has no setter`
+
+```js
+const state = {
+  // 当前用户
+  __self: {
+    userInfo: { name: 'tang', avatarUrl: require('@/assets/images/yong.jpg') }
+  },
+  // 聊天对象
+  __target: {},
+}
+```

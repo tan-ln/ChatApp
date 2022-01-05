@@ -34,25 +34,30 @@ const router = new Router({
         'subPage': resolve => require(['@/components/contacts/ContactsBook'], resolve),
         'mainPage': resolve => require(['@/components/contacts/ContactInfo'], resolve)
       }
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: resolve => require(['../views/SignUp.vue'], resolve)
     }
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (sessionStorage.getItem('uid')) {
-//     next()
-//   } else {
-//     // 解 无限循环
-//     if (to.path === '/login') {
-//       next()
-//     } else {
-//       next({
-//         path: '/login',
-//         query: {
-//           redirect: to.fullPath
-//         }
-//       })
-//     }
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if (sessionStorage.getItem('uid')) {
+    next()
+  } else {
+    // 解 无限循环
+    if (to.path === '/signup') {
+      next()
+    } else {
+      next({
+        path: '/signup',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  }
+})
 export default router

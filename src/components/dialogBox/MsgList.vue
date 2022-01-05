@@ -25,13 +25,7 @@
       </div>
     </div>
     <div class="dialog__item" style="justify-content: flex-end;">
-      <Message :msg="msg4" :sender="true" />
-      <div class="dialog__item--avatar">
-        <img :src="require('@/assets/images/yong.jpg')" alt="someone" >
-      </div>
-    </div>
-    <div class="dialog__item" style="justify-content: flex-end;">
-      <Message :msg="msg4" :sender="true" />
+      <Message :msg="msg5" :sender="true" />
       <div class="dialog__item--avatar">
         <img :src="require('@/assets/images/yong.jpg')" alt="someone" >
       </div>
@@ -50,8 +44,9 @@ export default {
     return {
       msg1: 'In combination with float and position, determines the type of a box or boxes that are generated for an element.',
       msg2: '@font-face是CSS3中的一个模块，他主要是把自己定义的Web字体嵌入到你的网页中，随着@font-face模块的出现，我们在Web的开发中使用字体不怕只能使用Web安全字体。',
-      msg3: '【IE9+,Firefox3.5+,Chrome6+,Safari3.6+,Opera11.1+】；',
-      msg4: 'www.google.com'
+      msg3: '【IE9+,Firefox3.5+,Chrome6+,Safari3.6+,Opera11.1+】；http://google.com',
+      msg4: '访问 https://www.google.com',
+      msg5: 'test http://www.baidu.com and m.bilibili.com 测试'
     }
   }
 }

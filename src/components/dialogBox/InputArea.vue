@@ -51,13 +51,27 @@ export default {
   textarea {
     width: 100%;
     height: 100%;
+    margin: 0 .1rem;
     font-family: 'Comic Sans MS', PingFang SC;
-    font-size: 0.12rem;
-    color: $deep_font_color;
+    font-size: 0.14rem;
+    color: $dark_font_color;
     letter-spacing: .006rem;
     &::placeholder {
       font-size: 0.12rem;
       color: $light_font_color;
+    }
+    /* 文字选中 */
+    &::selection {
+      background-color: $selection_color;
+      color: white;
+    }
+    &::-moz-selection {
+      background-color: $selection_color;
+      color: white;
+    }
+    &::-webkit-selection {
+      background-color: $selection_color;
+      color: white
     }
   }
   &::before {
@@ -69,22 +83,23 @@ export default {
     right: auto;
     height: .02rem;
     width: 24%;
-    background: $msg_bg_color linear-gradient(to right, rgba(255, 240, 191, 0), $selection_color);
+    background: $msg_bg_color linear-gradient(to right, rgba(255, 240, 191, 0), $card_active_border_color);
   }
   &::after {
     content: '';
     position: absolute;
     left: auto;
     top: auto;
-    bottom: .01rem;
+    bottom: .02rem;
     right: 0;
     height: .02rem;
     width: 40%;
-    background: $selection_color linear-gradient(to right, rgba(255, 255, 255, 0), $msg_bg_color);
+    background: $card_active_border_color linear-gradient(to right, rgba(255, 255, 255, 0), $msg_bg_color);
   }
 }
 // focus 背景色
 #input__wrapper.focus__bg {
   background-color: $bg_color;
+  border-radius: .1rem;
 }
 </style>

@@ -1,21 +1,28 @@
 <template>
   <div id="message__block" v-if="msg" :class="!sender ? 'toLeft' : 'toRight'">
-    <span>{{parseMsg}}</span>
+    <span v-html="parseMsg"></span>
+    <!-- 空元素 用于消息气泡 -->
     <div></div>
   </div>
 </template>
 
 <script>
+import { isURL } from '@/assets/js/reg.js'
 export default {
   name: 'Message',
   props: ['msg', 'sender'],
   computed: {
     parseMsg () {
-      // const reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/
-      // if (reg.test(this.msg)) {
-      //   console.log(this.msg)
-      // }
-      return this.msg
+      let data = this.msg
+      const res = isURL(this.msg)
+      if (res) {
+        res.forEach(item => {
+          data = data.replace(item, `<a href="${item}" target="_blank">${item}</a>`)
+        })
+        return data
+      } else {
+        return this.msg
+      }
     }
   }
 }
@@ -33,10 +40,16 @@ export default {
   span {
     display: inline-block;
     font-size: 0.12rem;
-    color: $deep_font_color;
+    color: $dark_font_color;
     letter-spacing: .008rem;
     cursor: text;
-
+  }
+  a {
+    color: $url_font_color;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  span, a{
     /* 文字选中 */
     &::selection {
       background-color: $selection_color;

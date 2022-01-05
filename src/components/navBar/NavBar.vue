@@ -1,24 +1,30 @@
 <template>
   <div id="navbar" class="navbar__wrapper">
-    <div class="navbar__top">
-      <img class="user__avatar" :src="require('@/assets/images/yong.jpg')" alt="someone" />
+    <div class="navbar__top" :title="__self.userInfo.name">
+      <img class="user__avatar" :src="__self.userInfo.avatarUrl" :alt="__self.userInfo.name" />
     </div>
     <nav class="navbar__center menu__list">
-      <router-link replace :to="item.to" class="menu__list__item" :class="{ 'active__item' : item.name === $route.name }" v-for="(item, idx) in tabList" :key="item.title" :title="item.title">
+      <router-link replace :to="item.to"
+        class="menu__list__item"
+        v-for="(item, idx) in navbar.navList"
+        :key="item.title"
+        :title="item.title"
+      >
         <div class="menu__list__item--icon" @click="handleNavClick(idx)">
-          <i class="icon__btn iconfont" v-html="item.fontCode"></i>
+          <i class="icon__btn iconfont" :style="{'opacity': item.name === $route.name ? 1 : 0.2}" v-html="item.fontCode"></i>
         </div>
+        <div class="active__item" v-if="item.name === $route.name"></div>
       </router-link>
     </nav>
     <div class="navbar__bottom">
       <a class="menu__list__item" title="Setting">
         <div class="menu__list__item--icon">
-          <i class="icon__btn iconfont">&#xe8b8;</i>
+          <i class="icon__btn iconfont" v-html="navbar.setting.fontCode"></i>
         </div>
       </a>
       <a class="menu__list__item" title="Dark Mode">
         <div class="menu__list__item--icon">
-          <i class="icon__btn iconfont">&#xe664;</i>
+          <i class="icon__btn iconfont" v-html="navbar.darkMode.fontCode"></i>
         </div>
       </a>
     </div>
@@ -26,48 +32,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'NavBar',
-  data () {
-    return {
-      activeId: 0,
-      tabList: [
-        {
-          title: 'Home',
-          name: 'home',
-          fontCode: '&#xe690;',
-          to: '/'
-        },
-        {
-          title: 'Messages',
-          name: 'messages',
-          fontCode: '&#xe601;',
-          to: '/messages'
-        },
-        {
-          title: 'Contacts',
-          name: 'contacts',
-          fontCode: '&#xe61f;',
-          to: 'contacts'
-        },
-        {
-          title: 'Folders',
-          name: 'folders',
-          fontCode: '&#xeac5;',
-          to: 'folders'
-        },
-        {
-          title: 'Collections',
-          name: 'collections',
-          fontCode: '&#xeac6;',
-          to: 'collections'
-        }
-      ]
-    }
+  computed: {
+    ...mapGetters({
+      __self: '__self',
+      navbar: 'navbar'
+    })
   },
   methods: {
     handleNavClick (idx) {
-      this.activeId = idx
+      this.$store.commit('changeNavbarActiveId', idx)
     }
   }
 }
@@ -114,16 +91,23 @@ export default {
       width: 0.3rem;
       height: 0.3rem;
       line-height: 0.3rem;
+      position: relative;
 
       i.iconfont {
+        opacity: .2;
         font-size: 0.18rem;
       }
     }
     .active__item {
-      color: #fff;
-      background-color: $nav_active_color;
-      border-radius: .02rem;
-      box-shadow: 0rem 0rem .04rem $nav_active_color;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: .16;
+      background-color: $nav_item_color;
+      border-radius: .08rem;
+      box-shadow: 0rem 0rem .2rem $nav_active_color;
     }
   }
   .navbar__bottom {
@@ -131,13 +115,17 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+
+    .menu__list__item {
+      i.iconfont {
+        opacity: .6;
+        font-size: 0.18rem;
+      }
+    }
   }
   .menu__list__item {
     color: $nav_item_color;
     cursor: pointer;
-    &--icon {
-      font-size: 0.2re;
-    }
   }
 }
 </style>
