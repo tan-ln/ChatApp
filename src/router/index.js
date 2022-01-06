@@ -9,7 +9,7 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   base: '/wechat/',
-  // linkExactActiveClass: 'weui-bar__item_on',
+  // linkExactActiveClass: '',
   routes: [
     {
       path: '/',
@@ -38,7 +38,12 @@ const router = new Router({
     {
       path: '/signup',
       name: 'signup',
-      component: resolve => require(['../views/SignUp.vue'], resolve)
+      component: resolve => require(['../views/SignUpPage.vue'], resolve)
+    },
+    {
+      path: '/signin',
+      name: 'signin',
+      component: resolve => require(['../views/SignUpPage.vue'], resolve)
     }
   ]
 })
@@ -48,11 +53,11 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     // 解 无限循环
-    if (to.path === '/signup') {
+    if (to.path === '/signup' || to.path === '/signin') {
       next()
     } else {
       next({
-        path: '/signup',
+        path: '/signin',
         query: {
           redirect: to.fullPath
         }

@@ -2,8 +2,10 @@ import Vue from 'vue'
 // import VueSocketio from 'vue-socket.io'
 import App from './App'
 import router from './router'
-import '@/plugins/moment'
+// import '@/plugins/moment'
 import store from './store'
+import animate from 'animate.css'
+Vue.use(animate)
 
 // Vue.use(new VueSocketio({
 //   connection: 'http://localhost:8888'

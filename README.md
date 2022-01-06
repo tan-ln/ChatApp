@@ -106,3 +106,19 @@ const state = {
   __target: {},
 }
 ```
+
+## inline-block 元素默认间距清除
+
+其父元素 `font-size: 0;`
+
+## transition/ ..-grup && animate.css
+> 钩子 触发条件 v-if / v-show 
+```html
+<transition-group
+  :duration="400"
+  v-on:before-enter="beforeAniEnter"
+  v-on:after-leave="afterAniLeave"
+>
+
+</transition-group>
+```
