@@ -1,13 +1,23 @@
 <template>
   <div id="swiper__container">
     <div class="swiper__list">
-      <div class="swiper__list__item">
-        <img :src="require('../assets/images/swiper/' + dataList[curIndex])" />
+      <div
+        class="swiper__list__item"
+        v-for="(item, index) in dataList"
+        :key="index + 'swiper'"
+      >
+        <transition
+          name="slide"
+          :enter-active-class="'animate__animated animate__slideInRight'"
+          :leave-active-class="'animate__animated animate__fadeOut animate__slower'"
+        >
+          <img v-if="index === curIndex" :src="require('../assets/images/swiper/' + item)" />
+        </transition>
       </div>
     </div>
     <!-- 翻页按钮 -->
     <div class="swiper__flips" v-if="dataList.length > 0">
-      <i v-for="(item, index) in dataList" :key="index" @click="gotoPage(index)" :class="{ 'current' : curIndex == index }" />
+      <i v-for="(item, index) in dataList" :key="index + '_flip'" @click="gotoPage(index)" :class="{ 'current' : curIndex == index }" />
     </div>
   </div>
 </template>
@@ -25,13 +35,14 @@ export default {
         '05.jpg'
       ],
       curIndex: 0,
-      timer: null
+      timer: null,
+      duration: 3000
     }
   },
   mounted () {
     this.timer = setInterval(() => {
       this.gotoPage(this.nextIndex)
-    }, 3000)
+    }, this.duration)
   },
   beforeDestroy () {
     clearInterval(this.timer)
@@ -42,14 +53,6 @@ export default {
     }
   },
   computed: {
-    // 上一页
-    prevIndex () {
-      if (this.curIndex === 0) {
-        return this.dataList.length - 1
-      } else {
-        return this.curIndex - 1
-      }
-    },
     // 下一页
     nextIndex () {
       if (this.curIndex === this.dataList.length - 1) {
@@ -63,11 +66,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/styles/valiable.scss";
 #swiper__container {
   width: 6rem;
   height: 6.8rem;
   position: relative;
   .swiper__list {
+    &__item {
+      position: absolute;
+    }
     img {
       width: 6rem;
       height: 6.8rem;
@@ -86,13 +93,13 @@ export default {
       display: inline-block;
       width: .06rem;
       height: .06rem;
-      background-color: rgb(104, 104, 104);
+      background-color: $border_middle_color;
       border-radius: 50%;
       margin: 0 .1rem;
       cursor: pointer;
     }
     i.current {
-      background-color: #ff6700;
+      background-color: $url_font_color;
     }
   }
 }

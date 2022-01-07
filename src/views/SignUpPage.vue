@@ -8,6 +8,7 @@
 <script>
 import SignUp from '@/components/signUp/SignUp'
 import Swiper from '@/components/Swiper'
+
 export default {
   name: 'SignUpPage',
   components: {

@@ -32,33 +32,6 @@ export default {
 
 @import "@/assets/styles/valiable.scss";
 
-/* 背景 */
-body {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-image: url('./assets/images/bg/1.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  position: relative;
-}
- /* 毛玻璃 */
-body .frosted__glass__wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: inherit;
-  -webkit-filter: blur(.08rem);
-  -moz-filter: blur(.08rem);
-  -ms-filter: blur(.08rem);
-  -o-filter: blur(.08rem);
-  filter: blur(.08rem);
-  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=4, MakeShadow=false);
-}
 #app {
   box-sizing: border-box;
   overflow: hidden;

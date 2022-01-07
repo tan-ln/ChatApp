@@ -119,6 +119,19 @@ const state = {
   v-on:before-enter="beforeAniEnter"
   v-on:after-leave="afterAniLeave"
 >
-
 </transition-group>
 ```
+## cors
+```js
+// config/index.js
+proxyTable: {
+  '/api': {
+    target: 'http://localhost:5000/',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api': '/'
+    }
+  }
+},
+```
+

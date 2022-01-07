@@ -38,31 +38,39 @@ const router = new Router({
     {
       path: '/signup',
       name: 'signup',
-      component: resolve => require(['../views/SignUpPage.vue'], resolve)
+      component: resolve => require(['@/views/SignUpPage'], resolve),
+      // 访问 signup 之前
+      beforeEnter (to, from, next) {
+        const { isSignIn } = localStorage
+        isSignIn ? next({ name: 'home' }) : next()
+      }
     },
     {
       path: '/signin',
       name: 'signin',
-      component: resolve => require(['../views/SignUpPage.vue'], resolve)
+      component: resolve => require(['@/views/SignUpPage'], resolve),
+      // 访问 signin 之前
+      beforeEnter (to, from, next) {
+        const { isSignIn } = localStorage
+        isSignIn ? next({ name: 'home' }) : next()
+      }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (sessionStorage.getItem('uid')) {
+  const { isSignIn } = localStorage
+  const { name } = to
+  const isSignInOrRegister = (name === 'signup' || name === 'signin')
+  if (isSignIn || isSignInOrRegister) {
     next()
   } else {
-    // 解 无限循环
-    if (to.path === '/signup' || to.path === '/signin') {
-      next()
-    } else {
-      next({
-        path: '/signin',
-        query: {
-          redirect: to.fullPath
-        }
-      })
-    }
+    next({
+      path: '/signin',
+      query: {
+        redirect: to.fullPath
+      }
+    })
   }
 })
 export default router

@@ -5,12 +5,37 @@ html {
 body {
   font-size: 0.12rem;
   background-color: #ededed;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
   -ms-overflow-style: none;
+}
+
+/* 背景 */
+body {
+  background-image: url('../images/bg/1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+ /* 毛玻璃 */
+body .frosted__glass__wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: inherit;
+  -webkit-filter: blur(.08rem);
+  -moz-filter: blur(.08rem);
+  -ms-filter: blur(.08rem);
+  -o-filter: blur(.08rem);
+  filter: blur(.08rem);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=4, MakeShadow=false);
 }
 
 div::-webkit-scrollbar {

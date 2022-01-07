@@ -11,16 +11,16 @@
           <div class="input__tips">
             <i class="iconfont">&#xe6af;</i>
           </div>
-          <input type="email" placeholder="Email" />
+          <input type="email" placeholder="Email" v-model="email" />
         </div>
         <div class="content__center__password">
           <div class="input__tips">
             <i class="iconfont">&#xe8a3;</i>
           </div>
-          <input type="password" placeholder="Password" />
+          <input type="password" placeholder="Password" v-model="password" />
         </div>
         <div class="content__center__submit">
-          <input type="submit" :value="pageName === 'signin' ? 'Sign In' : 'Sign Up'" />
+          <input type="submit" :value="pageName === 'signin' ? 'Sign In' : 'Sign Up'" @click="handleSubmit" />
         </div>
       </div>
       <div class="content__bottom" v-show="pageName === 'signin'" key="signin">
@@ -36,19 +36,21 @@
 </template>
 
 <script>
+import { post } from '@/api/request.js'
+
 export default {
   name: 'SignUpContent',
   data () {
     return {
-      title: '',
-      changeTitle: false
+      changeTitle: false,
+      email: '',
+      password: ''
     }
   },
-  mounted () {
-    let { name } = this.$route
-    this.title = name === 'signup' ? 'Create account' : 'Welcome'
-  },
   computed: {
+    title () {
+      return this.$route.name === 'signup' ? 'Create account' : 'Welcome'
+    },
     pageName () {
       return this.$route.name
     }
@@ -56,9 +58,22 @@ export default {
   methods: {
     beforeAniEnter: function () {
       this.changeTitle = true
+      this.email = this.password = ''
     },
     afterAniLeave: function () {
       this.changeTitle = false
+      this.email = this.password = ''
+    },
+    async handleSubmit () {
+      let email = this.email
+      let password = this.password
+      const res = await post(`/api/user/${this.$route.name}`, { email, password })
+      if (res.code === 200) {
+        localStorage.setItem('isSignIn', true)
+        this.$router.push('/')
+      } else {
+        alert(res.message)
+      }
     }
   }
 }
