@@ -10,7 +10,8 @@ Vue.use(Vuex)
 const state = {
   // 当前用户
   __self: {
-    userInfo: { id: 'tang', name: 'tang', avatarUrl: require('@/assets/images/yong.jpg') }
+    isSignIn: false,
+    userInfo: { id: 'tang', name: 'tang', email: '', avatarUrl: require('@/assets/images/yong.jpg') }
   },
   // 聊天对象(未从聊天列表删除)
   __target: {

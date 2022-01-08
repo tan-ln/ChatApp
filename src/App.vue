@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <template v-if="false">
+    <template v-if="getAuthState">
       <NavBar />
       <SubPage />
       <MainPage />
@@ -13,12 +13,17 @@
 import NavBar from '@/components/navBar/NavBar'
 import SubPage from '@/views/SubPage'
 import MainPage from '@/views/MainPage'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'App',
   components: {
     NavBar,
     SubPage,
     MainPage
+  },
+  computed: {
+    ...mapGetters(['getAuthState'])
   }
 }
 </script>

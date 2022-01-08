@@ -68,9 +68,10 @@ export default {
       let email = this.email
       let password = this.password
       const res = await post(`/api/user/${this.$route.name}`, { email, password })
+      console.log(res)
       if (res.code === 200) {
-        localStorage.setItem('isSignIn', true)
-        this.$router.push('/')
+        this.$store.commit('signInState', res.userInfo)
+        this.$router.go('')
       } else {
         alert(res.message)
       }

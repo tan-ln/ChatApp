@@ -13,7 +13,7 @@
         <div class="menu__list__item--icon" @click="handleNavClick(idx)">
           <i class="icon__btn iconfont" :style="{'opacity': item.name === $route.name ? 1 : 0.2}" v-html="item.fontCode"></i>
         </div>
-        <div class="active__item" v-if="item.name === $route.name"></div>
+        <div class="active__item" v-if="item.name === $route.name || 0"></div>
       </router-link>
     </nav>
     <div class="navbar__bottom">

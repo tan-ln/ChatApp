@@ -2,6 +2,8 @@ export const __self = state => state.__self
 
 export const navbar = state => state.navbar
 
+export const getAuthState = state => state.__self.isSignIn || localStorage.getItem('isSignIn')
+
 // export const lastMessage = (state) => {
 //   let arr = []
 //   for (const key in state.sessions) {

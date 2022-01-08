@@ -36,7 +36,7 @@ export default {
       ],
       curIndex: 0,
       timer: null,
-      duration: 3000
+      duration: 5000
     }
   },
   mounted () {
