@@ -135,3 +135,21 @@ proxyTable: {
 },
 ```
 
+## vue img src 使用部分网络图片时 403 `Referrer Policy: no-referrer-when-downgrade`
+1. 非动态属性 src
+2. 无跨域问题
+
+```html
+<img class="user__avatar" src="http://xxxxx" :alt="__self.userInfo.username" />
+```
+
+解决办法：`index.html`
+```html
+<meta name="referrer" content="no-referrer">
+```
+
+## 使用 服务端 nodejs 静态资源图片
+- 需要提供全部路径：协议 + 域名 + 端口 + dir
+- http://localhost:5000/images/1.png
+- http://127.0.0.1:5000/images/1.png
+- cors 配置似乎完全没用

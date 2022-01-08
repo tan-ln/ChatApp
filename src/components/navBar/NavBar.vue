@@ -1,7 +1,7 @@
 <template>
   <div id="navbar" class="navbar__wrapper">
-    <div class="navbar__top" :title="__self.userInfo.name">
-      <img class="user__avatar" :src="__self.userInfo.avatarUrl" :alt="__self.userInfo.name" />
+    <div class="navbar__top" :title="__self.userInfo.username">
+      <img class="user__avatar" :src="__self.userInfo.avatar" :alt="__self.userInfo.username" />
     </div>
     <nav class="navbar__center menu__list">
       <router-link replace :to="item.to"

@@ -59,18 +59,21 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const { isSignIn } = localStorage
+  const { userInfo } = localStorage
   const { name } = to
-  const isSignInOrRegister = (name === 'signup' || name === 'signin')
-  if (isSignIn || isSignInOrRegister) {
+  if (userInfo) {
     next()
   } else {
-    next({
-      path: '/signin',
-      query: {
-        redirect: to.fullPath
-      }
-    })
+    if (name === 'signin' || name === 'signup') {
+      next()
+    } else {
+      next({
+        path: '/signin',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
   }
 })
 export default router

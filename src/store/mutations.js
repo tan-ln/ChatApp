@@ -8,5 +8,13 @@ export default {
     state.__self.isSignIn = true
     localStorage.setItem('isSignIn', true)
     localStorage.setItem('userInfo', JSON.stringify(payload))
+  },
+  getUserInfo (state) {
+    const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    if (isSignIn && userInfo) {
+      state.__self.isSignIn = true
+      state.__self.userInfo = userInfo
+    }
   }
 }

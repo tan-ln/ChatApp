@@ -24,6 +24,9 @@ export default {
   },
   computed: {
     ...mapGetters(['getAuthState'])
+  },
+  created () {
+    this.$store.commit('getUserInfo')
   }
 }
 </script>
