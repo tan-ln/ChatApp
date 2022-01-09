@@ -152,4 +152,3 @@ proxyTable: {
 - 需要提供全部路径：协议 + 域名 + 端口 + dir
 - http://localhost:5000/images/1.png
 - http://127.0.0.1:5000/images/1.png
-- cors 配置似乎完全没用

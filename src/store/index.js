@@ -94,7 +94,10 @@ const state = {
       { from: 'tang', to: 'xin', timeStamp: '10:30', type: 'text', content: '郭德纲、于谦:《于谦的祖父于屁屁和他的四个屁儿子》', read: false }
     ],
     lao_tang: { from: 'lao', to: 'tang', timeStamp: '11:00', type: 'text', content: '本人毕业于布鲁弗莱大学，德云社挖掘机专业。', read: true }
-  }
+  },
+  errorno: {},
+  // 过场动画反转
+  flipAni: false
 }
 
 export default new Vuex.Store({

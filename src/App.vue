@@ -1,10 +1,11 @@
 <template>
-  <div id="app">
-    <template v-if="getAuthState">
+  <div id="app" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'">
+    <template v-if="getAuthState && mainPage">
       <NavBar />
       <SubPage />
       <MainPage />
     </template>
+    <!-- signin/signup page -->
     <router-view name="default" />
   </div>
 </template>
@@ -23,10 +24,14 @@ export default {
     MainPage
   },
   computed: {
-    ...mapGetters(['getAuthState'])
+    ...mapGetters(['getAuthState', 'getFlipAni']),
+    mainPage () {
+      return this.$route.name !== 'signin' && this.$route.name !== 'signup'
+    }
   },
   created () {
     this.$store.commit('getUserInfo')
+    this.$store.commit('changeFlipAni', false)
   }
 }
 </script>
@@ -55,5 +60,14 @@ export default {
   box-shadow: 0 .03rem .01rem -.02rem rgba(0,0,0,.2), 0 .02rem .02rem 0 rgba(0,0,0,.14), 0 .01rem .05rem 0 rgba(0,0,0,.12);
   border-width: thin;
   z-index: 999;
+}
+
+#test__btn {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  right: 0;
+  top: 20%;
+  background-color: rgb(168, 70, 70);
 }
 </style>

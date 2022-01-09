@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { post } from '@/api/request.js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SignUpContent',
@@ -53,7 +53,8 @@ export default {
     },
     pageName () {
       return this.$route.name
-    }
+    },
+    ...mapGetters(['__self'])
   },
   methods: {
     beforeAniEnter: function () {
@@ -65,15 +66,15 @@ export default {
       this.email = this.password = ''
     },
     async handleSubmit () {
-      let email = this.email
-      let password = this.password
-      const res = await post(`/api/user/${this.$route.name}`, { email, password })
-      console.log(res)
-      if (res.code === 200) {
-        this.$store.commit('signInState', res.userInfo)
-        this.$router.go('')
-      } else {
-        alert(res.message)
+      const payload = {
+        path: this.$route.name,
+        email: this.email,
+        password: this.password
+      }
+      await this.$store.dispatch('reqSignIn', payload)
+      if (this.__self.isSignIn) {
+        this.$router.replace('/')
+        this.$store.commit('changeFlipAni', true)
       }
     }
   }

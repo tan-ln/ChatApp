@@ -5,7 +5,6 @@ Vue.use(Router)
 
 // 使用 require 的形式，而非 import
 // 不是一次性加载所有组件，而是 按需加载
-
 const router = new Router({
   mode: 'history',
   base: '/wechat/',
@@ -41,8 +40,8 @@ const router = new Router({
       component: resolve => require(['@/views/SignUpPage'], resolve),
       // 访问 signup 之前
       beforeEnter (to, from, next) {
-        const { isSignIn } = localStorage
-        isSignIn ? next({ name: 'home' }) : next()
+        const { isSignIn, userInfo } = localStorage;
+        (isSignIn === 'true' && userInfo && JSON.parse(userInfo).email) ? next({ name: 'home' }) : next()
       }
     },
     {
@@ -51,29 +50,28 @@ const router = new Router({
       component: resolve => require(['@/views/SignUpPage'], resolve),
       // 访问 signin 之前
       beforeEnter (to, from, next) {
-        const { isSignIn } = localStorage
-        isSignIn ? next({ name: 'home' }) : next()
+        const { isSignIn, userInfo } = localStorage;
+        (isSignIn === 'true' && userInfo && JSON.parse(userInfo).email) ? next({ name: 'home' }) : next()
       }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  const { userInfo } = localStorage
+  const { isSignIn, userInfo } = localStorage
   const { name } = to
-  if (userInfo) {
-    next()
-  } else {
-    if (name === 'signin' || name === 'signup') {
-      next()
-    } else {
-      next({
+  if (isSignIn !== 'true' || !userInfo || !JSON.parse(userInfo).email) {
+    (name === 'signin' || name === 'signup')
+      ? next()
+      : next({
         path: '/signin',
         query: {
           redirect: to.fullPath
         }
       })
-    }
+    localStorage.clear()
+  } else {
+    next()
   }
 })
 export default router

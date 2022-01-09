@@ -56,7 +56,7 @@ export default {
 .navbar__wrapper {
   @include no_select;
   box-sizing: border-box;
-  margin: 0.14rem 0 .14rem .14rem;
+  // margin: 0.14rem 0 .14rem .14rem;
   width: .64rem;
   height: 6.52rem;
   color: #fff;
@@ -65,6 +65,10 @@ export default {
   flex-direction: column;
   text-align: center;
   border-radius: .14rem;
+  position: absolute;
+  top: .14rem;
+  left: .14rem;
+  bottom: .14rem;
   .navbar__top {
     width: 0.64rem;
     height: 0.64rem;

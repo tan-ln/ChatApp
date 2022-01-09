@@ -1,4 +1,10 @@
-// import { post } from '@/api/request.js'
+import { post } from '@/api/request.js'
+
+export const reqSignIn = async ({ commit }, payload) => {
+  const { path, email, password } = payload
+  const res = await post(`/api/user/${path}`, { email, password })
+  res.code === 200 ? commit('signInState', res.userInfo) : commit('errorHandler', res.message)
+}
 
 // export const requestSendMsg = ({ commit }, payload) => {
 //   // commit(types.SEND_MESSAGE_SUCCESS, payload)
