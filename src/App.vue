@@ -61,13 +61,4 @@ export default {
   border-width: thin;
   z-index: 999;
 }
-
-#test__btn {
-  position: absolute;
-  width: 2rem;
-  height: 2rem;
-  right: 0;
-  top: 20%;
-  background-color: rgb(168, 70, 70);
-}
 </style>

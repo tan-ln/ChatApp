@@ -18,6 +18,9 @@ export default {
   components: {
     MsgEntry,
     'v-header': VHeader
+  },
+  async created () {
+    await this.$store.dispatch('reqMessages')
   }
 }
 </script>

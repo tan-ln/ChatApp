@@ -6,6 +6,11 @@ export const reqSignIn = async ({ commit }, payload) => {
   res.code === 200 ? commit('signInState', res.userInfo) : commit('errorHandler', res.message)
 }
 
+export const reqMessages = async ({ commit, rootState }) => {
+  // const { email } = rootState.__self.userInfo
+  // await post(`/api/chat/`)
+}
+
 // export const requestSendMsg = ({ commit }, payload) => {
 //   // commit(types.SEND_MESSAGE_SUCCESS, payload)
 //   console.log(...payload)

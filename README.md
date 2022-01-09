@@ -152,3 +152,13 @@ proxyTable: {
 - 需要提供全部路径：协议 + 域名 + 端口 + dir
 - http://localhost:5000/images/1.png
 - http://127.0.0.1:5000/images/1.png
+
+
+## rootState
+actions 中使用 state，局部状态通过 `context.state`，根节点状态为 `context.rootState`
+
+```js
+actions: {
+  someAction ({ state, commit, rootState }) {}
+}
+```
