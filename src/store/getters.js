@@ -5,3 +5,5 @@ export const navbar = state => state.navbar
 export const getAuthState = state => state.__self.isSignIn && state.__self.userInfo.email
 
 export const getFlipAni = state => state.flipAni
+
+export const getModalState = state => state.modal

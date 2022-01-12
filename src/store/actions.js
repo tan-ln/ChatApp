@@ -3,11 +3,12 @@ import { post } from '@/api/request.js'
 export const reqSignIn = async ({ commit }, payload) => {
   const { path, email, password } = payload
   const res = await post(`/api/user/${path}`, { email, password })
-  res.code === 200 ? commit('signInState', res.userInfo) : commit('errorHandler', res.message)
+  res.code === 200 ? commit('signInState', res.userInfo) : commit('showModal', { title: 'Sign In Error', msg: res.message })
 }
 
 export const reqMessages = async ({ commit, rootState }) => {
-  // const { email } = rootState.__self.userInfo
+  const { email } = rootState.__self.userInfo
+  console.log(email)
   // await post(`/api/chat/`)
 }
 

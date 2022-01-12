@@ -24,5 +24,13 @@ export default {
   // 过场动画翻转
   changeFlipAni (state, payload) {
     state.flipAni = payload
+  },
+  showModal (state, payload) {
+    state.modal.show = true
+    state.modal.title = payload.title
+    state.modal.msg = payload.msg
+  },
+  hideModal (state) {
+    state.modal.show = false
   }
 }

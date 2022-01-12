@@ -1,19 +1,25 @@
 <template>
-  <div id="app" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'">
-    <template v-if="getAuthState && mainPage">
-      <NavBar />
-      <SubPage />
-      <MainPage />
-    </template>
-    <!-- signin/signup page -->
-    <router-view name="default" />
+  <div id="app">
+    <div id="root" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'">
+      <template v-if="getAuthState && mainPage">
+        <NavBar />
+        <SubPage />
+        <MainPage />
+      </template>
+      <!-- signin/signup page -->
+      <router-view name="default" />
+    </div>
+    <!-- modal 弹窗 -->
+    <Modal v-if="getModalState.show" />
+    <!-- <div class="test__btn" @click="handleClickTestBtn">button</div> -->
   </div>
 </template>
 
 <script>
-import NavBar from '@/components/navBar/NavBar'
 import SubPage from '@/views/SubPage'
 import MainPage from '@/views/MainPage'
+import NavBar from '@/components/navBar/NavBar'
+import Modal from '@/components/modal/Modal'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -21,10 +27,11 @@ export default {
   components: {
     NavBar,
     SubPage,
-    MainPage
+    MainPage,
+    Modal
   },
   computed: {
-    ...mapGetters(['getAuthState', 'getFlipAni']),
+    ...mapGetters(['getAuthState', 'getFlipAni', 'getModalState']),
     mainPage () {
       return this.$route.name !== 'signin' && this.$route.name !== 'signup'
     }
@@ -32,6 +39,11 @@ export default {
   created () {
     this.$store.commit('getUserInfo')
     this.$store.commit('changeFlipAni', false)
+  },
+  methods: {
+    handleClickTestBtn () {
+      this.$store.commit('showModal')
+    }
   }
 }
 </script>
@@ -45,7 +57,7 @@ export default {
 
 @import "@/assets/styles/valiable.scss";
 
-#app {
+#root {
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -55,10 +67,21 @@ export default {
   margin: 0 auto;
   margin-top: 0.3rem;
   background-color: $bg_color;
-  border: .01rem solid $border_color;
+  // border: .01rem solid $border_color;
   border-radius: .12rem;
-  box-shadow: 0 .03rem .01rem -.02rem rgba(0,0,0,.2), 0 .02rem .02rem 0 rgba(0,0,0,.14), 0 .01rem .05rem 0 rgba(0,0,0,.12);
+  box-shadow: 0 .03rem .01rem -.2rem rgba(0,0,0,.2), 0 .06rem .2rem .02rem rgba(0,0,0,.14), 0 .06rem .06rem 0 rgba(0,0,0,.12);
   border-width: thin;
-  z-index: 999;
+  z-index: 9;
+}
+
+.test__btn {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(199, 2, 2);
+  color: antiquewhite;
+  z-index: 9999;
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
 }
 </style>

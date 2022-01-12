@@ -2,7 +2,8 @@
   <div class="msg_collection__wrapper">
     <v-header title="Messages" bubble input />
     <div class="warpper__content">
-      <!-- <template v-for="item in 14" >
+      <!-- <template v-for="item in 14" > -->
+      <!-- <template>
         <MsgEntry :entry="msgs[0]" :idx="item" :key="item" />
       </template> -->
     </div>

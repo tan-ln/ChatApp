@@ -7,20 +7,23 @@
     >
       <div class="content__header" key="title">{{title}}</div>
       <div class="content__center" key="center">
-        <div class="content__center__username">
+        <!-- username -->
+        <div class="content__center__username" :class="(illegal && email.length === 0) ? 'illegal' : ''">
           <div class="input__tips">
             <i class="iconfont">&#xe6af;</i>
           </div>
-          <input type="email" placeholder="Email" v-model="email" />
+          <input type="email" :placeholder="(illegal && email.length === 0) ? 'Email can not be empty' : 'Email'" v-model="email" />
         </div>
-        <div class="content__center__password">
+        <!-- password -->
+        <div class="content__center__password" :class="(illegal && password.length === 0) ? 'illegal' : ''">
           <div class="input__tips">
             <i class="iconfont">&#xe8a3;</i>
           </div>
-          <input type="password" placeholder="Password" v-model="password" />
+          <input type="password" :placeholder="(illegal && password.length === 0) ? 'Password can not be empty' : 'Password'" v-model="password" />
         </div>
-        <div class="content__center__submit">
-          <input type="submit" :value="pageName === 'signin' ? 'Sign In' : 'Sign Up'" @click="handleSubmit" />
+        <!-- submit -->
+        <div class="content__center__submit" @click="handleSubmit">
+          <input type="submit" :value="pageName === 'signin' ? 'Sign In' : 'Sign Up'" />
         </div>
       </div>
       <div class="content__bottom" v-show="pageName === 'signin'" key="signin">
@@ -44,7 +47,8 @@ export default {
     return {
       changeTitle: false,
       email: '',
-      password: ''
+      password: '',
+      illegal: false
     }
   },
   computed: {
@@ -60,12 +64,14 @@ export default {
     beforeAniEnter: function () {
       this.changeTitle = true
       this.email = this.password = ''
+      this.illegal = false
     },
     afterAniLeave: function () {
       this.changeTitle = false
       this.email = this.password = ''
     },
     async handleSubmit () {
+      if (this.email.length === 0 || this.password.length === 0) { this.illegal = true; return }
       const payload = {
         path: this.$route.name,
         email: this.email,
@@ -97,6 +103,12 @@ export default {
     margin: 0.4rem 0;
   }
   .content__center {
+    .illegal input::placeholder {
+      color: $url_font_color;
+    }
+    .illegal input {
+      border-color: $url_font_color;
+    }
     &__username, &__password {
       padding-top: 0.3rem;
       line-height: 0.32rem;
@@ -126,6 +138,7 @@ export default {
           color: $light_font_color;
           font-size: 0.14rem;
           font-weight: 100;
+          letter-spacing: .006rem;
         }
       }
     }

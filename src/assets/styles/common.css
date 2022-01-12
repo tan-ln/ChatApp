@@ -23,13 +23,13 @@ body {
  /* 毛玻璃 */
 body .frosted__glass__wrapper {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: -2rem;
+  left: -2rem;
+  right: -2rem;
+  bottom: -2rem;
   background: inherit;
+  /* backdrop-filter 兼容性不好 特别是 安卓移动端 */
+  backdrop-filter: blur(.068rem);
   -webkit-filter: blur(.068rem);
   -moz-filter: blur(.068rem);
   -ms-filter: blur(.068rem);
