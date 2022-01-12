@@ -23,7 +23,8 @@
         </div>
         <!-- submit -->
         <div class="content__center__submit" @click="handleSubmit">
-          <input type="submit" :value="pageName === 'signin' ? 'Sign In' : 'Sign Up'" />
+          <input v-if="!loading" type="submit" :value="pageName === 'signin' ? 'Sign In' : 'Sign Up'" />
+          <svg v-else t="1641981383737" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2365" width=".2rem" height=".2rem"><path d="M254.29333333 194.56C324.26666667 136.53333333 413.86666667 102.4 512 102.4c226.13333333 0 409.6 183.46666667 409.6 409.6h68.26666667c0-263.68-214.18666667-477.86666667-477.86666667-477.86666667-114.34666667 0-219.30666667 40.10666667-301.22666667 106.66666667l43.52 53.76z" fill="#ffffff" p-id="2366"></path></svg>
         </div>
       </div>
       <div class="content__bottom" v-show="pageName === 'signin'" key="signin">
@@ -48,7 +49,8 @@ export default {
       changeTitle: false,
       email: '',
       password: '',
-      illegal: false
+      illegal: false,
+      loading: false
     }
   },
   computed: {
@@ -58,7 +60,7 @@ export default {
     pageName () {
       return this.$route.name
     },
-    ...mapGetters(['__self'])
+    ...mapGetters(['__self', 'getModalState'])
   },
   methods: {
     beforeAniEnter: function () {
@@ -72,13 +74,16 @@ export default {
     },
     async handleSubmit () {
       if (this.email.length === 0 || this.password.length === 0) { this.illegal = true; return }
+      this.loading = true
       const payload = {
         path: this.$route.name,
         email: this.email,
         password: this.password
       }
       await this.$store.dispatch('reqSignIn', payload)
+      if (this.getModalState.show) this.loading = false
       if (this.__self.isSignIn) {
+        this.loading = false
         this.$router.replace('/')
         this.$store.commit('changeFlipAni', true)
       }
@@ -151,12 +156,20 @@ export default {
       text-align: center;
       margin: 0.4rem 0 0.2rem;
       font-family: Consolas, PingFang SC;
+      position: relative;
       cursor: pointer;
       input {
         color: oldlace;
         font-size: 0.16re;
         letter-spacing: .02rem;
         cursor: pointer;
+      }
+      svg {
+        animation: loadingRotate 2s infinite linear;
+        position: absolute;
+        left: 50%;
+        margin-left: -.1rem;
+        top: 0.06rem;
       }
     }
   }
@@ -182,5 +195,17 @@ export default {
 }
 .v-enter-active, .v-leave-active {
   transition: opacity 2s;
+}
+
+@keyframes loadingRotate {
+	0% {
+    -webkit-transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 </style>
