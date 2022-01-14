@@ -198,7 +198,7 @@ export default {
 }
 
 @keyframes loadingRotate {
-	0% {
+  0% {
     -webkit-transform: rotate(0deg);
   }
   50% {

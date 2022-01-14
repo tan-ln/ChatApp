@@ -6,10 +6,17 @@ export const reqSignIn = async ({ commit }, payload) => {
   res.code === 200 ? commit('signInState', res.userInfo) : commit('showModal', { title: 'Sign In Error', msg: res.message })
 }
 
-export const reqMessages = async ({ commit, rootState }) => {
-  const { email } = rootState.__self.userInfo
-  console.log(email)
-  // await post(`/api/chat/`)
+export const reqMessages = async ({ commit }) => {
+  // const { email } = rootState.__self.userInfo
+  const res = await post(`/api/chat`)
+  res.code === 200 ? commit('getMsgList', res.msgList) : commit('showModal', { title: 'Get Messages Error', msg: res.message })
+}
+
+export const reqRootGroup = async ({ commit }) => {
+  // const { email } = rootState.__self.userInfo
+  const res = await post(`/api/contact/root-group`)
+  console.log(res)
+  // res.code === 200 ? commit('getMsgList', res.msgList) : commit('showModal', { title: 'Get Messages Error', msg: res.message })
 }
 
 // export const requestSendMsg = ({ commit }, payload) => {

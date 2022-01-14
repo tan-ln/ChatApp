@@ -9,6 +9,7 @@ export default {
     state.__self.userInfo = payload
     state.__self.isSignIn = true
   },
+  // localstorage 中获取用户信息
   getUserInfo (state) {
     const isSignIn = localStorage.getItem('isSignIn') ? JSON.parse(localStorage.getItem('isSignIn')) : false
     const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}
@@ -25,6 +26,7 @@ export default {
   changeFlipAni (state, payload) {
     state.flipAni = payload
   },
+  // modal
   showModal (state, payload) {
     state.modal.show = true
     state.modal.title = payload.title
@@ -32,5 +34,12 @@ export default {
   },
   hideModal (state) {
     state.modal.show = false
+  },
+  // 消息列表
+  getMsgList (state, payload) {
+    state.msgList = payload
+  },
+  getPastMsg (state) {
+    // const msgQueue = localStorage.getItem('isSignIn') ? JSON.parse(localStorage.getItem('isSignIn')) : false
   }
 }

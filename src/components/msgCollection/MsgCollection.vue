@@ -2,10 +2,9 @@
   <div class="msg_collection__wrapper">
     <v-header title="Messages" bubble input />
     <div class="warpper__content">
-      <!-- <template v-for="item in 14" > -->
-      <!-- <template>
-        <MsgEntry :entry="msgs[0]" :idx="item" :key="item" />
-      </template> -->
+      <template v-for="(item, index) in getMsgQueue" >
+        <MsgEntry :entry="item" :idx="index" :key="item.id || item.gid" />
+      </template>
     </div>
   </div>
 </template>
@@ -13,6 +12,7 @@
 <script>
 import MsgEntry from './MsgEntry.vue'
 import VHeader from '../VHeader.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'MsgCollection',
@@ -20,8 +20,19 @@ export default {
     MsgEntry,
     'v-header': VHeader
   },
-  async created () {
-    await this.$store.dispatch('reqMessages')
+  computed: {
+    ...mapGetters(['getMsgQueue'])
+  },
+  methods: {},
+  mounted () {
+    // await this.$store.dispatch('syncMessages')
+    // this.$store.commit('getPastMsg')
+    this.$socket.emit('message', 'tang')
+  },
+  sockets: {
+    test (res) {
+      console.log(res)
+    }
   }
 }
 </script>

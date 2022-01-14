@@ -1,18 +1,18 @@
 <template>
   <div class="contact__card__wrapper" :class="{ 'active__contact' : idx === 1 }">
     <div class="wrapper__left__avatars">
-      <img :src="require(`@/assets/images/${entry.avatarUrl}`)" :alt="entry.name">
+      <img :src="entry.avatar || entry.gavatar" :alt="entry.name || entry.gname">
       <div class="wrapper__side--bubble">
         <Bubble num="99+" />
       </div>
     </div>
     <div class="wrapper__right__content">
       <div class="content__hd">
-        <h3 class="content__hd--title">{{entry.name}}</h3>
-        <span class="content__hd--timeStamp">{{entry.timeStamp}}</span>
+        <h3 class="content__hd--title">{{entry.name || entry.gname}}</h3>
+        <span class="content__hd--timeStamp">{{entry.msg.timestamp}}</span>
       </div>
       <div class="content__main">
-        <p class="content__main--msg">{{entry.content}}</p>
+        <p class="content__main--msg">{{entry.msg.content}}</p>
       </div>
     </div>
     <!-- <div class="wrapper__side--bubble">
