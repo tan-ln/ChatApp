@@ -41,5 +41,13 @@ export default {
   },
   getPastMsg (state) {
     // const msgQueue = localStorage.getItem('isSignIn') ? JSON.parse(localStorage.getItem('isSignIn')) : false
-  }
+  },
+  setRootGroup (state, payload) {
+    localStorage.setItem('rootGroup', JSON.stringify(payload))
+    state.conversations.pop({
+      master: payload,
+      lastestMsg: ''
+    })
+  },
+  setConversations (state, payload) {}
 }

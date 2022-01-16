@@ -27,12 +27,7 @@ export default {
   mounted () {
     // await this.$store.dispatch('syncMessages')
     // this.$store.commit('getPastMsg')
-    this.$socket.emit('message', 'tang')
-  },
-  sockets: {
-    test (res) {
-      console.log(res)
-    }
+    // this.$socket.emit('message', 'tang')
   }
 }
 </script>

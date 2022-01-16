@@ -1,11 +1,7 @@
 <template>
   <div id="app">
     <div id="root" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'">
-      <template v-if="getAuthState && mainPage">
-        <NavBar />
-        <SubPage />
-        <MainPage />
-      </template>
+      <Index v-if="getAuthState && mainPage" />
       <!-- signin/signup page -->
       <router-view name="default" />
     </div>
@@ -16,20 +12,13 @@
 </template>
 
 <script>
-import SubPage from '@/views/SubPage'
-import MainPage from '@/views/MainPage'
-import NavBar from '@/components/navBar/NavBar'
+import Index from '@/views/Index'
 import Modal from '@/components/modal/Modal'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
-  components: {
-    NavBar,
-    SubPage,
-    MainPage,
-    Modal
-  },
+  components: { Index, Modal },
   computed: {
     ...mapGetters(['getAuthState', 'getFlipAni', 'getModalState']),
     mainPage () {

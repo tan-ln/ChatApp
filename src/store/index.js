@@ -85,6 +85,8 @@ const state = {
    */
   // 消息队列
   msgQueue: [],
+  // 对话
+  conversations: [],
   errorno: {},
   // 过场动画反转
   flipAni: false,

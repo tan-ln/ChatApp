@@ -82,7 +82,11 @@ export default {
       }
       await this.$store.dispatch('reqSignIn', payload)
       if (this.getModalState.show) this.loading = false
+      // 登录或注册后 路由跳转及动画状态修改
       if (this.__self.isSignIn) {
+        // 注册成功后自动加入 root 群聊，并广播
+        const { email, username, avatar } = this.__self.userInfo
+        if (this.$route.name === 'signup') this.$socket.emit('user:getRootGroup', { email, username, avatar })
         this.loading = false
         this.$router.replace('/')
         this.$store.commit('changeFlipAni', true)
