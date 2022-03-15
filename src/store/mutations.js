@@ -42,12 +42,27 @@ export default {
   getPastMsg (state) {
     // const msgQueue = localStorage.getItem('isSignIn') ? JSON.parse(localStorage.getItem('isSignIn')) : false
   },
-  setRootGroup (state, payload) {
-    localStorage.setItem('rootGroup', JSON.stringify(payload))
-    state.conversations.pop({
-      master: payload,
-      lastestMsg: ''
-    })
+  // set groups
+  saveGroups (state, payload) {
+    console.log(payload)
+    // localStorage.setItem('groups', JSON.stringify(payload))
+    if (state.groups[0].gname === 'root') {
+      state.groups[0] = payload
+    } else {
+      state.groups.pop(payload)
+    }
   },
-  setConversations (state, payload) {}
+  // current conversation
+  setConversations (state, payload) {
+    console.log(payload)
+    const cvs = localStorage.getItem('conversations')
+    if (cvs) {
+      const newCvs = JSON.parse(cvs).pop(payload)
+      state.conversations = newCvs
+      localStorage.setItem('conversations', JSON.stringify(newCvs))
+    } else {
+      localStorage.setItem('conversations', JSON.stringify([payload]))
+      state.conversations.pop(payload)
+    }
+  }
 }

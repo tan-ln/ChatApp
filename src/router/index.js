@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import VueCookies from 'vue-cookies'
 
 Vue.use(Router)
+// Vue.use(VueCookies)
 
 // 使用 require 的形式，而非 import
 // 不是一次性加载所有组件，而是 按需加载
@@ -59,6 +61,8 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const { isSignIn, userInfo } = localStorage
+  // let sess = Vue.$cookies.get('koa:sess')
+  // console.log('sess: ' + sess)
   const { name } = to
   if (isSignIn !== 'true' || !userInfo || !JSON.parse(userInfo).email) {
     (name === 'signin' || name === 'signup')

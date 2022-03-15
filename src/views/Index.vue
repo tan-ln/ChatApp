@@ -16,10 +16,10 @@ export default {
   sockets: {
     // rootgroup
     getRootGroup (res) {
-      this.$store.commit('setRootGroup', res)
+      this.$store.commit('saveGroups', res)
     },
-    // message
-    callRootGroup (data) {
+    // messages
+    callAllMsg (data) {
       this.$store.commit('setConversations', data)
     }
   }

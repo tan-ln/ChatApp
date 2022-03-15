@@ -19,7 +19,7 @@
           <div class="input__tips">
             <i class="iconfont">&#xe8a3;</i>
           </div>
-          <input type="password" :placeholder="(illegal && password.length === 0) ? 'Password can not be empty' : 'Password'" v-model="password" />
+          <input type="password" :placeholder="(illegal && password.length === 0) ? 'Password can not be empty' : 'Password'" v-model="password" @keypress.13="handleSubmit" />
         </div>
         <!-- submit -->
         <div class="content__center__submit" @click="handleSubmit">
@@ -75,8 +75,9 @@ export default {
     async handleSubmit () {
       if (this.email.length === 0 || this.password.length === 0) { this.illegal = true; return }
       this.loading = true
+      const route = this.$route.name
       const payload = {
-        path: this.$route.name,
+        path: route,
         email: this.email,
         password: this.password
       }
@@ -84,12 +85,13 @@ export default {
       if (this.getModalState.show) this.loading = false
       // 登录或注册后 路由跳转及动画状态修改
       if (this.__self.isSignIn) {
-        // 注册成功后自动加入 root 群聊，并广播
         const { email, username, avatar } = this.__self.userInfo
-        if (this.$route.name === 'signup') this.$socket.emit('user:getRootGroup', { email, username, avatar })
         this.loading = false
-        this.$router.replace('/')
         this.$store.commit('changeFlipAni', true)
+        this.$router.replace('/')
+        // 注册成功后自动加入 root 群聊，并广播
+        // 登录成功后，root 群聊广播上线消息
+        this.$socket.emit('user:goOnLine', { email, username, avatar }, route)
       }
     }
   }

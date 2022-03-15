@@ -84,9 +84,34 @@ const state = {
    * }
    */
   // 消息队列
-  msgQueue: [],
-  // 对话
-  conversations: [],
+  msgQueue: [
+    // {
+    //   id: '',
+    //   list: [
+    //     { ... }
+    //   ],
+    // }
+  ],
+  // 会话
+  conversations: [
+    // {
+    //   id: '',
+    //   // 未读消息条数
+    //   unreadNum: 0,
+    //   // 消息置顶
+    //   top: false,
+    //   // 消息免打扰
+    //   mute: true
+    // }
+  ],
+  contacts: [
+    // {
+    //   id: '',
+    //   email: '',
+    //   ...
+    // }
+  ],
+  groups: [],
   errorno: {},
   // 过场动画反转
   flipAni: false,
