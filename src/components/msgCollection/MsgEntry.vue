@@ -1,7 +1,8 @@
 <template>
   <div class="contact__card__wrapper" :class="{ 'active__contact' : idx === 1 }">
     <div class="wrapper__left__avatars">
-      <img :src="entry.avatar || entry.gavatar" :alt="entry.name || entry.gname">
+      <!-- <img :src="entry.avatar || entry.gavatar" :alt="entry.name || entry.gname"> -->
+      <img :src="require('@/assets/images/' + (entry.avatar || entry.gavatar))" :alt="entry.name || entry.gname">
       <div class="wrapper__side--bubble">
         <Bubble num="99+" />
       </div>

@@ -2,8 +2,8 @@
   <div class="msg_collection__wrapper">
     <v-header title="Messages" bubble input />
     <div class="warpper__content">
-      <template v-for="(item, index) in getMsgQueue" >
-        <MsgEntry :entry="item" :idx="index" :key="item.id || item.gid" />
+      <template v-for="(item) in getMsgQueue" >
+        <MsgEntry :entry="item" :idx="item.id" :key="item.id || item.gid" />
       </template>
     </div>
   </div>
