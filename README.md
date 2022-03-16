@@ -19,7 +19,7 @@
 ## 项目运行截图
 `SignIn/SignUp`
 ![Sign In](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/sign-in.png)
-![Sign Up](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/sign-ip.png)
+![Sign Up](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/sign-up.png)
 
 `message collection`
 ![message collection](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/home.png)
