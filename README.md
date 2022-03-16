@@ -10,6 +10,20 @@
 | mysql8        |                                          |
 | redis-3.2     |                                          |
 
+## 启动项目
+* `net start mysql`
+* `redis-server`
+* `yarn start`
+> node 版本：10.5.0
+
+## 项目运行截图
+`SignIn/SignUp`
+![./static/shot/sign-in.png](./static/shot/sign-in.png)
+![./static/shot/sign-up.png](./static/shot/sign-up.png)
+
+`message collection`
+![./static/shot/msg.png](./static/shot/msg.png)
+
 ## 功能
 - [x] 登陆注册
 - [ ] 单聊
@@ -35,18 +49,3 @@
 - [ ] 朋友圈动态评论
 - [ ] 朋友圈动态回复评论
 - [ ] 日程设置
-
-
-## 启动项目
-* `net start mysql`
-* `redis-server`
-* `yarn start`
-> node 版本：10.5.0
-
-## 项目运行截图
-`SignIn/SignUp`
-![./static/shot/sign-in.png](./static/shot/sign-in.png)
-![./static/shot/sign-up.png](./static/shot/sign-up.png)
-
-`message collection`
-![./static/shot/msg.png](./static/shot/msg.png)
