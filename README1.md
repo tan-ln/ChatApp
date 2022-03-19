@@ -180,3 +180,11 @@ new HtmlWebpackPlugin({
 })
 ```
 
+## 组件内样式图片路径使用 绝对路径
+```css
+div {
+  /* 报错 This relative module was not found: ... */
+  background-image: url('../../images/bg/aaa.png');
+  background-image: url('~@/assets/images/bg/aaa.png');
+}
+```

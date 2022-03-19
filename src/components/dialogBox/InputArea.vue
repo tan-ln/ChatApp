@@ -48,14 +48,15 @@ export default {
   height: 1.2rem;
   padding: 0.1rem 0;
   position: relative;
+  display: flex;
   textarea {
-    width: 100%;
-    height: 100%;
+    flex: 1;
     margin: 0 .1rem;
     font-family: 'Comic Sans MS', PingFang SC;
-    font-size: 0.14rem;
+    font-size: 0.12rem;
     color: $dark_font_color;
     letter-spacing: .006rem;
+
     &::placeholder {
       font-size: 0.12rem;
       color: $light_font_color;
@@ -82,18 +83,20 @@ export default {
     bottom: auto;
     right: auto;
     height: .02rem;
-    width: 24%;
-    background: $msg_bg_color linear-gradient(to right, rgba(255, 240, 191, 0), $card_active_border_color);
+    width: 26%;
+    transform: scaleY(.6);
+    background: $card_active_border_color linear-gradient(to left, rgba(255, 255, 255, 0), $msg_bg_color);
   }
   &::after {
     content: '';
     position: absolute;
     left: auto;
     top: auto;
-    bottom: .02rem;
+    bottom: 0;
     right: 0;
     height: .02rem;
     width: 40%;
+    transform: scaleY(.6);
     background: $card_active_border_color linear-gradient(to right, rgba(255, 255, 255, 0), $msg_bg_color);
   }
 }

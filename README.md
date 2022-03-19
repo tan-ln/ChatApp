@@ -18,11 +18,11 @@
 
 ## 项目运行截图
 `SignIn/SignUp`
-![Sign In](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/sign_in.jpg)
-![Sign Up](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/sign_up.jpg)
+![Sign In](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/signin.jpg)
+![Sign Up](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/signup.jpg)
 
 `message collection`
-![message collection](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/home.jpg)
+![message collection](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/main.png)
 
 ## 功能
 - [x] 登陆注册

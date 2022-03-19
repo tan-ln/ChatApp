@@ -60,7 +60,6 @@ export default {
   width: .64rem;
   height: 6.52rem;
   color: #fff;
-  background-color: $nav_bg_color;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -69,6 +68,13 @@ export default {
   top: .14rem;
   left: .14rem;
   bottom: .14rem;
+
+  // background-color: $nav_bg_color;
+  background-image: url('~@/assets/images/bg/aaa.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
   .navbar__top {
     width: 0.64rem;
     height: 0.64rem;

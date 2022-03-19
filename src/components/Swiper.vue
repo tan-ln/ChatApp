@@ -11,7 +11,8 @@
           :enter-active-class="'animate__animated animate__slideInRight'"
           :leave-active-class="'animate__animated animate__fadeOut animate__slower'"
         >
-          <img v-if="index === curIndex" :src="require('../assets/images/swiper/' + item)" />
+          <!-- <img v-if="index === curIndex" :src="require('../assets/images/swiper/' + item)" /> -->
+          <img v-if="index === curIndex" :src="require('../assets/images/bg/ddd.png')" />
         </transition>
       </div>
     </div>

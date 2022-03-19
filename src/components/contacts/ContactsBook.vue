@@ -22,15 +22,18 @@
         <span>Setting</span>
       </div>
     </div>
+    <ContactList />
   </div>
 </template>
 
 <script>
 import VHeader from '../VHeader.vue'
+import ContactList from './ContactList'
 export default {
   name: 'ContactsBook',
   components: {
-    'v-header': VHeader
+    'v-header': VHeader,
+    ContactList
   }
 }
 </script>
@@ -39,10 +42,12 @@ export default {
 #contacts__book__wrapper {
   .contacts__btns {
     width: 2.5rem;
-    height: .6rem;
+    height: 0.6rem;
+    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    padding: 0 .02rem;
     .btn {
       flex: 1;
       text-align: center;
@@ -60,12 +65,10 @@ export default {
       }
       span {
         display: inline-block;
-        font-family: PingFang SC;
+        font-family: 'PingFang SC';
         font-size: 0.12rem;
         color: #333;
         transform: scale(.9);
-        height: 0.2rem;
-        line-height: 0.2rem;
       }
     }
   }

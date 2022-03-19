@@ -15,7 +15,8 @@ body {
 
 /* 背景 */
 body {
-  background-image: url('../images/bg/1.jpg');
+  /* background-image: url('../images/bg/1.jpg'); */
+  background-image: url('../images/bg/aaa.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;

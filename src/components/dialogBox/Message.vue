@@ -115,6 +115,13 @@ export default {
     border-color:  $msg_bg_color transparent transparent;
   }
 
+  span {
+    color: #fff;
+  }
+  a {
+    color: $signUp_key_color;
+  }
+
   div {
     position: absolute;
     top: -.01rem;
