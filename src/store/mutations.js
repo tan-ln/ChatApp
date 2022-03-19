@@ -4,15 +4,15 @@ export default {
   },
   // 登录成功后，本地保存登录信息
   signInState (state, payload) {
-    localStorage.isSignIn = true
-    localStorage.setItem('userInfo', JSON.stringify(payload))
-    state.__self.userInfo = payload
+    sessionStorage.isSignIn = true
+    sessionStorage.setItem('userInfo', JSON.stringify(payload))
     state.__self.isSignIn = true
+    state.__self.userInfo = payload
   },
-  // localstorage 中获取用户信息
+  // sessionStorage 中获取用户信息
   getUserInfo (state) {
-    const isSignIn = localStorage.getItem('isSignIn') ? JSON.parse(localStorage.getItem('isSignIn')) : false
-    const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}
+    const isSignIn = sessionStorage.getItem('isSignIn') ? sessionStorage.getItem('isSignIn') : false
+    const userInfo = sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')) : {}
     if (isSignIn && userInfo.email) {
       state.__self.isSignIn = true
       state.__self.userInfo = userInfo
@@ -40,12 +40,12 @@ export default {
     state.msgList = payload
   },
   getPastMsg (state) {
-    // const msgQueue = localStorage.getItem('isSignIn') ? JSON.parse(localStorage.getItem('isSignIn')) : false
+    // const msgQueue = sessionStorage.getItem('isSignIn') ? JSON.parse(sessionStorage.getItem('isSignIn')) : false
   },
   // set groups
   saveGroups (state, payload) {
     console.log(payload)
-    // localStorage.setItem('groups', JSON.stringify(payload))
+    // sessionStorage.setItem('groups', JSON.stringify(payload))
     if (state.groups[0].gname === 'root') {
       state.groups[0] = payload
     } else {
@@ -54,15 +54,24 @@ export default {
   },
   // current conversation
   setConversations (state, payload) {
-    console.log(payload)
-    const cvs = localStorage.getItem('conversations')
-    if (cvs) {
-      const newCvs = JSON.parse(cvs).pop(payload)
-      state.conversations = newCvs
-      localStorage.setItem('conversations', JSON.stringify(newCvs))
-    } else {
-      localStorage.setItem('conversations', JSON.stringify([payload]))
-      state.conversations.pop(payload)
-    }
+    const { data } = payload
+    console.log(data)
+    // const arr = sessionStorage.getItem(data.from) ? sessionStorage.getItem(data.from) : []
+    // const cvs = state.conversations || {}
+    // for (let key in cvs) {
+    //   if (key == data.from) {
+    //     cvs[key].pop(data)
+    //   }
+    // }
+    // arr.POP(data)
+    // sessionStorage.setItem(data.from, data)
+    // if (cvs) {
+    //   const newCvs = JSON.parse(cvs).pop(payload)
+    //   state.conversations = 'newCvs'
+    //   sessionStorage.setItem('conversations', JSON.stringify(newCvs))
+    // } else {
+    //   sessionStorage.setItem('conversations', JSON.stringify([payload]))
+    //   state.conversations.pop(payload)
+    // }
   }
 }

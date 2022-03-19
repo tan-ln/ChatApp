@@ -14,6 +14,17 @@ export default {
   components: {
     SignUp,
     Swiper
+  },
+  beforeRouteLeave (to, from, next) {
+    const { userInfo } = this.$store.state.__self
+    this.$socket.emit('user:goOnLine', userInfo, from.name)
+    this.sockets.subscribe('__broadcast', data => {
+      this.$store.commit('setConversations', data)
+    })
+    next()
+  },
+  destroyed () {
+    this.sockets.unsubscribe('__broadcast')
   }
 }
 </script>

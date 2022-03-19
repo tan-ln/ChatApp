@@ -13,13 +13,14 @@ import NavBar from '@/components/navBar/NavBar'
 export default {
   name: 'Index',
   components: { NavBar, SubPage, MainPage },
+  mounted: function () {},
   sockets: {
     // rootgroup
     getRootGroup (res) {
       this.$store.commit('saveGroups', res)
     },
-    // messages
-    callAllMsg (data) {
+    // 广播消息
+    __broadcast (data) {
       this.$store.commit('setConversations', data)
     }
   }

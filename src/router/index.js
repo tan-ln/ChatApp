@@ -42,8 +42,8 @@ const router = new Router({
       component: resolve => require(['@/views/SignUpPage'], resolve),
       // 访问 signup 之前
       beforeEnter (to, from, next) {
-        const { isSignIn, userInfo } = localStorage;
-        (isSignIn === 'true' && userInfo && JSON.parse(userInfo).email) ? next({ name: 'home' }) : next()
+        const { isSignIn, userInfo } = sessionStorage;
+        (isSignIn && userInfo && JSON.parse(userInfo).email) ? next({ name: 'home' }) : next()
       }
     },
     {
@@ -52,19 +52,19 @@ const router = new Router({
       component: resolve => require(['@/views/SignUpPage'], resolve),
       // 访问 signin 之前
       beforeEnter (to, from, next) {
-        const { isSignIn, userInfo } = localStorage;
-        (isSignIn === 'true' && userInfo && JSON.parse(userInfo).email) ? next({ name: 'home' }) : next()
+        const { isSignIn, userInfo } = sessionStorage;
+        (isSignIn && userInfo && JSON.parse(userInfo).email) ? next({ name: 'home' }) : next()
       }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  const { isSignIn, userInfo } = localStorage
+  const { isSignIn, userInfo } = sessionStorage
   // let sess = Vue.$cookies.get('koa:sess')
   // console.log('sess: ' + sess)
   const { name } = to
-  if (isSignIn !== 'true' || !userInfo || !JSON.parse(userInfo).email) {
+  if (!isSignIn || !userInfo || !JSON.parse(userInfo).email) {
     (name === 'signin' || name === 'signup')
       ? next()
       : next({
@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
           redirect: to.fullPath
         }
       })
-    localStorage.clear()
+    sessionStorage.clear()
   } else {
     next()
   }

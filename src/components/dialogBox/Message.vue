@@ -40,6 +40,7 @@ export default {
   span {
     display: inline-block;
     font-size: 0.12rem;
+    transform: scale(.96);
     color: $dark_font_color;
     letter-spacing: .008rem;
     cursor: text;

@@ -85,13 +85,13 @@ export default {
       if (this.getModalState.show) this.loading = false
       // 登录或注册后 路由跳转及动画状态修改
       if (this.__self.isSignIn) {
-        const { email, username, avatar } = this.__self.userInfo
+        // const { email, username, avatar } = this.__self.userInfo
         this.loading = false
         this.$store.commit('changeFlipAni', true)
         this.$router.replace('/')
         // 注册成功后自动加入 root 群聊，并广播
         // 登录成功后，root 群聊广播上线消息
-        this.$socket.emit('user:goOnLine', { email, username, avatar }, route)
+        // this.$socket.emit('user:goOnLine', { email, username, avatar }, route)
       }
     }
   }

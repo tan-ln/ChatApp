@@ -111,7 +111,7 @@ const state = {
 
 其父元素 `font-size: 0;`
 
-## transition/ ..-grup && animate.css
+## transition/ ..-group && animate.css
 > 钩子 触发条件 v-if / v-show 
 ```html
 <transition-group
@@ -162,3 +162,21 @@ actions: {
   someAction ({ state, commit, rootState }) {}
 }
 ```
+
+## favicon.ico
+```html
+<!-- index.html -->
+<link rel="shortcut icon" type="image/x-icon" href="favicon64.ico" color="#FFF">
+<link rel="mask-icon" href="favicon64.ico">
+<link rel="apple-touch-icon-precomposed" href="favicon64.ico">
+```
+```js
+// webpack.dev.conf.js
+new HtmlWebpackPlugin({
+  filename: 'index.html',
+  template: 'index.html',
+  inject: true,
+  favicon: 'favicon64.ico'        // 文件在项目根路径，其他路径报错 找不到文件
+})
+```
+

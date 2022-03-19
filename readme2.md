@@ -1,39 +1,38 @@
-# wechat
+# vue-socket.io
 
-* `runtime-compiler`
-    * `template -> ast 树 -> render -> vnode -> DOM`
 ```js
-new Vue({
-  el: '#app',
-  components: { App },
-  template: `<App />`
+const insSocketIO = new VueSocketIO({
+  debug: false,
+  // connection: SocketIO('127.0.0.1:1234') // if installed socket.io-client
+  connection: 'http://localhost:1234'
 })
-```
-* `runtime-only`
-    * `render -> vnode -> DOM`
-    * 性能更高，代码量更少
-    * vue-template-compiler 处理 .vue 文件中的 template
-```js
-new Vue({
-  el: '#app',
-  render: h => h(App)
+
+insSocketIO.io.on('connect', () => {
+  console.log('connect')
 })
+
+// 写法 2
+// Vue.use(new VueSocketIO({ connection: 'http://localhost:1234' }))
 ```
 
-## favicon.ico
-```html
-<!-- index.html -->
-<link rel="shortcut icon" type="image/x-icon" href="favicon64.ico" color="#FFF">
-<link rel="mask-icon" href="favicon64.ico">
-<link rel="apple-touch-icon-precomposed" href="favicon64.ico">
+## 方法
+
+- 监听
+```js
+// 写法 1 配置项
+sockets: {
+  socketName () {},
+}
 ```
 ```js
-// webpack.dev.conf.js
-new HtmlWebpackPlugin({
-  filename: 'index.html',
-  template: 'index.html',
-  inject: true,
-  favicon: 'favicon64.ico'        // 文件在项目根路径，其他路径报错 找不到文件
-})
+// 写法 2
+// 订阅
+this.sockets.subscribe('socketName', () => {})
+// 解除订阅
+this.sockets.unsubscribe('socketName')
 ```
 
+- emit
+```js
+this.$socket.emit('socketName', params)
+```
