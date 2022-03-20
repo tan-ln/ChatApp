@@ -76,7 +76,7 @@ export default {
       &--title {
         font-size: 0.14rem;
         display: inline-block;
-        transform: scale(.9);
+        transform: scale(.92);
         transform-origin: left center;
       }
       &--timeStamp {
@@ -93,7 +93,7 @@ export default {
       line-height: 0.2rem;
       &--msg {
         @include ellipse;
-        transform: scale(.86);
+        transform: scale(.9);
         transform-origin: left center;
       }
     }

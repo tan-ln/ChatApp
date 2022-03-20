@@ -24,6 +24,10 @@
 `message collection`
 ![message collection](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/main.png)
 
+`contact books`
+![contact books](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/contact.png)
+
+
 ## 功能
 - [x] 登陆注册
 - [ ] 单聊

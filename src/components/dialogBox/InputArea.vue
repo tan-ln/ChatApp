@@ -51,7 +51,6 @@ export default {
   display: flex;
   textarea {
     flex: 1;
-    margin: 0 .1rem;
     font-family: 'Comic Sans MS', PingFang SC;
     font-size: 0.12rem;
     color: $dark_font_color;

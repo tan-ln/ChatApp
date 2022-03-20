@@ -61,7 +61,7 @@ export default {
     position: relative;
   }
   &--title {
-    font-size: 0.18rem;
+    font-size: 0.16rem;
     margin-right: .04rem;
     color: #333;
     font-family: 'Comic Sans MS', PingFang SC;

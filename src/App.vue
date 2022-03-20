@@ -57,8 +57,6 @@ export default {
   position: relative;
   margin: 0 auto;
   margin-top: 0.3rem;
-  background-color: $bg_color;
-  // border: .01rem solid $border_color;
   border-radius: .12rem;
   box-shadow: 0 .03rem .01rem -.2rem rgba(0,0,0,.2), 0 .06rem .2rem .02rem rgba(0,0,0,.14), 0 .06rem .06rem 0 rgba(0,0,0,.12);
   border-width: thin;

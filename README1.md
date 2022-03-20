@@ -188,3 +188,11 @@ div {
   background-image: url('~@/assets/images/bg/aaa.png');
 }
 ```
+
+## box-shadow
+```css
+div {
+            /*  X 轴  Y 轴  模糊距离 阴影大小  颜色    */
+  box-shadow: -.12rem .16rem .06rem -.1rem $border_color;
+}
+```

@@ -42,3 +42,5 @@ export const getMsgQueue = state => {
     }
   ]
 }
+
+export const contactsBook = state => state.contactsBook

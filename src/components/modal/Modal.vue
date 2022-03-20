@@ -1,5 +1,6 @@
 <template>
   <div id="modal">
+    <div class="modal__mask"></div>
     <div class="modal__container" :class="getModalState.show ? 'animate__animated animate__zoomIn animate__faster' : ''">
       <div class="modal__container--title">
         <h3>{{getModalState.title}}</h3>
@@ -55,29 +56,32 @@ export default {
 @import "@/assets/styles/valiable.scss";
 #modal {
   position: absolute;
-  margin: 0 auto;
-  margin-top: 0.3rem;
-  width: 10rem;
-  height: 6.81rem;
   top: 0;
   right: 0;
-  bottom: -.01rem;
+  bottom: 0;
   left: 0;
   z-index: 999;
-  background-color: $modal__border__color;
-  // backdrop-filter: blur(.036rem);              // 磨砂玻璃效果，兼容性不好 特别是 安卓移动端
   display: flex;
   align-items: center;
   vertical-align: middle;
   justify-content: center;
   border-radius: .12rem;
-  border: .01rem solid rgba(0, 0, 0, .1);
   box-shadow: .02rem .02rem .2rem $modal__border__color;
+  .modal__mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    background-color: $modal__border__color;
+    backdrop-filter: blur(.036rem);              // 磨砂玻璃效果，兼容性不好 特别是 安卓移动端
+  }
   .modal__container {
     width: 4rem;
     height: 2.8rem;
     background-color: #fff;
-    border: .01rem solid $modal__border__color;
+    // border: .01rem solid $modal__border__color;
     border-radius: .1rem;
     filter: opacity(.9);
     box-shadow: 0 0 .2rem $modal__border__color;

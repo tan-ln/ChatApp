@@ -4,6 +4,14 @@
   text-overflow: ellipsis;
 }
 
+@mixin ellipse__2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 @mixin no_select {
   -webkit-user-select: none;
   user-select: none;

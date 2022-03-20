@@ -34,6 +34,9 @@ export default {
   components: {
     'v-header': VHeader,
     ContactList
+  },
+  created () {
+    this.$store.dispatch('reqContacts')
   }
 }
 </script>
@@ -42,7 +45,7 @@ export default {
 #contacts__book__wrapper {
   .contacts__btns {
     width: 2.5rem;
-    height: 0.6rem;
+    height: 0.7rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;

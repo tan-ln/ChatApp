@@ -5,18 +5,7 @@ import router from './router'
 import store from './store'
 import animate from 'animate.css'
 
-// const insSocketIO = new VueSocketIO({
-//   // debug: true,
-//   // connection: SocketIO('127.0.0.1:1234') // if installed socket.io-client
-//   connection: 'http://localhost:1234'
-// })
-
-// insSocketIO.io.on('connect', () => {
-//   console.log('connect')
-// })
-
 Vue.use(new VueSocketIO({
-  // debug: true,
   // connection: SocketIO('127.0.0.1:1234') // if installed socket.io-client
   connection: 'http://localhost:1234'
 }))

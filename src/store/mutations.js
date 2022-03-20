@@ -73,5 +73,8 @@ export default {
     //   sessionStorage.setItem('conversations', JSON.stringify([payload]))
     //   state.conversations.pop(payload)
     // }
+  },
+  setAllContacts (state, payload) {
+    state.contactsBook = payload
   }
 }

@@ -103,7 +103,7 @@ const state = {
   //   // 消息免打扰
   //   mute: true
   // }
-  contacts: [
+  contactsBook: [
     // {
     //   id: '',
     //   email: '',
