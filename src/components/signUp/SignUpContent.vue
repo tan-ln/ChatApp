@@ -85,13 +85,9 @@ export default {
       if (this.getModalState.show) this.loading = false
       // 登录或注册后 路由跳转及动画状态修改
       if (this.__self.isSignIn) {
-        // const { email, username, avatar } = this.__self.userInfo
         this.loading = false
         this.$store.commit('changeFlipAni', true)
         this.$router.replace('/')
-        // 注册成功后自动加入 root 群聊，并广播
-        // 登录成功后，root 群聊广播上线消息
-        // this.$socket.emit('user:goOnLine', { email, username, avatar }, route)
       }
     }
   }
@@ -104,7 +100,7 @@ export default {
   width: 3.2rem;
   height: 5.28rem;
   padding: .32rem .2rem;
-  font-family: 'Comic Sans MS', PingFang SC;
+  // font-family: 'Comic Sans MS', PingFang SC;
   letter-spacing: .01rem;
   position: relative;
   .content__header {
@@ -140,7 +136,7 @@ export default {
         flex: 1;
         line-height: 0.32rem;
         font-size: 0.16rem;
-        font-family: Consolas, PingFang SC;
+        // font-family: Consolas, PingFang SC;
         border-bottom: .01rem solid $border_middle_color;
         padding: 0 .1rem 0 .2rem;
         letter-spacing: .01rem;
@@ -161,7 +157,6 @@ export default {
       border-radius: .2rem;
       text-align: center;
       margin: 0.4rem 0 0.2rem;
-      font-family: Consolas, PingFang SC;
       position: relative;
       cursor: pointer;
       input {

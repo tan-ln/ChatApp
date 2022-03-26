@@ -1,24 +1,20 @@
 <template>
-  <div class="contact__card__wrapper" :class="{ 'active__contact' : idx === 1 }">
+  <div class="contact__card__wrapper" :class="{ 'actived__content' : entry.msg.group === target.gname || entry.msg.from === target.email }">
     <div class="wrapper__left__avatars">
-      <!-- <img :src="entry.avatar || entry.gavatar" :alt="entry.name || entry.gname"> -->
-      <img :src="require('@/assets/images/' + (entry.avatar || entry.gavatar))" :alt="entry.name || entry.gname">
+      <img :src="'http://127.0.0.1:5000/images/avatar/' + (entry.msg.group || entry.msg.from) + '.jpg'" :alt="entry.msg.group || entry.msg.from">
       <div class="wrapper__side--bubble">
-        <Bubble num="99+" />
+        <Bubble :num="entry.unreadNum || 0" />
       </div>
     </div>
     <div class="wrapper__right__content">
       <div class="content__hd">
-        <h3 class="content__hd--title">{{entry.name || entry.gname}}</h3>
-        <span class="content__hd--timeStamp">{{entry.msg.timestamp}}</span>
+        <h3 class="content__hd--title">{{entry.msg.group || entry.msg.from}}</h3>
+        <span class="content__hd--timeStamp">{{formatTime(entry.msg.timestamp)}}</span>
       </div>
       <div class="content__main">
         <p class="content__main--msg">{{entry.msg.content}}</p>
       </div>
     </div>
-    <!-- <div class="wrapper__side--bubble">
-      <Bubble num="2" />
-    </div> -->
     <div class="wrapper__side--icon" v-if="entry.top || entry.mute">
       <i class="iconfont opt__icons" v-html="entry.mute ? '&#xe6ba;' : '&#xe770;'"></i>
     </div>
@@ -29,9 +25,12 @@
 import Bubble from '../Bubble.vue'
 export default {
   name: 'MsgEntry',
-  props: ['entry', 'idx'],
+  props: ['entry', 'target'],
   components: {
     Bubble
+  },
+  methods: {
+    formatTime: timeStamp => new Date(timeStamp).toString().split(' ')[4].substr(0, 5)
   }
 }
 </script>
@@ -123,9 +122,5 @@ export default {
     bottom: -.01rem;
     border-bottom: .01rem solid $border_color;
   }
-}
-.active__contact {
-  border-left: .02rem solid $card_active_border_color;
-  background: linear-gradient(to right, #FFF, $border_color);
 }
 </style>

@@ -2,9 +2,8 @@
   <div class="msg_collection__wrapper">
     <v-header title="Messages" bubble input />
     <div class="warpper__content">
-      <template v-for="(item) in getMsgQueue" >
-        <MsgEntry :entry="item" idx="1" :key="item.id || item.gid" />
-        <!-- <MsgEntry :entry="item" :idx="item.id" :key="item.id || item.gid" /> -->
+      <template v-for="(item) of getLastMsgQueue">
+        <MsgEntry :entry="item" :key="item.id" @click.native="handleClickMsgEntry(item.msg)" :target="getCurTarget" />
       </template>
     </div>
   </div>
@@ -22,13 +21,15 @@ export default {
     'v-header': VHeader
   },
   computed: {
-    ...mapGetters(['getMsgQueue'])
+    ...mapGetters(['getLastMsgQueue', 'getCurTarget'])
   },
-  methods: {},
-  mounted () {
-    // await this.$store.dispatch('syncMessages')
-    // this.$store.commit('getPastMsg')
-    // this.$socket.emit('message', 'tang')
+  methods: {
+    handleClickMsgEntry (data) {
+      // if (this.$route.params.target === this.getCurTarget.name) return
+      // 设置聊天对象
+      this.$store.commit('setCurrentChating', data)
+      // this.$router.push({ name: 'messages', params: { target: obj } })
+    }
   }
 }
 </script>

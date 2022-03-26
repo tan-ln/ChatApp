@@ -45,7 +45,10 @@ export default {
       target.className = ''
     },
     handleClickOpt () {
-      // const target = e.target
+      if (this.getModalState.title === 401) {
+        this.$store.commit('logout')
+        this.$router.go('/')
+      }
       this.$store.commit('hideModal')
     }
   }
@@ -98,7 +101,7 @@ export default {
       h3 {
         font-size: 0.16rem;
         font-weight: 600;
-        font-family: 'Comic Sans MS', PingFang SC;
+        // font-family: 'Comic Sans MS', PingFang SC;
         color: $nav_bg_color;
       }
     }
@@ -132,7 +135,6 @@ export default {
       vertical-align: middle;
       align-items: center;
       border-top: .01rem solid $modal__title__color;
-      font-family: 'Comic Sans MS', PingFang SC;
       font-weight: 500;
       cursor: pointer;
       color: $nav_bg_color;

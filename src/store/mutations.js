@@ -9,7 +9,7 @@ export default {
     state.__self.isSignIn = true
     state.__self.userInfo = payload
   },
-  // sessionStorage 中获取用户信息
+  // 获取用户信息
   getUserInfo (state) {
     const isSignIn = sessionStorage.getItem('isSignIn') ? sessionStorage.getItem('isSignIn') : false
     const userInfo = sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')) : {}
@@ -17,10 +17,6 @@ export default {
       state.__self.isSignIn = true
       state.__self.userInfo = userInfo
     }
-  },
-  // error handler
-  errorHandler (state, payload) {
-    state.errorno = payload
   },
   // 过场动画翻转
   changeFlipAni (state, payload) {
@@ -44,37 +40,109 @@ export default {
   },
   // set groups
   saveGroups (state, payload) {
-    console.log(payload)
-    // sessionStorage.setItem('groups', JSON.stringify(payload))
-    if (state.groups[0].gname === 'root') {
-      state.groups[0] = payload
+    // console.log(payload)
+    const rootGroup = state.groups[0]
+    if (rootGroup && rootGroup.group === 'root') {
+      state.groups[0] = payload.data
     } else {
-      state.groups.pop(payload)
+      state.groups.unshift({ ...payload })
     }
+    sessionStorage.setItem(payload.group + '-group', JSON.stringify(payload.data))
   },
-  // current conversation
+  saveAllGroups (state, payload) {
+    state.groups = payload
+    sessionStorage.setItem('groups', JSON.stringify(payload))
+  },
+
   setConversations (state, payload) {
     const { data } = payload
-    console.log(data)
-    // const arr = sessionStorage.getItem(data.from) ? sessionStorage.getItem(data.from) : []
-    // const cvs = state.conversations || {}
-    // for (let key in cvs) {
-    //   if (key == data.from) {
-    //     cvs[key].pop(data)
-    //   }
-    // }
-    // arr.POP(data)
-    // sessionStorage.setItem(data.from, data)
-    // if (cvs) {
-    //   const newCvs = JSON.parse(cvs).pop(payload)
-    //   state.conversations = 'newCvs'
-    //   sessionStorage.setItem('conversations', JSON.stringify(newCvs))
-    // } else {
-    //   sessionStorage.setItem('conversations', JSON.stringify([payload]))
-    //   state.conversations.pop(payload)
-    // }
+    // 所有在线消息存储
+    // 在消息列表当中 push
+    const temp = state.msgQueue[data.group || data.from]
+    if (temp && temp.list) {
+      temp.list.push(data)
+    } else {
+      // create
+      state.msgQueue[data.group || data.from] = { list: [data] }
+    }
+    // 最近聊天列表更新
+    const lastQueue = state.lastMsgQueue
+    if (lastQueue.length > 0) {
+      let temp = true
+      // 在聊天列表中
+      lastQueue.forEach((item, idx) => {
+        if (item.msg.group === data.group || item.msg.from === data.from) {
+          item.unreadNum++
+          // 对象合并
+          item.msg = data
+          temp = false
+        }
+      })
+      // 不在聊天列表中
+      if (temp) {
+        lastQueue.push({
+          msg: data,
+          id: data.timestamp + data.from,
+          unreadNum: 1,
+          top: false,
+          mute: false
+        })
+      }
+    } else {
+      // 聊天列表为空
+      lastQueue.push({
+        msg: data,
+        id: data.timestamp + data.from,
+        unreadNum: 1,
+        top: false,
+        mute: false
+      })
+    }
+    sessionStorage.setItem('msgQueue', JSON.stringify(state.msgQueue))
+    sessionStorage.setItem('lastMsgQueue', JSON.stringify(state.lastMsgQueue))
   },
+
   setAllContacts (state, payload) {
     state.contactsBook = payload
+  },
+
+  // 当前聊天对象
+  setCurrentChating (state, payload) {
+    const { group, from } = payload
+    // 从 组列表 获取 info
+    if (group) {
+      const groups = JSON.parse(sessionStorage.getItem('groups'))
+      const data = groups.filter(item => item.gname === group)
+      state.__target = data[0]
+    } else {
+      const groups = JSON.parse(sessionStorage.getItem('root-groups'))
+      const data = groups.filter(item => item.email === from)
+      state.__target = data[0]
+    }
+    state.curMsgQueue = state.msgQueue[state.__target.gname || state.__target.email].list
+    // 从 user 获取 info
+    sessionStorage.setItem('__target', JSON.stringify(state.__target))
+  },
+
+  // 本地存储
+  syncStorage (state) {
+    if (!sessionStorage.getItem('msgQueue')) return
+    const msgQueue = JSON.parse(sessionStorage.getItem('msgQueue'))
+    const lastMsgQueue = JSON.parse(sessionStorage.getItem('lastMsgQueue'))
+    const target = sessionStorage.getItem('__target') ? JSON.parse(sessionStorage.getItem('__target')) : false
+    const curMsgQueue = msgQueue[target.gname || target.email].list
+    state.msgQueue = msgQueue
+    state.lastMsgQueue = lastMsgQueue
+    state.__target = target || {}
+    state.curMsgQueue = curMsgQueue || []
+  },
+
+  // error handler
+  errorHandler (state, payload) {
+    state.errorno = payload
+  },
+  // 登出
+  logout () {
+    sessionStorage.clear()
   }
 }

@@ -1,65 +1,63 @@
 <template>
-  <div id="dialog__list" class="dialog__list__wrapper">
-    <div class="dialog__item">
-      <div class="dialog__item--avatar">
-        <img :src="require('@/assets/images/yong.jpg')" alt="someone" >
+  <div id="dialog__list" class="dialog__list__wrapper" ref="dialog__list__wrapper">
+    <!-- <div class="sys_time">{{ getSysTime() }}</div> -->
+    <div class="dialog__item" :class="{ 'flexEnd': item.from === __self.userInfo.email }" v-for="item in getCurMsgQueue" :key="item.timestamp + item.content" ref="msgRef">
+      <div class="dialog__item--avatar" v-if="item.from !== 'root'">
+        <img :src="getImgUrl(item.from)" :alt="item.from" >
       </div>
-      <Message :msg="msg1" />
-    </div>
-    <div class="dialog__item">
-      <div class="dialog__item--avatar">
-        <img :src="require('@/assets/images/yong.jpg')" alt="someone" >
-      </div>
-      <Message :msg="msg2" />
-    </div>
-    <div class="dialog__item">
-      <div class="dialog__item--avatar">
-        <img :src="require('@/assets/images/yong.jpg')" alt="someone" >
-      </div>
-      <Message :msg="msg3" />
-    </div>
-    <div class="dialog__item" style="justify-content: flex-end;">
-      <Message :msg="msg4" :sender="true" />
-      <div class="dialog__item--avatar">
-        <img :src="require('@/assets/images/yong.jpg')" alt="someone" >
-      </div>
-    </div>
-    <div class="dialog__item" style="justify-content: flex-end;">
-      <Message :msg="msg5" :sender="true" />
-      <div class="dialog__item--avatar">
-        <img :src="require('@/assets/images/yong.jpg')" alt="someone" >
-      </div>
+      <Message :msg="item.content" :sender="item.from" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Message from './Message.vue'
 export default {
   name: 'MsgList',
-  components: {
-    Message
+  props: ['mainHeight'],
+  components: { Message },
+  computed: {
+    ...mapGetters(['getCurMsgQueue', '__self'])
   },
-  data () {
-    return {
-      msg1: 'In combination with float and position, determines the type of a box or boxes that are generated for an element.',
-      msg2: '@font-face是CSS3中的一个模块，他主要是把自己定义的Web字体嵌入到你的网页中，随着@font-face模块的出现，我们在Web的开发中使用字体不怕只能使用Web安全字体。',
-      msg3: '【IE9+,Firefox3.5+,Chrome6+,Safari3.6+,Opera11.1+】；http://google.com',
-      msg4: '访问 https://www.google.com',
-      msg5: 'test http://www.baidu.com and m.bilibili.com 测试'
+  methods: {
+    getSysTime () {
+      const time = new Date().toLocaleString()
+      return time
+    },
+    getImgUrl (email) {
+      let url = null
+      const all = JSON.parse(sessionStorage.getItem('root-group'))
+      all.map(item => {
+        if (item.email === email) {
+          url = item.avatar
+        }
+      })
+      return url
     }
+  },
+  updated () {
+    const ele = this.$refs.dialog__list__wrapper
+    if (this.mainHeight > ele.clientHeight) return
+    const msgEl = this.$refs.msgRef
+    const lastEl = msgEl.reverse()[0]
+    lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
   }
 }
 </script>
 
 <style lang="scss">
 @import "@/assets/styles/mixins.scss";
+@import "@/assets/styles/valiable.scss";
 .dialog__list__wrapper {
   .dialog__item {
     width: 100%;
     display: flex;
     flex-direction: row;
-    margin: 0 0 0.4rem 0;
+    padding: 0 0 0.4rem 0;
+    &.flexEnd {
+      flex-direction: row-reverse;
+    }
 
     &--avatar {
       height: 0.32rem;
@@ -75,6 +73,10 @@ export default {
         border-radius: 50%;
       }
     }
+  }
+  .sys_time {
+    text-align: center;
+    color: $middle_font_color;
   }
 }
 </style>

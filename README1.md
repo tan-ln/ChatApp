@@ -196,3 +196,19 @@ div {
   box-shadow: -.12rem .16rem .06rem -.1rem $border_color;
 }
 ```
+
+## scrollIntoView
+> `Element.scrollIntoView()` 方法让当前的元素滚动到浏览器窗口的可视区域内。
+
+**页面（容器）可滚动时才有用！**
+
+```js
+element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+```
+- behavior 可选   
+定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+- block 可选    
+定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+- inline 可选   
+定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+

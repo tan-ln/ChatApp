@@ -1,4 +1,4 @@
-import { post } from '@/api/request.js'
+import { get, post } from '@/api/request.js'
 
 export const reqSignIn = async ({ commit }, payload) => {
   const { path, email, password } = payload
@@ -13,10 +13,13 @@ export const reqMessages = async ({ commit }) => {
 }
 
 export const reqRootGroup = async ({ commit }) => {
-  // const { email } = rootState.__self.userInfo
-  const res = await post(`/api/contact/root-group`)
-  console.log(res)
-  // res.code === 200 ? commit('getMsgList', res.msgList) : commit('showModal', { title: 'Get Messages Error', msg: res.message })
+  const res = await get(`/api/group/root`)
+  res.code === 200 ? commit('saveGroups', { group: 'root', data: res.data }) : commit('showModal', { title: res.code, msg: res.message })
+}
+
+export const reqGroupInfo = async ({ commit }) => {
+  const res = await get(`/api/group/all-groups`)
+  res.code === 200 ? commit('saveAllGroups', res.data) : commit('showModal', { title: res.code, msg: res.message })
 }
 
 // 联系人列表

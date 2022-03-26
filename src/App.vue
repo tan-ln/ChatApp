@@ -28,6 +28,7 @@ export default {
     }
   },
   created () {
+    this.$store.commit('syncStorage')
     this.$store.commit('getUserInfo')
     this.$store.commit('changeFlipAni', false)
   },
@@ -45,7 +46,6 @@ export default {
 @import "assets/styles/base.css";
 /*阿里 fonticon*/
 @import "assets/styles/lib/iconfont.css";
-
 @import "@/assets/styles/valiable.scss";
 
 #root {
@@ -61,6 +61,11 @@ export default {
   box-shadow: 0 .03rem .01rem -.2rem rgba(0,0,0,.2), 0 .06rem .2rem .02rem rgba(0,0,0,.14), 0 .06rem .06rem 0 rgba(0,0,0,.12);
   border-width: thin;
   z-index: 9;
+}
+
+.actived__content {
+  // background-color: $actived__bg__color;
+  background: linear-gradient(to right, $actived__bg__color, $bg_color);
 }
 
 .test__btn {

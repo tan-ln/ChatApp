@@ -1,5 +1,6 @@
 html {
   font-size: 100px;
+  font-family: PingFang-Bold;
 }
 
 body {
@@ -11,6 +12,7 @@ body {
   box-sizing: border-box;
   position: absolute;
   -ms-overflow-style: none;
+  font-family: PingFang-Bold;
 }
 
 /* 背景 */
@@ -51,6 +53,7 @@ input, textarea {
 
 textarea{
   resize: none;
+  font-family: PingFang-Bold;
 }
 
 input[type=search]::-webkit-search-cancel-button{

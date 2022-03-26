@@ -84,6 +84,7 @@ video {
     /* -webkit-user-select: none;
             user-select: none; */
     -webkit-tap-highlight-color: transparent;
+    font-family: PingFang-Bold;
 }
 a[href^="javascript"]{-webkit-touch-callout: none;}
 
@@ -129,7 +130,7 @@ table {
 }
 
 body {
-    font: 13px/1.5 Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Noto Sans CJK SC, WenQuanYi Micro Hei, Arial, sans-serif;
+    font: 13px/1.5 PingFang-Bold !important;
 }
 
 h1,

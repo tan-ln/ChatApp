@@ -4,6 +4,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import animate from 'animate.css'
+import '@/assets/styles/lib/font.css'
 
 Vue.use(new VueSocketIO({
   // connection: SocketIO('127.0.0.1:1234') // if installed socket.io-client

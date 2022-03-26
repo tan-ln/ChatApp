@@ -1,5 +1,5 @@
 <template>
-  <div id="message__block" v-if="msg" :class="!sender ? 'toLeft' : 'toRight'">
+  <div class="message__block" v-if="msg" :class="msgStyle()">
     <span v-html="parseMsg"></span>
     <!-- 空元素 用于消息气泡 -->
     <div></div>
@@ -8,20 +8,36 @@
 
 <script>
 import { isURL } from '@/assets/js/reg.js'
+import { mapState } from 'vuex'
 export default {
   name: 'Message',
   props: ['msg', 'sender'],
   computed: {
     parseMsg () {
       let data = this.msg
-      const res = isURL(this.msg)
-      if (res) {
-        res.forEach(item => {
-          data = data.replace(item, `<a href="${item}" target="_blank">${item}</a>`)
-        })
-        return data
+      // 过滤 用户名
+      if (this.sender !== 'root') {
+        // 过滤信息
+        const res = isURL(this.msg)
+        if (res) {
+          res.forEach(item => {
+            data = data.replace(item, `<a href="${item}" target="_blank">${item}</a>`)
+          })
+          return data
+        }
+      }
+      return this.msg
+    },
+    ...mapState(['__self'])
+  },
+  methods: {
+    msgStyle () {
+      if (this.sender === 'root') {
+        return 'toCenter'
+      } else if (this.sender === this.__self.userInfo.email) {
+        return 'toRight'
       } else {
-        return this.msg
+        return 'toLeft'
       }
     }
   }
@@ -30,18 +46,16 @@ export default {
 
 <style lang="scss">
 @import "@/assets/styles/valiable.scss";
-#message__block {
+.message__block {
   padding: .1rem .2rem;
   position: relative;
   top: 0.04rem;
   // border: .01rem solid $border_color;
   max-width: 4.8rem;
-  font-family: 'Comic Sans MS', PingFang SC;
   span {
     display: inline-block;
     font-size: 0.12rem;
     // transform: scale(.96);
-    color: $dark_font_color;
     letter-spacing: .008rem;
     cursor: text;
   }
@@ -66,8 +80,15 @@ export default {
     }
   }
 }
+// 中间系统消息
+.message__block.toCenter {
+  margin: 0 auto;
+  filter: opacity(.8);
+  border-radius: .16rem;
+  color: $heavy_font_color;
+}
 // 左侧消息
-#message__block.toLeft {
+.message__block.toLeft {
   border-bottom-left-radius: .6rem;
   border-top-right-radius: .6rem;
   border-bottom-right-radius: .6rem;
@@ -97,7 +118,7 @@ export default {
   }
 }
 // 右侧消息
-#message__block.toRight {
+.message__block.toRight {
   border-bottom-left-radius: .6rem;
   border-top-left-radius: .6rem;
   border-bottom-right-radius: .6rem;
@@ -117,6 +138,7 @@ export default {
 
   span {
     color: #fff;
+    margin-left: .1rem;
   }
   a {
     color: $signUp_key_color;

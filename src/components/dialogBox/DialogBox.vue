@@ -1,8 +1,8 @@
 <template>
-  <div class="dialog__box__wrapper">
-    <v-header title="庸の锌小子" simple />
+  <div class="dialog__box__wrapper" v-if="getCurTarget.gname || getCurTarget.email" >
+    <v-header :title="getCurTarget.gname || getCurTarget.email" simple />
     <main class="wrapper__content" :class="hideScroll ? 'hide_scroll' : ''" ref="mainRef">
-      <MsgList />
+      <MsgList :mainHeight="mainHeight" />
     </main>
     <div class="wrapper__footer">
       <!-- textArea 上方工具栏 -->
@@ -22,6 +22,7 @@
 import InputArea from './InputArea.vue'
 import MsgList from './MsgList.vue'
 import VHeader from '../VHeader.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dialog',
@@ -32,19 +33,27 @@ export default {
   },
   data () {
     return {
-      hideScroll: true
+      hideScroll: true,
+      mainHeight: 0
     }
   },
+  computed: {
+    ...mapGetters(['getCurTarget'])
+  },
   mounted () {
-    this.$nextTick(() => {
-      this.$refs.mainRef.addEventListener('scroll', () => {
-        clearTimeout(this.timer)
-        this.hideScroll = false
-        this.timer = setTimeout(() => {
-          this.hideScroll = true
-        }, 600)
+    if (this.getCurTarget.gname || this.getCurTarget.email) {
+      this.mainHeight = this.$refs.mainRef.scrollHeight
+      this.$refs.mainRef.scrollTop = this.$refs.mainRef.scrollHeight
+      this.$nextTick(() => {
+        this.$refs.mainRef.addEventListener('scroll', () => {
+          clearTimeout(this.timer)
+          this.hideScroll = false
+          this.timer = setTimeout(() => {
+            this.hideScroll = true
+          }, 600)
+        })
       })
-    })
+    }
   },
   beforeDestroy () {
     this.$refs.mainRef.removeEventListener('scroll', () => {
@@ -68,7 +77,9 @@ export default {
   .wrapper__content {
     flex: 1;
     overflow-y: scroll;
-    padding: 0.14rem .1rem;
+    margin-bottom: 0.14rem;
+    padding: 0 .1rem;
+    transition: all .5s ease-out;
   }
 
   .wrapper__footer {

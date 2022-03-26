@@ -53,7 +53,6 @@ export default {
   padding: 0.5rem;
   border-radius: .2rem;
   position: relative;
-  // box-shadow: 0 .03rem .01rem -.2rem rgba(0,0,0,0), 0 .06rem .2rem .02rem rgba(0,0,0,.14), 0 .06rem .06rem 0 rgba(0,0,0,.12);
   box-shadow: -.12rem .16rem .06rem -.1rem $border_color, 0 .12rem .12rem -.12rem $border_color, .12rem .16rem .06rem -.1rem $border_color,;
   .right__avatar {
     position: absolute;

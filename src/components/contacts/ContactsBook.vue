@@ -68,7 +68,6 @@ export default {
       }
       span {
         display: inline-block;
-        font-family: 'PingFang SC';
         font-size: 0.12rem;
         color: #333;
         transform: scale(.9);

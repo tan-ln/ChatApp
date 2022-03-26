@@ -16,17 +16,25 @@ const router = new Router({
       path: '/',
       name: 'home',
       components: {
-        'subPage': resolve => require(['@/components/msgCollection/MsgCollection'], resolve),
-        'mainPage': resolve => require(['@/components/dialogBox/DialogBox'], resolve)
+        'subPage': resolve => require(['@/components/home/Home'], resolve),
+        'mainPage': resolve => require(['@/components/home/Sider'], resolve)
       }
     },
     {
-      path: '/messages',
+      path: '/messages/:target?',
       name: 'messages',
       components: {
         'subPage': resolve => require(['@/components/msgCollection/MsgCollection'], resolve),
         'mainPage': resolve => require(['@/components/dialogBox/DialogBox'], resolve)
       }
+      // ,
+      // beforeEnter (to, from, next) {
+      //   const target = to.params.target
+      //   if (target) {
+      //     sessionStorage.setItem('__target', JSON.stringify({ name: target, info: {} }))
+      //   }
+      //   next()
+      // }
     },
     {
       path: '/contacts',

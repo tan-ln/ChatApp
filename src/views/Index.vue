@@ -13,15 +13,16 @@ import NavBar from '@/components/navBar/NavBar'
 export default {
   name: 'Index',
   components: { NavBar, SubPage, MainPage },
-  mounted: function () {},
+  mounted: function () {
+    this.$store.dispatch('reqRootGroup')
+  },
   sockets: {
-    // rootgroup
-    getRootGroup (res) {
-      this.$store.commit('saveGroups', res)
-    },
     // 广播消息
     __broadcast (data) {
       this.$store.commit('setConversations', data)
+      if (data.type === 'signup') {
+        this.$store.dispatch('reqRootGroup')
+      }
     }
   }
 }

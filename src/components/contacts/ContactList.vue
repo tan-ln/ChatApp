@@ -6,7 +6,7 @@
       <!-- contacts entry -->
       <div
         class="contacts__list"
-        :class="{ 'activeId': item.name == '坏东C' }"
+        :class="{ 'actived__content': item.name == '坏东C' }"
         v-for="(item, idx) in val"
         :key="idx + item.name"
       >
@@ -117,17 +117,12 @@ export default {
       font-size: 0.1rem;
       width: 0.14rem;
       height: 0.14rem;
-      font-family: -apple-system, sans-serif;
       text-align: center;
       i.char {
         display: block;
         transform: scale(.6);
       }
     }
-  }
-  .activeId {
-    // background-color: $actived__bg__color;
-    background: linear-gradient(to left, $bg_color, $actived__bg__color);
   }
 }
 </style>

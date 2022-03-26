@@ -1,5 +1,5 @@
 <template>
-  <div id="bubble__wrapper" :class="num ? 'hasNum' : 'nan'">
+  <div class="bubble__wrapper" :class="num ? 'hasNum' : 'nan'">
     <span class="bubble__num" v-if="num">{{num}}</span>
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
 </script>
 
 <style lang="scss">
-#bubble__wrapper {
+.bubble__wrapper {
   position: absolute;
   background-color: rgb(233, 60, 60);
   border-radius: 1rem;

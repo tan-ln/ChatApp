@@ -28,10 +28,14 @@
 ![contact books](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/contact.png)
 
 
+`group chatting`
+![group chatting](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/group-1.png)
+![group chatting](http://r8txnxmmq.hn-bkt.clouddn.com/images/shot/group-2.png)
+
 ## 功能
 - [x] 登陆注册
+- [x] 群聊
 - [ ] 单聊
-- [ ] 群聊
 - [ ] 历史消息
 - [ ] 图片发送
 - [ ] 文件发送
@@ -42,8 +46,8 @@
 - [ ] 消息已读提醒
 - [ ] 好友分组
 - [ ] 好友备注
-- [ ] 好友上线提醒
-- [ ] 在线用户头像高亮
+- [x] 好友上线提醒
+- [x] 在线用户头像高亮
 - [ ] 添加好友
 - [ ] 添加群聊
 - [ ] 朋友圈功能

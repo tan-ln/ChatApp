@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'InputArea',
   data () {
@@ -22,10 +23,25 @@ export default {
       focus: false
     }
   },
+  computed: {
+    ...mapState(['__self', '__target'])
+  },
   methods: {
     handleEnterSubmit (e) {
       e.preventDefault()
-      console.log('submit')
+      if (this.textContent === '') return
+      const data = {
+        from: this.__self.userInfo.email,
+        to: 'all',
+        group: this.__target.gname || this.__target.email,
+        content: this.textContent,
+        type: 'text',
+        timestamp: Date.now()
+      }
+      // this.$store.commit('setConversations', { data })
+      this.$socket.emit('msg:dispatch', data)
+      this.textContent = ''
+      this.focus = false
     },
     handleLineFeed () {
       // Ctrl + Enter 换行
@@ -51,10 +67,9 @@ export default {
   display: flex;
   textarea {
     flex: 1;
-    font-family: 'Comic Sans MS', PingFang SC;
-    font-size: 0.12rem;
+    font-size: 0.13rem;
     color: $dark_font_color;
-    letter-spacing: .006rem;
+    letter-spacing: .01rem;
 
     &::placeholder {
       font-size: 0.12rem;

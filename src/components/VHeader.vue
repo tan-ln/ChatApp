@@ -1,5 +1,5 @@
 <template>
-  <div id="v__header__wrapper" class="wrapper__header">
+  <div class="wrapper__header">
     <div class="wrapper__header--left">
       <h2 class="wrapper__header--title" :class="simple !== undefined ? 'simpleStyle' : ''">{{title}}</h2>
       <div class="wrapper__header--icon" v-if="bubble !== undefined">
@@ -61,15 +61,15 @@ export default {
     position: relative;
   }
   &--title {
-    font-size: 0.16rem;
+    font-size: 0.18rem;
     margin-right: .04rem;
     color: #333;
-    font-family: 'Comic Sans MS', PingFang SC;
+    // font-family: 'Comic Sans MS', PingFang SC;
     font-weight: 600;
   }
   &--title.simpleStyle {
     font-weight: 400;
-    font-size: 0.16rem;
+    font-size: 0.18rem;
   }
   &--icon {
     position: absolute;
@@ -92,7 +92,6 @@ export default {
         border-radius: 2rem;
         transition: .3s ease-in-out;
         font-size: 0.12rem;
-        font-family: 'Comic Sans MS', PingFang SC;
       }
       .opts__icon {
         font-size: 0.12rem;

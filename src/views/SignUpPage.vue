@@ -16,11 +16,15 @@ export default {
     Swiper
   },
   beforeRouteLeave (to, from, next) {
-    const { userInfo } = this.$store.state.__self
-    this.$socket.emit('user:goOnLine', userInfo, from.name)
-    this.sockets.subscribe('__broadcast', data => {
-      this.$store.commit('setConversations', data)
-    })
+    if (to.name === 'home') {
+      const { userInfo } = this.$store.state.__self
+      this.$socket.emit('user:goOnLine', userInfo, from.name)
+      this.sockets.subscribe('__broadcast', data => {
+        this.$store.commit('setConversations', data)
+      })
+      this.$store.dispatch('reqRootGroup')
+      this.$store.dispatch('reqGroupInfo')
+    }
     next()
   },
   destroyed () {
