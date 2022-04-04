@@ -1,11 +1,16 @@
 <template>
   <div id="dialog__list" class="dialog__list__wrapper" ref="dialog__list__wrapper">
     <!-- <div class="sys_time">{{ getSysTime() }}</div> -->
-    <div class="dialog__item" :class="{ 'flexEnd': item.from === __self.userInfo.email }" v-for="item in getCurMsgQueue" :key="item.timestamp + item.content" ref="msgRef">
+    <div class="dialog__item"
+      :class="{ 'flexEnd': item.from === __self.userInfo.email, 'animate__animated animate__slideInUp': !cleanSide && idx === getCurMsgQueue.length - 1 }"
+      v-for="(item, idx) in getCurMsgQueue"
+      :key="item.timestamp + item.content"
+      ref="msgRef"
+    >
       <div class="dialog__item--avatar" v-if="item.from !== 'root'">
         <img :src="getImgUrl(item.from)" :alt="item.from" >
       </div>
-      <Message :msg="item.content" :sender="item.from" />
+      <Message :msg="item.content" :sender="item.from"/>
     </div>
   </div>
 </template>
@@ -16,6 +21,9 @@ import Message from './Message.vue'
 export default {
   name: 'MsgList',
   props: ['mainHeight'],
+  data () {
+    return { cleanSide: true }
+  },
   components: { Message },
   computed: {
     ...mapGetters(['getCurMsgQueue', '__self'])
@@ -36,12 +44,19 @@ export default {
       return url
     }
   },
+  mounted () {
+    this.$emit('attachScroll')
+  },
   updated () {
     const ele = this.$refs.dialog__list__wrapper
-    if (this.mainHeight > ele.clientHeight) return
-    const msgEl = this.$refs.msgRef
-    const lastEl = msgEl.reverse()[0]
-    lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
+    if (this.mainHeight < ele.clientHeight) {
+      this.cleanSide = true
+      const msgEl = this.$refs.msgRef
+      const lastEl = msgEl.reverse()[0]
+      lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
+    } else {
+      this.cleanSide = false
+    }
   }
 }
 </script>

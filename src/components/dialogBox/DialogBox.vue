@@ -2,7 +2,7 @@
   <div class="dialog__box__wrapper" v-if="getCurTarget.gname || getCurTarget.email" >
     <v-header :title="getCurTarget.gname || getCurTarget.email" simple />
     <main class="wrapper__content" :class="hideScroll ? 'hide_scroll' : ''" ref="mainRef">
-      <MsgList :mainHeight="mainHeight" />
+      <MsgList :mainHeight="mainHeight" :attachScroll="attachScroll()" />
     </main>
     <div class="wrapper__footer">
       <!-- textArea 上方工具栏 -->
@@ -40,25 +40,29 @@ export default {
   computed: {
     ...mapGetters(['getCurTarget'])
   },
-  mounted () {
-    if (this.getCurTarget.gname || this.getCurTarget.email) {
-      this.mainHeight = this.$refs.mainRef.scrollHeight
-      this.$refs.mainRef.scrollTop = this.$refs.mainRef.scrollHeight
+  methods: {
+    attachScroll () {
       this.$nextTick(() => {
-        this.$refs.mainRef.addEventListener('scroll', () => {
-          clearTimeout(this.timer)
-          this.hideScroll = false
-          this.timer = setTimeout(() => {
-            this.hideScroll = true
-          }, 600)
-        })
+        this.mainHeight = this.$refs.mainRef.scrollHeight
+        // this.$refs.mainRef.addEventListener('scroll', () => {
+        //   clearTimeout(this.timer)
+        //   this.hideScroll = false
+        //   this.timer = setTimeout(() => {
+        //     this.hideScroll = true
+        //   }, 600)
+        // })
       })
     }
   },
+  mounted () {
+    if (this.$refs.mainRef) {
+      this.$refs.mainRef.scrollTop = this.$refs.mainRef.scrollHeight
+    }
+  },
   beforeDestroy () {
-    this.$refs.mainRef.removeEventListener('scroll', () => {
-      clearTimeout(this.timer)
-    })
+    // this.$refs.mainRef.removeEventListener('scroll', () => {
+    //   clearTimeout(this.timer)
+    // })
   }
 }
 </script>

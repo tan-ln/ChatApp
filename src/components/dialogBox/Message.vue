@@ -1,8 +1,9 @@
 <template>
   <div class="message__block" v-if="msg" :class="msgStyle()">
-    <span v-html="parseMsg"></span>
+    <span v-if="parseMsg" v-html="parseMsg"></span>
+    <span v-else v-text="msg"></span>
     <!-- 空元素 用于消息气泡 -->
-    <div></div>
+    <div class="msg__bubble"></div>
   </div>
 </template>
 
@@ -21,12 +22,12 @@ export default {
         const res = isURL(this.msg)
         if (res) {
           res.forEach(item => {
-            data = data.replace(item, `<a href="${item}" target="_blank">${item}</a>`)
+            data = data.replace(item, ` <a href="${item}" target="_blank">${item}</a> `)
           })
           return data
         }
       }
-      return this.msg
+      return false
     },
     ...mapState(['__self'])
   },
@@ -105,7 +106,7 @@ export default {
     border: .14rem solid;
     border-color:  $bg_color transparent transparent;
   }
-  div {
+  .msg__bubble {
     position: absolute;
     top: 0;
     left: -.16rem;
@@ -144,7 +145,7 @@ export default {
     color: $signUp_key_color;
   }
 
-  div {
+  .msg__bubble {
     position: absolute;
     top: -.01rem;
     right: -.16rem;

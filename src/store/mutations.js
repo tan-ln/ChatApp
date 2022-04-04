@@ -69,10 +69,15 @@ export default {
     const lastQueue = state.lastMsgQueue
     if (lastQueue.length > 0) {
       let temp = true
+      const target = state.__target
       // 在聊天列表中
       lastQueue.forEach((item, idx) => {
         if (item.msg.group === data.group || item.msg.from === data.from) {
-          item.unreadNum++
+          if (item.msg.group === target.gname || item.msg.from === target.gname) {
+            item.unreadNum = 0
+          } else {
+            item.unreadNum++
+          }
           // 对象合并
           item.msg = data
           temp = false
@@ -122,6 +127,18 @@ export default {
     state.curMsgQueue = state.msgQueue[state.__target.gname || state.__target.email].list
     // 从 user 获取 info
     sessionStorage.setItem('__target', JSON.stringify(state.__target))
+    // 清零 未读
+    const resetUnReadNum = function () {
+      const lastMsgQueue = state.lastMsgQueue
+      const target = state.__target
+      lastMsgQueue.forEach(item => {
+        if (item.msg.group === target.gname || item.msg.from === target.email) {
+          item.unreadNum = 0
+        }
+      })
+      sessionStorage.setItem('lastMsgQueue', JSON.stringify(state.lastMsgQueue))
+    }
+    resetUnReadNum()
   },
 
   // 本地存储
@@ -130,7 +147,7 @@ export default {
     const msgQueue = JSON.parse(sessionStorage.getItem('msgQueue'))
     const lastMsgQueue = JSON.parse(sessionStorage.getItem('lastMsgQueue'))
     const target = sessionStorage.getItem('__target') ? JSON.parse(sessionStorage.getItem('__target')) : false
-    const curMsgQueue = msgQueue[target.gname || target.email].list
+    const curMsgQueue = target ? msgQueue[target.gname || target.email].list : false
     state.msgQueue = msgQueue
     state.lastMsgQueue = lastMsgQueue
     state.__target = target || {}

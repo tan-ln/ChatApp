@@ -84,7 +84,7 @@ video {
     /* -webkit-user-select: none;
             user-select: none; */
     -webkit-tap-highlight-color: transparent;
-    font-family: PingFang-Bold;
+    font-family: SourceHanSansCN-Regular PingFang-Bold;
 }
 a[href^="javascript"]{-webkit-touch-callout: none;}
 
@@ -130,7 +130,8 @@ table {
 }
 
 body {
-    font: 13px/1.5 PingFang-Bold !important;
+    font: 13px/1.5 SourceHanSansCN-Regular !important;
+    /* font: 13px/1.5 SourceHanSansCN-Regular PingFang-Bold !important; */
 }
 
 h1,

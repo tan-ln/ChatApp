@@ -28,38 +28,9 @@ const state = {
     setting: { title: 'Setting', name: 'setting', fontCode: '&#xe8b8;' },
     darkMode: { title: 'Collections', name: 'collections', fontCode: '&#xe664;' }
   },
-  /**
-   * link_id: msgList[msg...]
-   *
-   * link_id: socket 连接id
-   * msg: {
-   *  from: '',       // sender id
-   *  to: '',         // receiver id
-   *  timeStamp: '',
-   *  type: 'text',  // text | emoji | image | file | voice
-   *  content: '',
-   *  read: true     // read or unread => true/false
-   * }
-   */
-  // 消息队列
-  // {
-  //   'app': {
-  //     list: []
-  //   },
-  //   ...
-  // }
   msgQueue: {},
   // 最近消息列表
   lastMsgQueue: [],
-  // {
-  //   id: '',
-  //   // 未读消息条数
-  //   unreadNum: 0,
-  //   // 消息置顶
-  //   top: false,
-  //   // 消息免打扰
-  //   mute: true
-  // }
   contactsBook: [],
   groups: [],
   errorno: {},
