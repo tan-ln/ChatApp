@@ -34,7 +34,7 @@ export default {
         from: this.__self.userInfo.email,
         to: 'all',
         group: this.__target.gname || this.__target.email,
-        content: this.textContent,
+        content: this.textContent.trim(),
         type: 'text',
         timestamp: Date.now()
       }

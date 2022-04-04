@@ -1,7 +1,7 @@
 <template>
   <div class="message__block" v-if="msg" :class="msgStyle()">
-    <span v-if="parseMsg" v-html="parseMsg"></span>
-    <span v-else v-text="msg"></span>
+    <pre v-if="parseMsg" v-html="parseMsg"></pre>
+    <pre v-else v-text="msg"></pre>
     <!-- 空元素 用于消息气泡 -->
     <div class="msg__bubble"></div>
   </div>
@@ -53,11 +53,13 @@ export default {
   top: 0.04rem;
   // border: .01rem solid $border_color;
   max-width: 4.8rem;
-  span {
+  pre {
     display: inline-block;
     font-size: 0.12rem;
     // transform: scale(.96);
     letter-spacing: .008rem;
+    // 识别换行
+    white-space: pre-wrap;
     cursor: text;
   }
   a {
@@ -65,7 +67,7 @@ export default {
     text-decoration: underline;
     cursor: pointer;
   }
-  span, a{
+  pre, a{
     /* 文字选中 */
     &::selection {
       background-color: $selection_color;
@@ -90,9 +92,9 @@ export default {
 }
 // 左侧消息
 .message__block.toLeft {
-  border-bottom-left-radius: .6rem;
-  border-top-right-radius: .6rem;
-  border-bottom-right-radius: .6rem;
+  border-bottom-left-radius: .16rem;
+  border-top-right-radius: .16rem;
+  border-bottom-right-radius: .16rem;
   background-color: $bg_color;
   margin-left: .2rem;
   box-shadow: .02rem .04rem .06rem $shadow_color;
@@ -120,9 +122,9 @@ export default {
 }
 // 右侧消息
 .message__block.toRight {
-  border-bottom-left-radius: .6rem;
-  border-top-left-radius: .6rem;
-  border-bottom-right-radius: .6rem;
+  border-bottom-left-radius: .16rem;
+  border-top-left-radius: .16rem;
+  border-bottom-right-radius: .16rem;
   background-color: $msg_bg_color;
   margin-right: .2rem;
   box-shadow: -.02rem .04rem .06rem $shadow_color;
@@ -137,9 +139,8 @@ export default {
     border-color:  $msg_bg_color transparent transparent;
   }
 
-  span {
+  pre {
     color: #fff;
-    margin-left: .1rem;
   }
   a {
     color: $signUp_key_color;

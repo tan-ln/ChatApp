@@ -212,3 +212,8 @@ element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 - inline 可选   
 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
 
+
+## HTML 标签换行问题
+使用 `<pre>` 标签会保留换行和空格
+
+搭配 `white-space: pre-wrap;`
