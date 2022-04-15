@@ -1,9 +1,11 @@
 <template>
   <div class="dialog__box__wrapper" v-if="getCurTarget.gname || getCurTarget.email" >
-    <v-header :title="getCurTarget.gname || getCurTarget.email" simple />
+    <v-header :title="getCurTarget.gname || getCurTarget.email" simple fold />
+    <!-- 消息列表 -->
     <main class="wrapper__content" :class="hideScroll ? 'hide_scroll' : ''" ref="mainRef">
       <MsgList :mainHeight="mainHeight" :attachScroll="attachScroll()" />
     </main>
+    <!-- 输入框 -->
     <div class="wrapper__footer">
       <!-- textArea 上方工具栏 -->
       <div class="tool__list">
@@ -15,12 +17,15 @@
       </div>
       <InputArea />
     </div>
+    <!-- 右侧扩展栏 -->
+    <ExtendsBar v-if="this.$store.state.showExtends" />
   </div>
 </template>
 
 <script>
 import InputArea from './InputArea.vue'
 import MsgList from './MsgList.vue'
+import ExtendsBar from './ExtendsBar.vue'
 import VHeader from '../VHeader.vue'
 import { mapGetters } from 'vuex'
 
@@ -29,7 +34,8 @@ export default {
   components: {
     MsgList,
     InputArea,
-    'v-header': VHeader
+    'v-header': VHeader,
+    ExtendsBar
   },
   data () {
     return {

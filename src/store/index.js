@@ -37,7 +37,8 @@ const state = {
   // 过场动画反转
   flipAni: false,
   // modal 弹窗
-  modal: { show: false, title: '', msg: '' }
+  modal: { show: false, title: '', msg: '' },
+  showExtends: false
 }
 
 export default new Vuex.Store({

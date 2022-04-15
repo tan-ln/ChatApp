@@ -12,6 +12,9 @@
         <i class="opts__icon iconfont" v-html="keywords ? '&#xe60f;' : '&#xe782;'" @click="handleClickClean"></i>
       </div>
     </div>
+    <div class="wrapper__header--right tool__btns" v-if="fold !== undefined" title="open details" @click="handleClickExtends">
+      <i class="iconfont tool__btns--more">&#xe613;</i>
+    </div>
   </div>
 </template>
 
@@ -22,7 +25,7 @@ export default {
   components: {
     Bubble
   },
-  props: ['title', 'bubble', 'input', 'simple'],
+  props: ['title', 'bubble', 'input', 'simple', 'fold'],
   data () {
     return {
       keywords: ''
@@ -40,6 +43,9 @@ export default {
     },
     handleClickClean () {
       this.keywords = ''
+    },
+    handleClickExtends () {
+      this.$store.commit('showExtends')
     }
   }
 }
@@ -108,6 +114,14 @@ export default {
     position: absolute;
     bottom: -.06rem ;
     border-bottom: .01rem solid $border_color;
+  }
+  .tool__btns {
+    cursor: pointer;
+    color: $heavy_font_color;
+    bottom: -.06rem;
+    &--more {
+      font-size: .18rem;
+    }
   }
 }
 </style>

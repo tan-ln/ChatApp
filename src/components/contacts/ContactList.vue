@@ -119,6 +119,7 @@ export default {
       height: 0.14rem;
       text-align: center;
       i.char {
+        font-family: Arial, Helvetica, sans-serif;
         display: block;
         transform: scale(.6);
       }

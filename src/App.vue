@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @click="handleClick">
     <div id="root" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'">
       <!-- func page -->
       <Index v-if="getAuthState && mainPage" />
@@ -35,6 +35,9 @@ export default {
   methods: {
     handleClickTestBtn () {
       this.$store.commit('showModal')
+    },
+    handleClick () {
+      this.$store.commit('showExtends', false)
     }
   }
 }

@@ -31,6 +31,9 @@ export default {
   hideModal (state) {
     state.modal.show = false
   },
+  showExtends (state, payload) {
+    state.showExtends = payload || !state.showExtends
+  },
   // 消息列表
   getMsgList (state, payload) {
     state.msgList = payload
