@@ -44,7 +44,7 @@ export default {
   flex-direction: row;
   align-items: center;
   padding: .06rem .1rem;
-  width: 2.5rem;
+  width: 2.42rem;
   font-size: 0.12rem;
   position: relative;
   cursor: pointer;

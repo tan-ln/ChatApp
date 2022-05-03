@@ -1,6 +1,6 @@
 <template>
-  <div id="app" @click="handleClick">
-    <div id="root" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'">
+  <div id="app">
+    <div id="root" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'" :style="{ width: getExtendStatus ? '12rem' : '9.58rem' }">
       <!-- func page -->
       <Index v-if="getAuthState && mainPage" />
 
@@ -9,7 +9,6 @@
     </div>
     <!-- modal 弹窗 -->
     <Modal v-if="getModalState.show" />
-    <!-- <div class="test__btn" @click="handleClickTestBtn">button</div> -->
   </div>
 </template>
 
@@ -22,7 +21,7 @@ export default {
   name: 'App',
   components: { Index, Modal },
   computed: {
-    ...mapGetters(['getAuthState', 'getFlipAni', 'getModalState']),
+    ...mapGetters(['getAuthState', 'getFlipAni', 'getModalState', 'getExtendStatus']),
     mainPage () {
       return this.$route.name !== 'signin' && this.$route.name !== 'signup'
     }
@@ -31,14 +30,6 @@ export default {
     this.$store.commit('syncStorage')
     this.$store.commit('getUserInfo')
     this.$store.commit('changeFlipAni', false)
-  },
-  methods: {
-    handleClickTestBtn () {
-      this.$store.commit('showModal')
-    },
-    handleClick () {
-      this.$store.commit('showExtends', false)
-    }
   }
 }
 </script>
@@ -55,7 +46,7 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  width: 10rem;
+  width: 9.58rem;
   height: 6.8rem;
   position: relative;
   margin: 0 auto;
@@ -64,6 +55,7 @@ export default {
   box-shadow: 0 .03rem .01rem -.2rem rgba(0,0,0,.2), 0 .06rem .2rem .02rem rgba(0,0,0,.14), 0 .06rem .06rem 0 rgba(0,0,0,.12);
   border-width: thin;
   z-index: 9;
+  transition: all .25s;
 }
 
 .actived__content {

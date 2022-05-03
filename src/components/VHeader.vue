@@ -45,7 +45,7 @@ export default {
       this.keywords = ''
     },
     handleClickExtends () {
-      this.$store.commit('showExtends')
+      this.$store.commit('showExtends', !this.$store.state.showExtends)
     }
   }
 }
@@ -70,7 +70,6 @@ export default {
     font-size: 0.18rem;
     margin-right: .04rem;
     color: #333;
-    // font-family: 'Comic Sans MS', PingFang SC;
     font-weight: 600;
   }
   &--title.simpleStyle {
@@ -118,7 +117,8 @@ export default {
   .tool__btns {
     cursor: pointer;
     color: $heavy_font_color;
-    bottom: -.06rem;
+    position: absolute;
+    bottom: -.04rem;
     &--more {
       font-size: .18rem;
     }

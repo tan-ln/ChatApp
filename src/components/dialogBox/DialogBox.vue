@@ -1,5 +1,5 @@
 <template>
-  <div class="dialog__box__wrapper" v-if="getCurTarget.gname || getCurTarget.email" >
+  <div class="dialog__box__wrapper" v-if="getCurTarget.gname || getCurTarget.email">
     <v-header :title="getCurTarget.gname || getCurTarget.email" simple fold />
     <!-- 消息列表 -->
     <main class="wrapper__content" :class="hideScroll ? 'hide_scroll' : ''" ref="mainRef">
@@ -18,7 +18,12 @@
       <InputArea />
     </div>
     <!-- 右侧扩展栏 -->
-    <ExtendsBar v-if="this.$store.state.showExtends" />
+    <!-- <transition
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+    > -->
+      <ExtendsBar v-if="this.$store.state.showExtends" />
+    <!-- </transition> -->
   </div>
 </template>
 
@@ -79,13 +84,14 @@ export default {
 .dialog__box__wrapper {
   box-sizing: border-box;
   flex: 1;
-  width: 6.4rem;
+  width: 6.06rem;
   height: 6.8rem;
   display: flex;
   flex-direction: column;
 
   .wrapper__content {
     flex: 1;
+    // width: 6.06rem;
     overflow-y: scroll;
     margin-bottom: 0.14rem;
     padding: 0 .1rem;
@@ -94,8 +100,10 @@ export default {
 
   .wrapper__footer {
     margin: 0.14rem .1rem;
+    // width: 5.86rem;
 
     .tool__list {
+      background-color: #FFF;
       i.iconfont {
         color: #444;
         font-size: 0.16rem;

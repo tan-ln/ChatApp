@@ -32,7 +32,7 @@ export default {
     state.modal.show = false
   },
   showExtends (state, payload) {
-    state.showExtends = payload || !state.showExtends
+    state.showExtends = typeof payload === 'undefined' ? !state.showExtends : payload
   },
   // 消息列表
   getMsgList (state, payload) {

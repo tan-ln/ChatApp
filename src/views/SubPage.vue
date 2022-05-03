@@ -16,7 +16,8 @@ export default {
 
 #sub__page {
   @include no_select;
-  width: 3.28rem;
+  width: 3.2rem;
+  // width: 3.28rem;
   height: 6.8rem;
   box-sizing: border-box;
   background-color: $bg_color;

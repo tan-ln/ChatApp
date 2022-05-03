@@ -16,3 +16,5 @@ export const getCurMsgQueue = state => state.curMsgQueue
 export const contactsBook = state => state.contactsBook
 
 export const getCurTarget = state => state.__target
+
+export const getExtendStatus = state => state.showExtends

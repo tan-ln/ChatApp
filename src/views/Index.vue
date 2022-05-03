@@ -1,7 +1,7 @@
 <template>
   <div id="index">
-    <NavBar />
-    <SubPage />
+    <NavBar @click.native="handleHideExtends" />
+    <SubPage @click.native="handleHideExtends" />
     <MainPage />
   </div>
 </template>
@@ -24,6 +24,11 @@ export default {
         this.$store.dispatch('reqRootGroup')
       }
     }
+  },
+  methods: {
+    handleHideExtends () {
+      this.$store.commit('showExtends', false)
+    }
   }
 }
 </script>
@@ -33,7 +38,5 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  width: 10rem;
-  height: 6.8rem;
 }
 </style>
