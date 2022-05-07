@@ -24,9 +24,9 @@
       <h2 class="files--title">Source Files</h2>
       <ul class="group-source-files">
         <li class="file-item" v-for="item in 10" :key="item">
-          <img class="file-img" src="" alt="">
+          <div class="file-img" v-html="getExt('母猪的产后护理.txt')"></div>
           <div class="file-content">
-            <h4 class="file-title">微信图片_20211006190623.jpg</h4>
+            <h4 class="file-title">母猪的产后护理.txt</h4>
           </div>
         </li>
       </ul>
@@ -36,6 +36,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ext2Svg from '../../assets/images/svg'
 export default {
   name: 'ExtendsBar',
   data () {
@@ -46,6 +47,12 @@ export default {
   },
   computed: {
     ...mapGetters(['getExtendStatus'])
+  },
+  methods: {
+    getExt (name) {
+      const ext = name.split('.').reverse()[0]
+      return ext2Svg(ext.toLocaleLowerCase())
+    }
   },
   mounted () {
     setTimeout(() => {
@@ -170,9 +177,15 @@ export default {
         .file-img {
           width: 0.4rem;
           height: 0.4rem;
-          background-color: rgb(233, 71, 71);
           border-radius: .12rem;
           margin-right: .1rem;
+          .icon {
+            width: .4rem;
+            height: .4rem;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+          }
         }
         .file-content {
           flex: 1;
