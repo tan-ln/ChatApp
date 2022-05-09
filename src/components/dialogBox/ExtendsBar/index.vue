@@ -1,32 +1,20 @@
 <template>
   <div class="extends__wrapper" v-if="!showLoading">
     <div class="extends__wrapper--header">
-      <img class="group-img" src="" alt="">
+      <img class="group-img" :src="target.gavatar || target.avatar" :alt="target.gname || target.email">
     </div>
     <div class="extends__wrapper--content">
+      <!-- group members -->
       <h2 class="extends--title">Group Members</h2>
-      <div class="group-members">
-        <div class="mine">
-          <img class="mine-img" src="" alt="">
-          <p class="mine-info">mine</p>
-        </div>
-        <div class="members-list-wrapper">
-          <ul class="members-list">
-            <li class="member-item" v-for="item in 6" :key="item">
-              <img src="" alt="">
-            </li>
-          </ul>
-          <div class="members-more" title="show more members">
-            <i class="iconfont">&#xe635;</i>
-          </div>
-        </div>
-      </div>
+      <Group-members :__self="__self" :member6="member6.list" :num="member6.num" />
+
+      <!-- group source files -->
       <h2 class="files--title">Source Files</h2>
       <ul class="group-source-files">
-        <li class="file-item" v-for="item in 10" :key="item">
-          <div class="file-img" v-html="getExt('母猪的产后护理.txt')"></div>
+        <li class="file-item" v-for="item in getSourceFiles" :key="item">
+          <div class="file-img" v-html="getExt(item)"></div>
           <div class="file-content">
-            <h4 class="file-title">母猪的产后护理.txt</h4>
+            <h4 class="file-title">{{ item }}</h4>
           </div>
         </li>
       </ul>
@@ -36,9 +24,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ext2Svg from '../../assets/images/svg'
+import GroupMembers from './GroupMembers.vue'
+import ext2Svg from '@/assets/images/svg'
 export default {
   name: 'ExtendsBar',
+  props: ['target', '__self', 'member6'],
+  components: {
+    'Group-members': GroupMembers
+  },
   data () {
     return {
       showLoading: true,
@@ -46,13 +39,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getExtendStatus'])
+    ...mapGetters(['getExtendStatus', 'getSourceFiles'])
   },
   methods: {
     getExt (name) {
       const ext = name.split('.').reverse()[0]
       return ext2Svg(ext.toLocaleLowerCase())
     }
+  },
+  beforeMount () {
+    // get source files
+    this.$store.dispatch('reqSourceFiles', this.target.gname)
   },
   mounted () {
     setTimeout(() => {
@@ -98,64 +95,6 @@ export default {
       font-weight: bold;
       font-size: .14rem;
       margin: .03rem 0;
-    }
-    .group-members {
-      width: 100%;
-      padding: 0.2rem 0;
-      border-bottom: .01rem solid $border_color;
-      display: flex;
-      flex-direction: row;
-      .mine {
-        text-align: center;
-        vertical-align: middle;
-        padding-left: .1rem;
-        cursor: pointer;
-        .mine-img {
-          display: block;
-          width: .64rem;
-          height: .64rem;
-          border-radius: 50%;
-          background-color: rgb(212, 142, 62);
-        }
-        .mine-info {
-          margin-top: .1rem;
-          font-size: .14rem;
-          font-weight: 600;
-          left: 0.2rem;
-          line-height: 0.2rem;
-          vertical-align: middle;
-        }
-      }
-      .members-list-wrapper {
-        width: calc(100% - .64rem);
-        .members-list {
-          height: 0.64rem;
-          .member-item {
-            float: left;
-            width: 0.28rem;
-            height: 0.28rem;
-            border-radius: 20%;
-            background-color: rgb(101, 248, 82);
-            margin-left: .11rem;
-            margin-bottom: 0.08rem;
-            cursor: pointer;
-          }
-        }
-      }
-      .members-more {
-        width: 100%;
-        margin-top: .1rem;
-        display: flex;
-        justify-content: space-around;
-        left: 0.2rem;
-        line-height: 0.2rem;
-        cursor: pointer;
-        i {
-          font-size: 0.12rem;
-          color: #333;
-          background-color: transparent;
-        }
-      }
     }
     .files--title {
       text-align: left;

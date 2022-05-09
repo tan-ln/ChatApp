@@ -17,9 +17,11 @@ export const reqRootGroup = async ({ commit }) => {
   res.code === 200 ? commit('saveGroups', { group: 'root', data: res.data }) : commit('showModal', { title: res.code, msg: res.message })
 }
 
-export const reqGroupInfo = async ({ commit }) => {
-  const res = await get(`/api/group/all-groups`)
-  res.code === 200 ? commit('saveAllGroups', res.data) : commit('showModal', { title: res.code, msg: res.message })
+export const reqSourceFiles = async ({ commit }, payload) => {
+  const res = await get(`/api/group/source-files`)
+  if (res.code === 200) {
+    commit('saveSourceFiles', res.data)
+  }
 }
 
 // 联系人列表

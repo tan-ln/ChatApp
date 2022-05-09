@@ -54,9 +54,13 @@ const ext2Svg = function (ext) {
       return zip
     case 'txt':
       return txt
-    case 'mp3' || 'flac':
+    case 'mp3':
+    case 'flac':
       return audio
-    case 'mp4' || 'avi' || 'mkv' || 'rmvb':
+    case 'mp4':
+    case 'avi':
+    case 'mkv':
+    case 'rmvb':
       return video
     default:
       return unknown

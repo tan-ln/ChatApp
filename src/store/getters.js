@@ -18,3 +18,5 @@ export const contactsBook = state => state.contactsBook
 export const getCurTarget = state => state.__target
 
 export const getExtendStatus = state => state.showExtends
+
+export const getSourceFiles = state => state.sourceFiles

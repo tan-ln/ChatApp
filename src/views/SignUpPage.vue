@@ -23,7 +23,6 @@ export default {
         this.$store.commit('setConversations', data)
       })
       this.$store.dispatch('reqRootGroup')
-      this.$store.dispatch('reqGroupInfo')
     }
     next()
   },

@@ -22,7 +22,7 @@
       enter-active-class="animate__animated animate__fadeIn"
       leave-active-class="animate__animated animate__fadeOut"
     > -->
-      <ExtendsBar v-if="this.$store.state.showExtends" />
+      <ExtendsBar v-if="this.$store.state.showExtends" :__self="__self.userInfo" :target="getCurTarget" :member6="member6" />
     <!-- </transition> -->
   </div>
 </template>
@@ -30,7 +30,7 @@
 <script>
 import InputArea from './InputArea.vue'
 import MsgList from './MsgList.vue'
-import ExtendsBar from './ExtendsBar.vue'
+import ExtendsBar from './ExtendsBar/index.vue'
 import VHeader from '../VHeader.vue'
 import { mapGetters } from 'vuex'
 
@@ -49,7 +49,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCurTarget'])
+    ...mapGetters(['getCurTarget', '__self']),
+    member6 () {
+      // total num
+      const arr = JSON.parse(this.getCurTarget.gmember)
+      // except me
+      const list = arr.filter(item => item.email !== this.__self.userInfo.email)
+      // add icon btn
+      const addImg = {
+        msg: 'add Friends',
+        avatar: 'http://127.0.0.1:5000/images/add.png'
+      }
+      // list max length 6
+      return {
+        num: arr.length,
+        list: [...list.slice(0, 5), addImg]
+      }
+    }
   },
   methods: {
     attachScroll () {

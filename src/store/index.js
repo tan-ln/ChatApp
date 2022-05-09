@@ -33,6 +33,8 @@ const state = {
   lastMsgQueue: [],
   contactsBook: [],
   groups: [],
+  rootGroup: {},
+  sourceFiles: [],
   errorno: {},
   // 过场动画反转
   flipAni: false,

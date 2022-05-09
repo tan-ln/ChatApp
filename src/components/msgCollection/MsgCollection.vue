@@ -3,7 +3,7 @@
     <v-header title="Messages" bubble input />
     <div class="warpper__content">
       <template v-for="(item) of getLastMsgQueue">
-        <MsgEntry :entry="item" :key="item.id" @click.native="handleClickMsgEntry(item.msg)" :target="getCurTarget" />
+        <MsgEntry :entry="item" :key="item.id" @click.native="handleClickMsgEntry(item.msg)" :target="getCurTarget" :rootGroup="rootGroup" />
       </template>
     </div>
   </div>
@@ -12,7 +12,7 @@
 <script>
 import MsgEntry from './MsgEntry.vue'
 import VHeader from '../VHeader.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'MsgCollection',
@@ -21,7 +21,8 @@ export default {
     'v-header': VHeader
   },
   computed: {
-    ...mapGetters(['getLastMsgQueue', 'getCurTarget'])
+    ...mapGetters(['getLastMsgQueue', 'getCurTarget']),
+    ...mapState(['rootGroup'])
   },
   methods: {
     handleClickMsgEntry (data) {

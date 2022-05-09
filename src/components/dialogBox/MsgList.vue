@@ -2,12 +2,15 @@
   <div id="dialog__list" class="dialog__list__wrapper" ref="dialog__list__wrapper">
     <!-- <div class="sys_time">{{ getSysTime() }}</div> -->
     <div class="dialog__item"
-      :class="{ 'flexEnd': item.from === __self.userInfo.email, 'animate__animated animate__slideInUp': !cleanSide && idx === getCurMsgQueue.length - 1 }"
+      :class="{
+        'flexEnd': item.from === __self.userInfo.email,
+        'animate__animated animate__slideInUp': !cleanSide && idx === getCurMsgQueue.length - 1
+      }"
       v-for="(item, idx) in getCurMsgQueue"
       :key="item.timestamp + item.content"
       ref="msgRef"
     >
-      <div class="dialog__item--avatar" v-if="item.from !== 'root'">
+      <div class="dialog__item--avatar" v-if="item.from !== 'app'">
         <img :src="getImgUrl(item.from)" :alt="item.from" >
       </div>
       <Message :msg="item.content" :sender="item.from"/>
@@ -26,7 +29,7 @@ export default {
   },
   components: { Message },
   computed: {
-    ...mapGetters(['getCurMsgQueue', '__self'])
+    ...mapGetters(['getCurMsgQueue', '__self', 'getCurTarget'])
   },
   methods: {
     getSysTime () {
@@ -35,12 +38,17 @@ export default {
     },
     getImgUrl (email) {
       let url = null
-      const all = JSON.parse(sessionStorage.getItem('root-group'))
-      all.map(item => {
-        if (item.email === email) {
-          url = item.avatar
-        }
-      })
+      // 群组消息
+      if (this.getCurTarget.gname) {
+        JSON.parse(this.getCurTarget.gmember).forEach(item => {
+          if (item.email === email) {
+            url = item.avatar
+          }
+        })
+      } else {
+        // 私聊消息
+        url = this.getCurTarget.avatar
+      }
       return url
     }
   },

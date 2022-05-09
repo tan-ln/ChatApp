@@ -19,10 +19,10 @@ export default {
   sockets: {
     // 广播消息
     __broadcast (data) {
-      this.$store.commit('setConversations', data)
       if (data.type === 'signup') {
         this.$store.dispatch('reqRootGroup')
       }
+      this.$store.commit('setConversations', data)
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div class="contact__card__wrapper" :class="{ 'actived__content' : entry.msg.group === target.gname || entry.msg.from === target.email }">
     <div class="wrapper__left__avatars">
-      <img :src="'http://127.0.0.1:5000/images/avatar/' + (entry.msg.group || entry.msg.from) + '.jpg'" :alt="entry.msg.group || entry.msg.from">
+      <img :src="entry.avatar || rootGroup.gavatar" :alt="entry.msg.group || entry.msg.from">
       <div class="wrapper__side--bubble" v-if="entry.unreadNum">
         <Bubble :num="entry.unreadNum" />
       </div>
@@ -25,7 +25,7 @@
 import Bubble from '../Bubble.vue'
 export default {
   name: 'MsgEntry',
-  props: ['entry', 'target'],
+  props: ['entry', 'target', 'rootGroup'],
   components: {
     Bubble
   },

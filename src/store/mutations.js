@@ -43,20 +43,24 @@ export default {
   },
   // set groups
   saveGroups (state, payload) {
-    // console.log(payload)
-    const rootGroup = state.groups[0]
-    if (rootGroup && rootGroup.group === 'root') {
-      state.groups[0] = payload.data
-    } else {
-      state.groups.unshift({ ...payload })
+    const { group, data } = payload
+    // 更新 __target
+    if (state.__target.gname && state.__target.gname === group) {
+      state.__target = data
     }
-    sessionStorage.setItem(payload.group + '-group', JSON.stringify(payload.data))
-  },
-  saveAllGroups (state, payload) {
-    state.groups = payload
-    sessionStorage.setItem('groups', JSON.stringify(payload))
+    // root group 单独保存
+    if (group === 'root') {
+      state.rootGroup = data
+      sessionStorage.setItem('root-group', JSON.stringify(state.rootGroup))
+    } else {
+      // 其他群组
+      // if (state.groups.length) {
+      //   state.groups.forEach(item => {})
+      // }
+    }
   },
 
+  // 聊天消息管理
   setConversations (state, payload) {
     const { data } = payload
     // 所有在线消息存储
@@ -67,6 +71,23 @@ export default {
     } else {
       // create
       state.msgQueue[data.group || data.from] = { list: [data] }
+    }
+
+    // 获取头像
+    function getAvatar () {
+      let avatar = ''
+      if (data.group) {
+        // 群聊
+        avatar = data.group === 'root' ? state.rootGroup.gavatar : (state.groups.map(item => item.gname === data.group)[0])
+      } else {
+        // 私聊
+        JSON.parse(state.rootGroup.gmember).map(item => {
+          if (item.email === data.from) {
+            avatar = item.avatar
+          }
+        })
+      }
+      return avatar
     }
     // 最近聊天列表更新
     const lastQueue = state.lastMsgQueue
@@ -83,6 +104,9 @@ export default {
           }
           // 对象合并
           item.msg = data
+          if (!item.avatar) {
+            lastQueue[idx]['avatar'] = getAvatar()
+          }
           temp = false
         }
       })
@@ -93,7 +117,8 @@ export default {
           id: data.timestamp + data.from,
           unreadNum: 1,
           top: false,
-          mute: false
+          mute: false,
+          avatar: getAvatar()
         })
       }
     } else {
@@ -103,7 +128,8 @@ export default {
         id: data.timestamp + data.from,
         unreadNum: 1,
         top: false,
-        mute: false
+        mute: false,
+        avatar: getAvatar()
       })
     }
     sessionStorage.setItem('msgQueue', JSON.stringify(state.msgQueue))
@@ -117,14 +143,18 @@ export default {
   // 当前聊天对象
   setCurrentChating (state, payload) {
     const { group, from } = payload
-    // 从 组列表 获取 info
+    const rootGroup = state.rootGroup
+    // 群组，从 rootGroup 或 groups 当中过滤
     if (group) {
-      const groups = JSON.parse(sessionStorage.getItem('groups'))
-      const data = groups.filter(item => item.gname === group)
-      state.__target = data[0]
+      // root group
+      if (group === 'root') {
+        state.__target = rootGroup
+      } else {
+        // 其他群组从 groups 筛选信息
+      }
     } else {
-      const groups = JSON.parse(sessionStorage.getItem('root-groups'))
-      const data = groups.filter(item => item.email === from)
+      // 好友信息，从 rootGroup 过滤
+      const data = rootGroup.filter(item => item.email === from)
       state.__target = data[0]
     }
     state.curMsgQueue = state.msgQueue[state.__target.gname || state.__target.email].list
@@ -155,6 +185,11 @@ export default {
     state.lastMsgQueue = lastMsgQueue
     state.__target = target || {}
     state.curMsgQueue = curMsgQueue || []
+  },
+
+  // source files
+  saveSourceFiles (state, payload) {
+    state.sourceFiles = payload
   },
 
   // error handler

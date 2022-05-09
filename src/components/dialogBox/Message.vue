@@ -17,7 +17,7 @@ export default {
     parseMsg () {
       let data = this.msg
       // 过滤 用户名
-      if (this.sender !== 'root') {
+      if (this.sender !== 'app') {
         // 过滤信息
         const res = isURL(this.msg)
         if (res) {
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     msgStyle () {
-      if (this.sender === 'root') {
+      if (this.sender === 'app') {
         return 'toCenter'
       } else if (this.sender === this.__self.userInfo.email) {
         return 'toRight'
