@@ -4,7 +4,7 @@
     <div class="dialog__item"
       :class="{
         'flexEnd': item.from === __self.userInfo.email,
-        'animate__animated animate__slideInUp': !cleanSide && idx === getCurMsgQueue.length - 1
+        'animate__animated animate__fadeInUp': !cleanSide && idx === getCurMsgQueue.length - 1
       }"
       v-for="(item, idx) in getCurMsgQueue"
       :key="item.timestamp + item.content"
@@ -57,6 +57,7 @@ export default {
   },
   updated () {
     const ele = this.$refs.dialog__list__wrapper
+    console.log(ele.clientHeight)
     if (this.mainHeight < ele.clientHeight) {
       this.cleanSide = true
       const msgEl = this.$refs.msgRef

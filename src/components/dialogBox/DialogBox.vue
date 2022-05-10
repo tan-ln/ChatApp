@@ -18,12 +18,7 @@
       <InputArea />
     </div>
     <!-- 右侧扩展栏 -->
-    <!-- <transition
-      enter-active-class="animate__animated animate__fadeIn"
-      leave-active-class="animate__animated animate__fadeOut"
-    > -->
-      <ExtendsBar v-if="this.$store.state.showExtends" :__self="__self.userInfo" :target="getCurTarget" :member6="member6" />
-    <!-- </transition> -->
+    <ExtendsBar v-if="this.$store.state.showExtends" :__self="__self.userInfo" :target="getCurTarget" :member6="member6" />
   </div>
 </template>
 

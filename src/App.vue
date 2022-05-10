@@ -1,12 +1,21 @@
 <template>
   <div id="app">
-    <div id="root" :class="getFlipAni ? 'animate__animated animate__flipInY' : 'animate__animated animate__fadeInDownBig'" :style="{ width: getExtendStatus ? '12rem' : '9.58rem' }">
-      <!-- func page -->
-      <Index v-if="getAuthState && mainPage" />
-
+    <div class="root_page"
+      :class="getFlipAni ? '' : 'animate__animated animate__fadeInDownBig'"
+      :style="{ width: getExtendStatus ? '12rem' : '9.58rem' }"
+    >
+      <transition
+        name="index"
+        :duration="800"
+        enter-active-class="animate__animated animate__fadeIn"
+      >
+        <!-- index page -->
+        <Index v-if="getAuthState && mainPage" />
+      </transition>
       <!-- signin/signup page -->
       <router-view name="default" />
     </div>
+
     <!-- modal 弹窗 -->
     <Modal v-if="getModalState.show" />
   </div>
@@ -42,7 +51,7 @@ export default {
 @import "assets/styles/lib/iconfont.css";
 @import "@/assets/styles/valiable.scss";
 
-#root {
+.root_page {
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -73,4 +82,5 @@ export default {
   left: 50%;
   bottom: 50%;
 }
+
 </style>

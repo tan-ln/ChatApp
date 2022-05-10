@@ -47,8 +47,8 @@ export default {
   data () {
     return {
       changeTitle: false,
-      email: '',
-      password: '',
+      email: '123@qq.com',
+      password: '123',
       illegal: false,
       loading: false
     }

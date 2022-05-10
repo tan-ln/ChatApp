@@ -69,8 +69,6 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const { isSignIn, userInfo } = sessionStorage
-  // let sess = Vue.$cookies.get('koa:sess')
-  // console.log('sess: ' + sess)
   const { name } = to
   if (!isSignIn || !userInfo || !JSON.parse(userInfo).email) {
     (name === 'signin' || name === 'signup')
