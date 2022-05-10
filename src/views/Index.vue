@@ -1,7 +1,7 @@
 <template>
   <div id="index">
-    <NavBar @click.native="handleHideExtends" />
-    <SubPage @click.native="handleHideExtends" />
+    <NavBar @click.native="handleHide" />
+    <SubPage />
     <MainPage />
   </div>
 </template>
@@ -26,8 +26,9 @@ export default {
     }
   },
   methods: {
-    handleHideExtends () {
+    handleHide () {
       this.$store.commit('showExtends', false)
+      this.$store.commit('showIDCard', false)
     }
   }
 }

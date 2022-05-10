@@ -34,7 +34,7 @@ export default {
   methods: {
     mouseOver () {
       const inputRef = this.$refs.inputRef
-      inputRef.style.width = '2.3rem'
+      inputRef.style.width = '2.24rem'
     },
     mouseLeave () {
       if (this.keywords) return

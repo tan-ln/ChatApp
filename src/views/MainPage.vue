@@ -9,7 +9,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'MainPage',
   computed: {
-    ...mapGetters(['getAuthState', 'getFlipAni', 'getModalState', 'getExtendStatus'])
+    ...mapGetters(['getExtendStatus'])
   }
 }
 </script>
@@ -18,8 +18,6 @@ export default {
 @import "@/assets/styles/valiable.scss";
 #main__page {
   box-sizing: border-box;
-  // width: 5.8rem;
-  // width: 6.8rem;
   height: 6.8rem;
   background-color: #FFF;
   border-left: .01rem solid $border_color;

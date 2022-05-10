@@ -18,6 +18,7 @@
           v-for="(item, idx) in member6"
           :key="item.uid"
           :title="item.email"
+          @click="() => handleClickMember(item)"
         >
           <img
             :src="item.avatar"
@@ -36,7 +37,13 @@
 <script>
 export default {
   name: 'GroupMembers',
-  props: ['__self', 'member6', 'num']
+  props: ['__self', 'member6', 'num'],
+  methods: {
+    handleClickMember (item) {
+      if (!item.email) return
+      this.$store.commit('showIDCard', item)
+    }
+  }
 }
 </script>
 

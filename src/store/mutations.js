@@ -187,6 +187,17 @@ export default {
     state.curMsgQueue = curMsgQueue || []
   },
 
+  // show ID Card
+  showIDCard (state, payload) {
+    console.log(payload)
+    if (payload) {
+      state.showIDCard = true
+      state.IDCard = payload
+    } else {
+      state.showIDCard = payload
+    }
+  },
+
   // source files
   saveSourceFiles (state, payload) {
     state.sourceFiles = payload

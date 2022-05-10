@@ -18,7 +18,15 @@
       <InputArea />
     </div>
     <!-- 右侧扩展栏 -->
-    <ExtendsBar v-if="this.$store.state.showExtends" :__self="__self.userInfo" :target="getCurTarget" :member6="member6" />
+    <ExtendsBar v-if="showExtends" :__self="__self.userInfo" :target="getCurTarget" :member6="member6" />
+    <!-- ID Card -->
+    <transition
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+      :duration="500"
+    >
+      <ID-Card v-if="showIDCard" :userInfo="IDCard" />
+    </transition>
   </div>
 </template>
 
@@ -27,7 +35,8 @@ import InputArea from './InputArea.vue'
 import MsgList from './MsgList.vue'
 import ExtendsBar from './ExtendsBar/index.vue'
 import VHeader from '../VHeader.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
+import IDCard from '../IDCard/index.vue'
 
 export default {
   name: 'Dialog',
@@ -35,7 +44,8 @@ export default {
     MsgList,
     InputArea,
     'v-header': VHeader,
-    ExtendsBar
+    ExtendsBar,
+    IDCard
   },
   data () {
     return {
@@ -45,6 +55,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getCurTarget', '__self']),
+    ...mapState(['showExtends', 'showIDCard', 'IDCard']),
     member6 () {
       // total num
       const arr = JSON.parse(this.getCurTarget.gmember)
@@ -99,6 +110,7 @@ export default {
   height: 6.8rem;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .wrapper__content {
     flex: 1;

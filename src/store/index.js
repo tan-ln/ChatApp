@@ -38,6 +38,8 @@ const state = {
   errorno: {},
   // 过场动画反转
   flipAni: false,
+  showIDCard: false,
+  IDCard: {},
   // modal 弹窗
   modal: { show: false, title: '', msg: '' },
   showExtends: false

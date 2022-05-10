@@ -64,14 +64,13 @@ export default {
 @import "@/assets/styles/mixins.scss";
 .extends__wrapper{
   box-sizing: border-box;
-  width: 2.28rem;
-  // height: 6.52rem;
-  // height: 5.86rem;
+  width: 2.26rem;
   position: absolute;
   top: 0.36rem;
-  right: .16rem;
+  right: -.16rem;
   bottom: .14rem;
   z-index: 0;
+  transform: translateX(100%);
   &--header {
     text-align: center;
     .group-img {

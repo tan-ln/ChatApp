@@ -6,19 +6,21 @@
       <!-- contacts entry -->
       <div
         class="contacts__list"
-        :class="{ 'actived__content': item.name == '坏东C' }"
+        :class="{ 'actived__content': item.username == active_id }"
         v-for="(item, idx) in val"
-        :key="idx + item.name"
+        :key="idx + item.username"
+        @click="() => handleClickContact(item)"
       >
         <!-- <i class="status" :class="{ 'online__status' : item.online }" :title="item.online ? 'online' : 'offline'"></i> -->
         <div class="avatar__box">
-          <img :src="item.avatar" :alt="item.name">
+          <img :src="item.avatar" :alt="item.username">
         </div>
-        <p class="contact__name">{{item.name}}</p>
+        <p class="contact__name">{{item.username}}</p>
       </div>
     </div>
     <!-- 字母索引 -->
-    <ul class="charList">
+    <!-- 移动端显示 -->
+    <ul class="charList" v-if="false">
       <li v-for="(char, key) in getEn()" :key="key">
         <i class="char">{{char}}</i>
       </li>
@@ -30,6 +32,11 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'ContactList',
+  data () {
+    return {
+      active_id: undefined
+    }
+  },
   computed: {
     ...mapGetters(['contactsBook'])
   },
@@ -40,6 +47,10 @@ export default {
         arr.push(String.fromCharCode(i))
       }
       return arr
+    },
+    handleClickContact (item) {
+      this.active_id = item.username
+      this.$store.commit('showIDCard', item)
     }
   }
 }
@@ -108,11 +119,11 @@ export default {
     }
   }
 
-  // 索引
+  // 索引 移动端显示
   .charList {
     position: fixed;
-    left: 3.1rem;
-    bottom: 1rem;
+    left: 3.6rem;
+    bottom: 1.6rem;
     li {
       font-size: 0.1rem;
       width: 0.14rem;
