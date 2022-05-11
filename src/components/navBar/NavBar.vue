@@ -32,14 +32,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'NavBar',
   computed: {
-    ...mapGetters({
-      __self: '__self',
-      navbar: 'navbar'
+    ...mapState({
+      __self: state => state.auth.__self,
+      navbar: state => state.navbar
     })
   },
   methods: {

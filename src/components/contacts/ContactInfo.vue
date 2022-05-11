@@ -16,7 +16,10 @@ export default {
     IDCard
   },
   computed: {
-    ...mapState(['showIDCard', 'IDCard'])
+    ...mapState('contact/', {
+      showIDCard: state => state.showIDCard,
+      IDCard: state => state.IDCard
+    })
   }
 }
 </script>

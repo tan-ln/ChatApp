@@ -24,7 +24,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['__self', '__target'])
+    ...mapState({
+      __self: state => state.auth.__self,
+      __target: state => state.auth.__target
+    })
   },
   methods: {
     handleEnterSubmit (e) {

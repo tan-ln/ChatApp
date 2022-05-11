@@ -49,11 +49,11 @@ export default {
   name: 'IDCard',
   props: ['userInfo'],
   computed: {
-    ...mapGetters(['isFriend'])
+    ...mapGetters('contact', ['isFriend'])
   },
   methods: {
     handleCloseIDCard () {
-      this.$store.commit('showIDCard', false)
+      this.$store.commit('contact/showIDCard', false)
     }
   }
 }

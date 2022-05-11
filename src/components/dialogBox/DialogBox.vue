@@ -1,6 +1,6 @@
 <template>
-  <div class="dialog__box__wrapper" v-if="getCurTarget.gname || getCurTarget.email">
-    <v-header :title="getCurTarget.gname || getCurTarget.email" simple fold />
+  <div class="dialog__box__wrapper" v-if="__target.gname || __target.email">
+    <v-header :title="__target.gname || __target.email" simple fold />
     <!-- 消息列表 -->
     <main class="wrapper__content" :class="hideScroll ? 'hide_scroll' : ''" ref="mainRef">
       <MsgList :mainHeight="mainHeight" :attachScroll="attachScroll()" />
@@ -18,7 +18,7 @@
       <InputArea />
     </div>
     <!-- 右侧扩展栏 -->
-    <ExtendsBar v-if="showExtends" :__self="__self.userInfo" :target="getCurTarget" :member6="member6" />
+    <ExtendsBar v-if="showExtends" :__self="__self.userInfo" :target="__target" :member6="member6" />
     <!-- ID Card -->
     <transition
       enter-active-class="animate__animated animate__fadeIn"
@@ -35,7 +35,7 @@ import InputArea from './InputArea.vue'
 import MsgList from './MsgList.vue'
 import ExtendsBar from './ExtendsBar/index.vue'
 import VHeader from '../VHeader.vue'
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import IDCard from '../IDCard/index.vue'
 
 export default {
@@ -54,11 +54,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCurTarget', '__self']),
-    ...mapState(['showExtends', 'showIDCard', 'IDCard']),
+    ...mapState({
+      showIDCard: state => state.contact.showIDCard,
+      IDCard: state => state.contact.IDCard,
+      __self: state => state.auth.__self,
+      __target: state => state.auth.__target,
+      showExtends: state => state.contact.showExtends
+    }),
     member6 () {
       // total num
-      const arr = JSON.parse(this.getCurTarget.gmember)
+      const arr = JSON.parse(this.__target.gmember)
       // except me
       const list = arr.filter(item => item.email !== this.__self.userInfo.email)
       // add icon btn

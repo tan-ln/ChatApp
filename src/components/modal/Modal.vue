@@ -28,12 +28,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Modal',
   computed: {
-    ...mapGetters(['getModalState'])
+    ...mapState({
+      getModalState: state => state.modal
+    })
   },
   methods: {
     handleMouseOver (e) {
@@ -46,7 +48,7 @@ export default {
     },
     handleClickOpt () {
       if (this.getModalState.title === 401) {
-        this.$store.commit('logout')
+        this.$store.commit('auth/logout')
         this.$router.go('/')
       }
       this.$store.commit('hideModal')

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import GroupMembers from './GroupMembers.vue'
 import ext2Svg from '@/assets/images/svg'
 export default {
@@ -39,7 +39,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getExtendStatus', 'getSourceFiles'])
+    ...mapState({
+      getExtendStatus: state => state.contact.showExtends,
+      getSourceFiles: state => state.contact.sourceFiles
+    })
   },
   methods: {
     getExt (name) {
@@ -49,7 +52,7 @@ export default {
   },
   beforeMount () {
     // get source files
-    this.$store.dispatch('reqSourceFiles', this.target.gname)
+    this.$store.dispatch('contact/reqSourceFiles', this.target.gname)
   },
   mounted () {
     setTimeout(() => {

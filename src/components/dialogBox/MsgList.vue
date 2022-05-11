@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import Message from './Message.vue'
 export default {
   name: 'MsgList',
@@ -29,7 +29,11 @@ export default {
   },
   components: { Message },
   computed: {
-    ...mapGetters(['getCurMsgQueue', '__self', 'getCurTarget'])
+    ...mapState({
+      __self: state => state.auth.__self,
+      __target: state => state.auth.__target,
+      getCurMsgQueue: state => state.chat.curMsgQueue
+    })
   },
   methods: {
     getSysTime () {
@@ -39,15 +43,15 @@ export default {
     getImgUrl (email) {
       let url = null
       // 群组消息
-      if (this.getCurTarget.gname) {
-        JSON.parse(this.getCurTarget.gmember).forEach(item => {
+      if (this.__target.gname) {
+        JSON.parse(this.__target.gmember).forEach(item => {
           if (item.email === email) {
             url = item.avatar
           }
         })
       } else {
         // 私聊消息
-        url = this.getCurTarget.avatar
+        url = this.__target.avatar
       }
       return url
     }
@@ -57,7 +61,7 @@ export default {
   },
   updated () {
     const ele = this.$refs.dialog__list__wrapper
-    console.log(ele.clientHeight)
+    // console.log(ele.clientHeight)
     if (this.mainHeight < ele.clientHeight) {
       this.cleanSide = true
       const msgEl = this.$refs.msgRef

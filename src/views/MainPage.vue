@@ -5,11 +5,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'MainPage',
   computed: {
-    ...mapGetters(['getExtendStatus'])
+    ...mapState({
+      getExtendStatus: state => state.contact.showExtends
+    })
   }
 }
 </script>

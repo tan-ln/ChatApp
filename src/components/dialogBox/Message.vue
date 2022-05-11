@@ -29,7 +29,9 @@ export default {
       }
       return false
     },
-    ...mapState(['__self'])
+    ...mapState({
+      __self: state => state.auth.__self
+    })
   },
   methods: {
     msgStyle () {

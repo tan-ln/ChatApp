@@ -1,0 +1,3 @@
+# Vuex
+
+当前模块的state和mutation中是无法获取其它模块的state，actions中可通过第一个参数中的rootState属性获取到其它模块state

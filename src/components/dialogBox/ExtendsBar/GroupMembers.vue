@@ -41,7 +41,7 @@ export default {
   methods: {
     handleClickMember (item) {
       if (!item.email) return
-      this.$store.commit('showIDCard', item)
+      this.$store.commit('contact/showIDCard', item)
     }
   }
 }

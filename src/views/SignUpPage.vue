@@ -8,6 +8,7 @@
 <script>
 import SignUp from '@/components/signUp/SignUp'
 import Swiper from '@/components/Swiper'
+import { mapState } from 'vuex'
 
 export default {
   name: 'SignUpPage',
@@ -15,14 +16,19 @@ export default {
     SignUp,
     Swiper
   },
+  computed: {
+    ...mapState({
+      __self: state => state.auth.__self
+    })
+  },
   beforeRouteLeave (to, from, next) {
     if (to.name === 'home') {
-      const { userInfo } = this.$store.state.__self
+      const { userInfo } = this.__self
+      this.$store.dispatch('contact/reqRootGroup')
       this.$socket.emit('user:goOnLine', userInfo, from.name)
       this.sockets.subscribe('__broadcast', data => {
-        this.$store.commit('setConversations', data)
+        this.$store.dispatch('chat/setConversations', data)
       })
-      this.$store.dispatch('reqRootGroup')
     }
     next()
   },

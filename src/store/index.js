@@ -2,17 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import mutations from './mutations'
-import * as getters from './getters'
-import * as actions from './actions'
+// import * as getters from './getters'
+// import * as actions from './actions'
+
+import auth from './modules/auth'
+import chat from './modules/chat'
+import contact from './modules/contact'
 
 Vue.use(Vuex)
 
 const state = {
-  // 当前用户
-  __self: { isSignIn: false, userInfo: {} },
-  // 当前聊天对象
-  __target: {},
-  curMsgQueue: [],
   // 导航栏
   navbar: {
     activeId: 0,
@@ -28,26 +27,22 @@ const state = {
     setting: { title: 'Setting', name: 'setting', fontCode: '&#xe8b8;' },
     darkMode: { title: 'Collections', name: 'collections', fontCode: '&#xe664;' }
   },
-  msgQueue: {},
-  // 最近消息列表
-  lastMsgQueue: [],
-  contactsBook: [],
-  groups: [],
-  rootGroup: {},
-  sourceFiles: [],
   errorno: {},
   // 过场动画反转
   flipAni: false,
-  showIDCard: false,
-  IDCard: {},
   // modal 弹窗
-  modal: { show: false, title: '', msg: '' },
-  showExtends: false
+  modal: { show: false, title: '', msg: '' }
 }
 
 export default new Vuex.Store({
   state,
   mutations,
-  getters,
-  actions
+  // getters,
+  // actions,
+  modules: {
+    namespace: true,
+    auth,
+    chat,
+    contact
+  }
 })

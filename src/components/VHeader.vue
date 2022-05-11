@@ -45,7 +45,7 @@ export default {
       this.keywords = ''
     },
     handleClickExtends () {
-      this.$store.commit('showExtends', !this.$store.state.showExtends)
+      this.$store.commit('contact/showExtends', !this.$store.state.contact.showExtends)
     }
   }
 }

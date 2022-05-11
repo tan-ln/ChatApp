@@ -3,7 +3,7 @@
     <v-header title="Messages" bubble input />
     <div class="warpper__content">
       <template v-for="(item) of getLastMsgQueue">
-        <MsgEntry :entry="item" :key="item.id" @click.native="handleClickMsgEntry(item.msg)" :target="getCurTarget" :rootGroup="rootGroup" />
+        <MsgEntry :entry="item" :key="item.id" @click.native="handleClickMsgEntry(item.msg)" :target="__target" :rootGroup="rootGroup" />
       </template>
     </div>
   </div>
@@ -12,7 +12,7 @@
 <script>
 import MsgEntry from './MsgEntry.vue'
 import VHeader from '../VHeader.vue'
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'MsgCollection',
@@ -21,14 +21,18 @@ export default {
     'v-header': VHeader
   },
   computed: {
-    ...mapGetters(['getLastMsgQueue', 'getCurTarget']),
-    ...mapState(['rootGroup'])
+    ...mapState({
+      __target: state => state.auth.__target,
+      rootGroup: state => state.contact.rootGroup,
+      getLastMsgQueue: state => state.chat.lastMsgQueue
+    })
   },
   methods: {
     handleClickMsgEntry (data) {
-      // if (this.$route.params.target === this.getCurTarget.name) return
+      console.log(data)
+      // if (this.$route.params.target === this.__target.name) return
       // 设置聊天对象
-      this.$store.commit('setCurrentChating', data)
+      this.$store.dispatch('chat/setCurrentChating', data)
       // this.$router.push({ name: 'messages', params: { target: obj } })
     }
   }

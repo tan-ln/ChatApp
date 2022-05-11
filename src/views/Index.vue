@@ -14,21 +14,21 @@ export default {
   name: 'Index',
   components: { NavBar, SubPage, MainPage },
   mounted: function () {
-    this.$store.dispatch('reqRootGroup')
+    this.$store.dispatch('contact/reqRootGroup')
   },
   sockets: {
     // 广播消息
     __broadcast (data) {
+      this.$store.dispatch('chat/setConversations', data)
       if (data.type === 'signup') {
-        this.$store.dispatch('reqRootGroup')
+        this.$store.dispatch('contact/reqRootGroup')
       }
-      this.$store.commit('setConversations', data)
     }
   },
   methods: {
     handleHide () {
-      this.$store.commit('showExtends', false)
-      this.$store.commit('showIDCard', false)
+      this.$store.commit('contact/showExtends', false)
+      this.$store.commit('contact/showIDCard', false)
     }
   }
 }

@@ -24,20 +24,25 @@
 <script>
 import Index from '@/views/Index'
 import Modal from '@/components/modal/Modal'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'App',
   components: { Index, Modal },
   computed: {
-    ...mapGetters(['getAuthState', 'getFlipAni', 'getModalState', 'getExtendStatus']),
+    ...mapGetters('auth', ['getAuthState']),
+    ...mapState({
+      getFlipAni: state => state.flipAni,
+      getModalState: state => state.modal,
+      getExtendStatus: state => state.contact.showExtends
+    }),
     mainPage () {
       return this.$route.name !== 'signin' && this.$route.name !== 'signup'
     }
   },
   created () {
     this.$store.commit('syncStorage')
-    this.$store.commit('getUserInfo')
+    this.$store.commit('auth/getUserInfo')
     this.$store.commit('changeFlipAni', false)
   }
 }

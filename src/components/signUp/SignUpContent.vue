@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'SignUpContent',
@@ -60,7 +60,10 @@ export default {
     pageName () {
       return this.$route.name
     },
-    ...mapGetters(['__self', 'getModalState'])
+    ...mapState({
+      __self: state => state.auth.__self,
+      modal: state => state.modal
+    })
   },
   methods: {
     beforeAniEnter: function () {
@@ -81,8 +84,8 @@ export default {
         email: this.email,
         password: this.password
       }
-      await this.$store.dispatch('reqSignIn', payload)
-      if (this.getModalState.show) this.loading = false
+      await this.$store.dispatch('auth/reqSignIn', payload)
+      if (this.modal.show) this.loading = false
       // 登录或注册后 路由跳转及动画状态修改
       if (this.__self.isSignIn) {
         this.loading = false

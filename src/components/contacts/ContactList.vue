@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'ContactList',
   data () {
@@ -38,7 +38,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['contactsBook'])
+    ...mapState({
+      contactsBook: state => state.contact.contactsBook
+    })
   },
   methods: {
     getEn () {
@@ -50,7 +52,7 @@ export default {
     },
     handleClickContact (item) {
       this.active_id = item.username
-      this.$store.commit('showIDCard', item)
+      this.$store.commit('contact/showIDCard', item)
     }
   }
 }

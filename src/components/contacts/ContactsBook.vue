@@ -36,7 +36,7 @@ export default {
     ContactList
   },
   created () {
-    this.$store.dispatch('reqContacts')
+    this.$store.dispatch('contact/reqContacts')
   }
 }
 </script>
