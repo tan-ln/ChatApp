@@ -10,10 +10,10 @@
       :key="item.timestamp + item.content"
       ref="msgRef"
     >
-      <div class="dialog__item--avatar" v-if="item.from !== 'app'">
-        <img :src="getImgUrl(item.from)" :alt="item.from" >
+      <div class="dialog__item--info" v-if="item.from !== 'app'">
+        <img class="avatar" :src="getInfo(item.from, 'avatar')" :alt="item.from" >
       </div>
-      <Message :msg="item.content" :sender="item.from"/>
+      <Message :msg="item.content" :sender="item.from" :username="getInfo(item.from, 'username')" />
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
   name: 'MsgList',
   props: ['mainHeight'],
   data () {
-    return { cleanSide: true }
+    return { cleanSide: true, direct: '' }
   },
   components: { Message },
   computed: {
@@ -40,20 +40,20 @@ export default {
       const time = new Date().toLocaleString()
       return time
     },
-    getImgUrl (email) {
-      let url = null
+    getInfo (email, attr) {
+      let res = null
       // 群组消息
       if (this.__target.gname) {
         JSON.parse(this.__target.gmember).forEach(item => {
           if (item.email === email) {
-            url = item.avatar
+            res = item[attr]
           }
         })
       } else {
         // 私聊消息
-        url = this.__target.avatar
+        res = this.__target[attr]
       }
-      return url
+      return res
     }
   },
   mounted () {
@@ -82,18 +82,18 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding: 0 0 0.4rem 0;
+    padding: 0 0 0.2rem 0;
+    // position: relative;
     &.flexEnd {
       flex-direction: row-reverse;
     }
-
-    &--avatar {
+    &--info {
       height: 0.32rem;
       width: 0.32rem;
       position: relative;
       cursor: pointer;
       @include no_select;
-      img {
+      .avatar {
         position: absolute;
         top: 0;
         width: 0.32rem;

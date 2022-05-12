@@ -34,9 +34,6 @@ export default {
   components: {
     'v-header': VHeader,
     ContactList
-  },
-  created () {
-    this.$store.dispatch('contact/reqContacts')
   }
 }
 </script>

@@ -4,7 +4,7 @@
     <div class="mine">
       <img class="mine-img" :src="__self.avatar" :alt="__self.email">
       <p class="mine-info">mine</p>
-      <p class="mine-name">{{ __self.email }}</p>
+      <p class="mine-name">{{ __self.username }}</p>
     </div>
     <!-- group members -->
     <div class="members-list-wrapper">
@@ -27,7 +27,7 @@
           />
         </li>
       </ul>
-      <div class="members-more" title="show more members" v-if="num > 7">
+      <div class="members-more" title="show more members" v-if="num > 6">
         <span>共 {{ num }} 人 ></span>
       </div>
     </div>
@@ -65,7 +65,9 @@ export default {
     .mine-img {
       width: .64rem;
       height: .64rem;
+      border: .01rem  solid #fff;
       border-radius: 50%;
+      box-shadow: 0rem 0rem .08rem $shadow_middle_color;
     }
     .mine-info {
       font-size: .14rem;
@@ -94,9 +96,9 @@ export default {
       .member-item {
         display: inline-block;
         border-radius: 50%;
-        margin: 0 .06rem;
-        width: .28rem;
-        height: .28rem;
+        margin: 0 .04rem;
+        width: .3rem;
+        height: .3rem;
         cursor: pointer;
         position: relative;
 
@@ -108,11 +110,15 @@ export default {
         img {
           width: 100%;
           height: 100%;
-          border-radius: .06rem;
+          border: .01rem  solid #fff;
+          border-radius: 50%;
         }
         //  空 img
         img[src=""], img:not([src]) {
           opacity: 0;
+        }
+        img.last-img {
+          border: none;
         }
       }
 

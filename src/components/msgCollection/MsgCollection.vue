@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     handleClickMsgEntry (data) {
-      console.log(data)
       // if (this.$route.params.target === this.__target.name) return
       // 设置聊天对象
       this.$store.dispatch('chat/setCurrentChating', data)

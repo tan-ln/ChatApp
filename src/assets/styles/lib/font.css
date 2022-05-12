@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'SourceHanSansCN-Regular' 'PingFang-Bold.ttf';
+  font-family: 'SourceHanSansCN-Regular' 'PingFang-Bold.ttf' !important;
   /* src: url('./PingFang-Bold.ttf'); */
   src: url('./SourceHanSansCN-Regular.otf');
 }

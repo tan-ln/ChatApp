@@ -1,18 +1,21 @@
 <template>
-  <div class="message__block" v-if="msg" :class="msgStyle()">
-    <pre v-if="parseMsg" v-html="parseMsg"></pre>
-    <pre v-else v-text="msg"></pre>
-    <!-- 空元素 用于消息气泡 -->
-    <div class="msg__bubble"></div>
+  <div class="message__block--main" :class="msgStyle()">
+    <p class="username" v-if="username">{{ username }}</p>
+    <div class="message__block" v-if="msg" :class="msgStyle()">
+      <pre v-if="parseMsg" v-html="parseMsg"></pre>
+      <pre v-else v-text="msg"></pre>
+      <!-- 空元素 用于消息气泡 -->
+      <div class="msg__bubble"></div>
+    </div>
   </div>
-</template>
 
+</template>
 <script>
 import { isURL } from '@/assets/js/reg.js'
 import { mapState } from 'vuex'
 export default {
   name: 'Message',
-  props: ['msg', 'sender'],
+  props: ['msg', 'sender', 'username'],
   computed: {
     parseMsg () {
       let data = this.msg
@@ -49,12 +52,37 @@ export default {
 
 <style lang="scss">
 @import "@/assets/styles/valiable.scss";
+.message__block--main {
+  width: 100%;
+  .username {
+    color: $middle_font_color;
+  }
+}
+// 中间系统消息
+.toCenter {
+  text-align: center;
+  filter: opacity(.8);
+  border-radius: .16rem;
+  color: $heavy_font_color;
+}
+// 左侧用户名
+.toLeft .username {
+  text-align: left;
+  margin-left: .2rem;
+}
+// 右侧用户名
+.toRight .username {
+  text-align: right;
+  margin-right: .2rem;
+}
+
 .message__block {
+  display: inline-block;
   padding: .1rem .2rem;
   position: relative;
   top: 0.04rem;
-  // border: .01rem solid $border_color;
   max-width: 4.8rem;
+
   pre {
     display: inline-block;
     font-size: 0.12rem;
@@ -85,25 +113,19 @@ export default {
     }
   }
 }
-// 中间系统消息
-.message__block.toCenter {
-  margin: 0 auto;
-  filter: opacity(.8);
-  border-radius: .16rem;
-  color: $heavy_font_color;
-}
 // 左侧消息
 .message__block.toLeft {
   border-bottom-left-radius: .16rem;
   border-top-right-radius: .16rem;
   border-bottom-right-radius: .16rem;
   background-color: $bg_color;
+  float: left;
   margin-left: .2rem;
   box-shadow: .02rem .04rem .06rem $shadow_color;
   &::before {
     content: "";
     position: absolute;
-    left: -.16rem;
+    left: -.12rem;
     top: 0;
     width: 0;
     height: 0;
@@ -129,6 +151,7 @@ export default {
   border-bottom-right-radius: .16rem;
   background-color: $msg_bg_color;
   margin-right: .2rem;
+  float: right;
   box-shadow: -.02rem .04rem .06rem $shadow_color;
   &::after {
     content: "";

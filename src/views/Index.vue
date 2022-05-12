@@ -15,6 +15,7 @@ export default {
   components: { NavBar, SubPage, MainPage },
   mounted: function () {
     this.$store.dispatch('contact/reqRootGroup')
+    this.$store.dispatch('contact/reqContacts')
   },
   sockets: {
     // 广播消息

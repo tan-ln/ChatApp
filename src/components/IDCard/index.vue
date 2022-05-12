@@ -32,8 +32,8 @@
         </p>
       </div>
       <div class="card__bottom__wrapper">
-        <!-- <div class="btn add-btn">subsribe</div> -->
-        <div class="btn send-btn">send message</div>
+        <div class="btn send-btn" v-if="isFriends" @click="handleSendMessage">send message</div>
+        <div class="btn add-btn" v-else @click="handleAddFriends">subsribe</div>
       </div>
       <!-- close btn -->
       <div class="close-btn" title="close" @click="handleCloseIDCard">
@@ -44,16 +44,38 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'IDCard',
   props: ['userInfo'],
   computed: {
-    ...mapGetters('contact', ['isFriend'])
+    ...mapState({
+      self: state => state.auth.__self.userInfo
+    }),
+    isFriends () {
+      let bool = false
+      const contactsBook = this.$store.state.contact.contactsBook
+      for (let key in contactsBook) {
+        contactsBook[key].forEach(item => {
+          if (item.email === this.userInfo.email) {
+            bool = true
+          }
+        })
+      }
+      return bool
+    }
   },
   methods: {
     handleCloseIDCard () {
       this.$store.commit('contact/showIDCard', false)
+    },
+    // 添加聊天队列
+    handleSendMessage () {
+    },
+    // 加好友
+    handleAddFriends () {
+      const selfEmail = this.self.email
+      this.$store.dispatch('contact/reqAddFriends', { selfEmail, target: this.userInfo })
     }
   }
 }
@@ -154,7 +176,6 @@ export default {
         text-align: center;
         color: #fff;
         font-size: 0.12rem;
-        font-weight: 100;
         letter-spacing: .01rem;
         border-radius: .2rem;
         background-color: $msg_bg_color;

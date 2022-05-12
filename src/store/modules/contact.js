@@ -23,6 +23,7 @@ const mutations = {
   },
   setAllContacts (state, payload) {
     state.contactsBook = payload
+    sessionStorage.setItem('contactsBook', JSON.stringify(state.contactsBook))
   },
   // set groups
   saveGroups (state, payload) {
@@ -47,7 +48,9 @@ const mutations = {
     state.showExtends = typeof payload === 'undefined' ? !state.showExtends : payload
   }
 }
+
 const getters = {}
+
 const actions = {
   // 联系人列表
   reqContacts: async ({ commit, rootState }) => {
@@ -55,10 +58,10 @@ const actions = {
     if (contactsBook && contactsBook.length) {
       commit('setAllContacts', JSON.parse(contactsBook))
     } else {
-      const res = await post(`/api/contact/all-contacts`)
+      const { email } = rootState.auth.__self.userInfo
+      const res = await post(`/api/contact/all-contacts`, { email })
       if (res.code === 200) {
-        commit('setAllContacts', res.data.list)
-        sessionStorage.setItem('contactsBook', JSON.stringify(res.data.list))
+        commit('setAllContacts', res.data)
       } else {
         sessionStorage.removeItem('isSignIn')
         commit('showModal', { title: res.code, msg: res.message }, { root: true })
@@ -69,7 +72,7 @@ const actions = {
     const res = await get(`/api/group/root`)
     if (res.code === 200) {
       commit('saveGroups', { group: 'root', data: res.data })
-      // commit('auth/saveTarget', { group: 'root', data: res.data }, { root: true })
+      commit('auth/saveTarget', { group: 'root', from: null, rootGroup: res.data }, { root: true })
     } else {
       commit('showModal', { title: res.code, msg: res.message }, { root: true })
     }
@@ -79,6 +82,15 @@ const actions = {
     if (res.code === 200) {
       commit('saveSourceFiles', res.data)
     }
+  },
+  // 添加好友
+  reqAddFriends: async ({ commit, rootState }, payload) => {
+    const { selfEmail, target } = payload
+    const { avatar, email, username } = target
+    const res = await post(`/api/contact/add-friends`, { selfEmail, target: { avatar, email, username } })
+    res.code === 200
+      ? commit('setAllContacts', res.data)
+      : commit('showModal', { title: res.code, msg: res.message }, { root: true })
   }
 }
 
