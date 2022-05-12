@@ -33,6 +33,8 @@ export default {
       // 设置聊天对象
       this.$store.dispatch('chat/setCurrentChating', data)
       // this.$router.push({ name: 'messages', params: { target: obj } })
+      // 关闭群扩展面板
+      this.$store.commit('contact/showExtends', false)
     }
   }
 }

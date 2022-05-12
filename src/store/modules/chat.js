@@ -1,4 +1,4 @@
-import { post } from '@/api/request.js'
+// import { post } from '@/api/request.js'
 
 const state = {
   // 正在聊天的消息队列
@@ -10,13 +10,60 @@ const state = {
 }
 
 const mutations = {
-  // 消息列表
-  getMsgList (state, payload) {
-    state.msgList = payload
+  // 更新最近聊天列表
+  updateLastQueue (state, payload) {
+    const { data, avatar } = payload
+    // 最近聊天列表更新
+    const lastQueue = state.lastMsgQueue
+    if (lastQueue.length > 0) {
+      let temp = true
+      // 在聊天列表中
+      lastQueue.forEach((item, idx) => {
+        if ((data.group && item.msg.group === data.group) || item.msg.from === data.from) {
+          // 在列表中
+          temp = false
+          // 未读消息
+          // if (item.msg.group === __target.gname || item.msg.from === __target.gname) {
+          //   item.unreadNum = 0
+          // } else {
+          //   item.unreadNum++
+          // }
+          // 对象合并
+          item.msg = data
+          if (!item.avatar) {
+            lastQueue[idx]['avatar'] = avatar
+          }
+        }
+      })
+      // 不在聊天列表中
+      if (temp) {
+        const id = data.timestamp ? data.timestamp : Date.now()
+        lastQueue.push({
+          msg: data,
+          id: id + data.from,
+          unreadNum: 1,
+          top: false,
+          mute: false,
+          avatar
+        })
+      }
+    } else {
+      // 聊天列表为空
+      const id = data.timestamp ? data.timestamp : Date.now()
+      lastQueue.push({
+        msg: data,
+        id: id + data.from,
+        unreadNum: 1,
+        top: false,
+        mute: false,
+        avatar
+      })
+    }
+    sessionStorage.setItem('lastMsgQueue', JSON.stringify(state.lastMsgQueue))
   },
-  // 聊天消息管理
+  // 聊天消息存储
   setConversations (state, payload) {
-    const { rootGroup, groups, __target, data } = payload
+    const { data } = payload
     // 所有在线消息存储
     // 在消息列表当中 push
     const temp = state.msgQueue[data.group || data.from]
@@ -26,66 +73,30 @@ const mutations = {
       // create
       state.msgQueue[data.group || data.from] = { list: [data] }
     }
-
-    // 获取头像
-    function getAvatar () {
-      let avatar = ''
-      if (data.group) {
-        // 群聊
-        avatar = data.group === 'root' ? rootGroup.gavatar : (groups.map(item => item.gname === data.group)[0])
-      } else {
-        // 私聊
-        JSON.parse(rootGroup.gmember).map(item => {
-          if (item.email === data.from) {
-            avatar = item.avatar
-          }
-        })
-      }
-      return avatar
-    }
-    // 最近聊天列表更新
-    const lastQueue = state.lastMsgQueue
-    if (lastQueue.length > 0) {
-      let temp = true
-      // 在聊天列表中
-      lastQueue.forEach((item, idx) => {
-        if (item.msg.group === data.group || item.msg.from === data.from) {
-          if (item.msg.group === __target.gname || item.msg.from === __target.gname) {
-            item.unreadNum = 0
-          } else {
-            item.unreadNum++
-          }
-          // 对象合并
-          item.msg = data
-          if (!item.avatar) {
-            lastQueue[idx]['avatar'] = getAvatar()
-          }
-          temp = false
-        }
-      })
-      // 不在聊天列表中
-      if (temp) {
-        lastQueue.push({
-          msg: data,
-          id: data.timestamp + data.from,
-          unreadNum: 1,
-          top: false,
-          mute: false,
-          avatar: getAvatar()
-        })
-      }
+    sessionStorage.setItem('msgQueue', JSON.stringify(state.msgQueue))
+  },
+  // 加载当前对象聊天消息
+  loadTargetMsg (state, payload) {
+    const { group, from } = payload
+    // 新的聊天 / 不在消息列表中
+    if (!state.msgQueue[group || from] || !state.msgQueue[group || from]['list']) {
+      // 创建一个空 list
+      state.msgQueue[group || from] = { list: [] }
+      state.curMsgQueue = []
     } else {
-      // 聊天列表为空
-      lastQueue.push({
-        msg: data,
-        id: data.timestamp + data.from,
-        unreadNum: 1,
-        top: false,
-        mute: false,
-        avatar: getAvatar()
-      })
+      // 已有聊天
+      state.curMsgQueue = state.msgQueue[group || from].list
     }
     sessionStorage.setItem('msgQueue', JSON.stringify(state.msgQueue))
+  },
+  // 未读消息管理
+  resetUnReadNum (state, payload) {
+    const { group, from } = payload
+    state.lastMsgQueue.forEach(item => {
+      if (item.msg.group === group || item.msg.from === from) {
+        item.unreadNum = 0
+      }
+    })
     sessionStorage.setItem('lastMsgQueue', JSON.stringify(state.lastMsgQueue))
   }
 }
@@ -93,10 +104,6 @@ const mutations = {
 const getters = {}
 
 const actions = {
-  reqMessages: async ({ commit, rootState }) => {
-    const res = await post(`/api/chat`)
-    res.code === 200 ? commit('getMsgList', res.msgList) : commit('showModal', { title: 'Get Messages Error', msg: res.message }, { root: true })
-  },
   // 当前聊天对象
   setCurrentChating: ({ commit, rootState }, payload) => {
     const { group, from } = payload
@@ -107,28 +114,20 @@ const actions = {
       rootGroup: rootState.contact.rootGroup
     }, { root: true })
 
-    state.curMsgQueue = state.msgQueue[rootState.auth.__target.gname || rootState.auth.__target.email].list
-    // 从 user 获取 info
+    // 加载当前对象聊天消息
+    commit('loadTargetMsg', payload)
     // 清零 未读
-    const resetUnReadNum = function () {
-      const lastMsgQueue = state.lastMsgQueue
-      const target = rootState.auth.__target
-      lastMsgQueue.forEach(item => {
-        if (item.msg.group === target.gname || item.msg.from === target.email) {
-          item.unreadNum = 0
-        }
-      })
-      sessionStorage.setItem('lastMsgQueue', JSON.stringify(state.lastMsgQueue))
-    }
-    resetUnReadNum()
+    commit('resetUnReadNum', payload)
   },
   // 聊天消息管理
-  setConversations ({ commit, rootState }, payload) {
+  setConversations ({ commit, rootGetters }, payload) {
     const { data } = payload
-    const { __target } = rootState.auth
-    const { rootGroup, groups } = rootState.contact
-    commit('setConversations', {
-      rootGroup, groups, __target, data
+    // 消息管理
+    commit('setConversations', payload)
+    const avatar = rootGetters['contact/getAvatar'](data)
+    // 最近聊天列表更新
+    commit('updateLastQueue', {
+      data, avatar
     })
   }
 }

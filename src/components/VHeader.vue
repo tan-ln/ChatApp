@@ -12,13 +12,14 @@
         <i class="opts__icon iconfont" v-html="keywords ? '&#xe60f;' : '&#xe782;'" @click="handleClickClean"></i>
       </div>
     </div>
-    <div class="wrapper__header--right tool__btns" v-if="fold !== undefined" title="open details" @click="handleClickExtends">
+    <div class="wrapper__header--right tool__btns" v-if="fold !== undefined && __target.gname" title="open details" @click="handleClickExtends">
       <i class="iconfont tool__btns--more">&#xe613;</i>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Bubble from './Bubble.vue'
 export default {
   name: 'VHeader',
@@ -30,6 +31,11 @@ export default {
     return {
       keywords: ''
     }
+  },
+  computed: {
+    ...mapState({
+      __target: state => state.auth.__target
+    })
   },
   methods: {
     mouseOver () {
@@ -74,7 +80,7 @@ export default {
   }
   &--title.simpleStyle {
     font-weight: 400;
-    font-size: 0.18rem;
+    font-size: 0.16rem;
   }
   &--icon {
     position: absolute;

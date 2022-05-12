@@ -44,14 +44,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'IDCard',
   props: ['userInfo'],
   computed: {
     ...mapState({
-      self: state => state.auth.__self.userInfo
+      self: state => state.auth.__self.userInfo,
+      lastMsgQueue: state => state.chat.lastMsgQueue
     }),
+    ...mapGetters('contact', ['getAvatar']),
     isFriends () {
       let bool = false
       const contactsBook = this.$store.state.contact.contactsBook
@@ -69,8 +71,31 @@ export default {
     handleCloseIDCard () {
       this.$store.commit('contact/showIDCard', false)
     },
-    // 添加聊天队列
+    // 添加到聊天队列
     handleSendMessage () {
+      const data = { group: '', from: this.userInfo.email }
+      let bool = false
+      this.lastMsgQueue.map(item => {
+        if ((data.group && item.msg.group === data.group) || item.msg.from === data.from) {
+          bool = true
+        }
+      })
+      // 在最近聊天列表当中
+      if (bool) {
+        this.$store.dispatch('chat/setCurrentChating', data)
+      } else {
+        // 不在
+        const avatar = this.getAvatar(data)
+        // 刷新最近聊天列表
+        this.$store.commit('chat/updateLastQueue', { data, avatar })
+        // 设置 当前聊天对象
+        this.$store.dispatch('chat/setCurrentChating', data)
+      }
+      // 关闭并跳转到聊天页面
+      this.$store.commit('contact/showIDCard', false)
+      if (this.$route.name !== 'messages') {
+        this.$router.push({ path: '/messages' })
+      }
     },
     // 加好友
     handleAddFriends () {
@@ -121,6 +146,9 @@ export default {
       .left__content {
         flex: 1;
         &__title {
+          height: .24rem;
+          line-height: 0.24rem;
+          vertical-align: middle;
           .card-username {
             font-size: 0.16rem;
             font-weight: bold;
@@ -134,7 +162,6 @@ export default {
             padding: 0 .04rem;
             font-size: .12rem;
             color: rgb(255, 57, 116);
-            line-height: 0.24rem;
           }
         }
         &__sign {

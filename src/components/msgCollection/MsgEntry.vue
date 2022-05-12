@@ -30,7 +30,7 @@ export default {
     Bubble
   },
   methods: {
-    formatTime: timeStamp => new Date(timeStamp).toString().split(' ')[4].substr(0, 5)
+    formatTime: timeStamp => timeStamp ? new Date(timeStamp).toString().split(' ')[4].substr(0, 5) : ''
   }
 }
 </script>
@@ -67,7 +67,8 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0.02rem 0;
     .content__hd {
       display: flex;
       flex-direction: row;

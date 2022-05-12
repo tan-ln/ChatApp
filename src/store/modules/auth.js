@@ -30,10 +30,6 @@ const mutations = {
   },
   saveTarget (state, payload) {
     const { group, from, rootGroup } = payload
-    // 更新 __target
-    // if (state.__target.gname && state.__target.gname === group) {
-    //   state.__target = data
-    // }
     // 群组，从 rootGroup 或 groups 当中过滤
     if (group) {
       // root group
@@ -44,7 +40,7 @@ const mutations = {
       }
     } else {
       // 好友信息，从 rootGroup 过滤
-      const data = rootGroup.filter(item => item.email === from)
+      const data = JSON.parse(rootGroup.gmember).filter(item => item.email === from)
       state.__target = data[0]
     }
     sessionStorage.setItem('__target', JSON.stringify(state.__target))

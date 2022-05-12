@@ -24,7 +24,7 @@ export default {
   beforeRouteLeave (to, from, next) {
     if (to.name === 'home') {
       const { userInfo } = this.__self
-      this.$store.dispatch('contact/reqRootGroup')
+      // this.$store.dispatch('contact/reqRootGroup')
       this.$socket.emit('user:goOnLine', userInfo, from.name)
       this.sockets.subscribe('__broadcast', data => {
         this.$store.dispatch('chat/setConversations', data)

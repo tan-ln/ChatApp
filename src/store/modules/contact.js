@@ -49,7 +49,24 @@ const mutations = {
   }
 }
 
-const getters = {}
+const getters = {
+  // 获取头像
+  getAvatar: state => data => {
+    let avatar = ''
+    // 群聊
+    if (data.group) {
+      avatar = data.group === 'root' ? state.rootGroup.gavatar : (state.groups.map(item => item.gname === data.group)[0])
+    } else {
+      // 私聊
+      JSON.parse(state.rootGroup.gmember).map(item => {
+        if (item.email === data.from) {
+          avatar = item.avatar
+        }
+      })
+    }
+    return avatar
+  }
+}
 
 const actions = {
   // 联系人列表
@@ -72,7 +89,6 @@ const actions = {
     const res = await get(`/api/group/root`)
     if (res.code === 200) {
       commit('saveGroups', { group: 'root', data: res.data })
-      commit('auth/saveTarget', { group: 'root', from: null, rootGroup: res.data }, { root: true })
     } else {
       commit('showModal', { title: res.code, msg: res.message }, { root: true })
     }
