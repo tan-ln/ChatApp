@@ -4,16 +4,16 @@
     <div class="dialog__item"
       :class="{
         'flexEnd': item.from === __self.userInfo.email,
-        'animate__animated animate__fadeInUp': !cleanSide && idx === getCurMsgQueue.length - 1
+        'animate__animated animate__fadeInUp': cleanSide && idx === getCurMsgQueue.length - 1
       }"
       v-for="(item, idx) in getCurMsgQueue"
       :key="item.timestamp + item.content"
       ref="msgRef"
     >
-      <div class="dialog__item--info" v-if="item.from !== 'app'">
-        <img class="avatar" :src="getInfo(item.from, 'avatar')" :alt="item.from" >
+      <div class="dialog__item--info" v-if="showAvatar(item.from, item.type)">
+        <img class="avatar" :src="getInfo(item.from, 'avatar')" :alt="item.from" />
       </div>
-      <Message :msg="item.content" :sender="item.from" :username="getInfo(item.from, 'username')" />
+      <Message :data="item" :msg="item.content" :username="getInfo(item.from, 'username')" />
     </div>
   </div>
 </template>
@@ -24,15 +24,18 @@ import Message from './Message.vue'
 export default {
   name: 'MsgList',
   props: ['mainHeight'],
-  data () {
-    return { cleanSide: true, direct: '' }
-  },
   components: { Message },
+  data () {
+    return {
+      cleanSide: true
+    }
+  },
   computed: {
     ...mapState({
       __self: state => state.auth.__self,
       __target: state => state.auth.__target,
-      getCurMsgQueue: state => state.chat.curMsgQueue
+      getCurMsgQueue: state => state.chat.curMsgQueue,
+      getLastMsgQueue: state => state.chat.lastMsgQueue
     })
   },
   methods: {
@@ -54,23 +57,39 @@ export default {
         res = this.__target[attr]
       }
       return res
+    },
+    showAvatar (from, type) {
+      let bool = false
+      if (type !== 'system' && from !== 'app') {
+        bool = true
+      }
+      return bool
     }
   },
   mounted () {
     this.$emit('attachScroll')
   },
-  updated () {
-    const ele = this.$refs.dialog__list__wrapper
-    // console.log(ele.clientHeight)
-    if (this.mainHeight < ele.clientHeight) {
-      this.cleanSide = true
-      const msgEl = this.$refs.msgRef
-      const lastEl = msgEl.reverse()[0]
-      lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
-    } else {
-      this.cleanSide = false
-    }
+  beforeUpdate () {
+    this.$nextTick(() => {
+      const ele = this.$refs.dialog__list__wrapper
+      // console.log(ele.clientHeight)
+      if (this.mainHeight < ele.clientHeight) {
+        this.cleanSide = false
+        const msgEl = this.$refs.msgRef
+        const lastEl = msgEl[msgEl.length - 1]
+        lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
+      }
+    })
   }
+  // updated () {
+  //   const ele = this.$refs.dialog__list__wrapper
+  //   if (this.mainHeight < ele.clientHeight) {
+  //     this.cleanSide = false
+  //     const msgEl = this.$refs.msgRef
+  //     const lastEl = msgEl.reverse()[0]
+  //     lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
+  //   }
+  // }
 }
 </script>
 

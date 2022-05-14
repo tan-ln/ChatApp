@@ -73,24 +73,15 @@ export default {
     },
     // 添加到聊天队列
     handleSendMessage () {
-      const data = { group: '', from: this.userInfo.email }
-      let bool = false
-      this.lastMsgQueue.map(item => {
-        if ((data.group && item.msg.group === data.group) || item.msg.from === data.from) {
-          bool = true
-        }
-      })
-      // 在最近聊天列表当中
-      if (bool) {
-        this.$store.dispatch('chat/setCurrentChating', data)
-      } else {
-        // 不在
-        const avatar = this.getAvatar(data)
-        // 刷新最近聊天列表
-        this.$store.commit('chat/updateLastQueue', { data, avatar })
-        // 设置 当前聊天对象
-        this.$store.dispatch('chat/setCurrentChating', data)
-      }
+      const data = { group: null, from: this.userInfo.email }
+      // 关闭群组扩展面板
+      this.$store.commit('contact/showExtends', false)
+
+      const avatar = this.getAvatar(data)
+      // 刷新最近聊天列表
+      this.$store.dispatch('chat/setConversations', { data, avatar })
+      // 设置 当前聊天对象
+      this.$store.dispatch('chat/setCurrentChating', data)
       // 关闭并跳转到聊天页面
       this.$store.commit('contact/showIDCard', false)
       if (this.$route.name !== 'messages') {
@@ -99,8 +90,13 @@ export default {
     },
     // 加好友
     handleAddFriends () {
-      const selfEmail = this.self.email
-      this.$store.dispatch('contact/reqAddFriends', { selfEmail, target: this.userInfo })
+      const data = {
+        self: this.self.email,
+        target: this.userInfo.email
+      }
+      this.$socket.emit('contact:req-subscribe', data)
+      this.$store.commit('contact/showIDCard', false)
+      this.$store.commit('contact/showExtends', false)
     }
   }
 }

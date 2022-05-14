@@ -1,14 +1,14 @@
 <template>
-  <div class="contact__card__wrapper" :class="{ 'actived__content' : entry.msg.group === target.gname || entry.msg.from === target.email }">
+  <div class="contact__card__wrapper" :class="{ 'actived__content': activeItem }">
     <div class="wrapper__left__avatars">
-      <img :src="entry.avatar || rootGroup.gavatar" :alt="entry.msg.group || entry.msg.from">
+      <img :src="entry.msg.avatar || getAvatar(entry.msg)" :alt="entry.msg.from">
       <div class="wrapper__side--bubble" v-if="entry.unreadNum">
         <Bubble :num="entry.unreadNum" />
       </div>
     </div>
     <div class="wrapper__right__content">
       <div class="content__hd">
-        <h3 class="content__hd--title">{{entry.msg.group || entry.msg.from}}</h3>
+        <h3 class="content__hd--title">{{entry.msg.group || entry.msg.username}}</h3>
         <span class="content__hd--timeStamp">{{formatTime(entry.msg.timestamp)}}</span>
       </div>
       <div class="content__main">
@@ -22,12 +22,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Bubble from '../Bubble.vue'
 export default {
   name: 'MsgEntry',
   props: ['entry', 'target', 'rootGroup'],
   components: {
     Bubble
+  },
+  computed: {
+    ...mapGetters('contact', ['getAvatar']),
+    activeItem () {
+      const msg = this.entry.msg
+      const target = this.target
+      let bool = false
+      if ((msg.group && target.gname && target.gname === msg.group) || (!target.gname && !msg.group && target.email === msg.from)) {
+        bool = true
+      }
+      return bool
+    }
   },
   methods: {
     formatTime: timeStamp => timeStamp ? new Date(timeStamp).toString().split(' ')[4].substr(0, 5) : ''
@@ -51,7 +64,7 @@ export default {
   .wrapper__left__avatars {
     width: .48rem;
     height: .48rem;
-    margin-right: .12rem;
+    margin-right: .06rem;
     position: relative;
     img {
       display: block;
@@ -63,6 +76,7 @@ export default {
     }
   }
   .wrapper__right__content {
+    width: 1.7rem;
     height: .48rem;
     flex: 1;
     display: flex;
@@ -89,7 +103,6 @@ export default {
     .content__main {
       font-size: 0.12rem;
       color: $middle_font_color;
-      width: 1.5rem;
       line-height: 0.2rem;
       &--msg {
         @include ellipse;

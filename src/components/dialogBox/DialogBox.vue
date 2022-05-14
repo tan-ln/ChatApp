@@ -1,12 +1,12 @@
 <template>
   <div class="dialog__box__wrapper" v-if="__target.gname || __target.email">
-    <v-header :title="__target.gname || __target.email" simple fold />
+    <v-header :title="__target.gname || __target.username || __target.email" simple fold />
     <!-- 消息列表 -->
     <main class="wrapper__content" :class="hideScroll ? 'hide_scroll' : ''" ref="mainRef">
       <MsgList :mainHeight="mainHeight" :attachScroll="attachScroll()" />
     </main>
     <!-- 输入框 -->
-    <div class="wrapper__footer">
+    <div class="wrapper__footer" v-if="isFriends">
       <!-- textArea 上方工具栏 -->
       <div class="tool__list">
         <i title="emoji" class="iconfont">&#xe610;</i>
@@ -60,6 +60,7 @@ export default {
       showExtends: state => state.contact.showExtends
     }),
     member6 () {
+      if (!this.__target.gmember) return
       // total num
       const arr = JSON.parse(this.__target.gmember)
       // except me
@@ -74,6 +75,19 @@ export default {
         num: arr.length,
         list: [...list.slice(0, 5), addImg]
       }
+    },
+    isFriends () {
+      if (this.__target.gname) return true
+      let bool = false
+      const contactsBook = this.$store.state.contact.contactsBook
+      for (let key in contactsBook) {
+        contactsBook[key].forEach(item => {
+          if (item.email === this.__target.email) {
+            bool = true
+          }
+        })
+      }
+      return bool
     }
   },
   methods: {

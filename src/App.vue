@@ -29,9 +29,15 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'App',
   components: { Index, Modal },
+  data () {
+    return {
+      beforeUnload_time: 0
+    }
+  },
   computed: {
     ...mapGetters('auth', ['getAuthState']),
     ...mapState({
+      userInfo: state => state.auth.__self.userInfo,
       getFlipAni: state => state.flipAni,
       getModalState: state => state.modal,
       getExtendStatus: state => state.contact.showExtends
@@ -40,10 +46,31 @@ export default {
       return this.$route.name !== 'signin' && this.$route.name !== 'signup'
     }
   },
+  methods: {
+    beforeunloadHandler () {
+      this.beforeUnload_time = new Date().getTime()
+    },
+    unloadHandler () {
+      this._gap_time = new Date().getTime() - this.beforeUnload_time
+      // 判断是窗口关闭
+      if (this._gap_time <= 5) {
+        this.$socket.emit('user:offLine', this.userInfo.email)
+      }
+    }
+  },
   created () {
     this.$store.commit('syncStorage')
     this.$store.commit('auth/getUserInfo')
     this.$store.commit('changeFlipAni', false)
+  },
+  mounted () {
+    // 关闭聊天
+    window.addEventListener('beforeunload', e => this.beforeunloadHandler(e))
+    window.addEventListener('unload', e => this.unloadHandler(e))
+  },
+  destroyed () {
+    window.removeEventListener('beforeunload', e => this.beforeunloadHandler(e))
+    window.removeEventListener('unload', e => this.unloadHandler(e))
   }
 }
 </script>

@@ -2,8 +2,8 @@
   <div class="msg_collection__wrapper">
     <v-header title="Messages" bubble input />
     <div class="warpper__content">
-      <template v-for="(item) of getLastMsgQueue">
-        <MsgEntry :entry="item" :key="item.id" @click.native="handleClickMsgEntry(item.msg)" :target="__target" :rootGroup="rootGroup" />
+      <template v-for="(item) in getLastMsgQueue">
+        <MsgEntry :entry="addInfo(item)" :key="item.id" @click.native="handleClickMsgEntry(item.msg)" :target="__target" :rootGroup="rootGroup" />
       </template>
     </div>
   </div>
@@ -35,6 +35,16 @@ export default {
       // this.$router.push({ name: 'messages', params: { target: obj } })
       // 关闭群扩展面板
       this.$store.commit('contact/showExtends', false)
+    },
+    addInfo (item) {
+      const list = this.rootGroup.gmember
+      JSON.parse(list).map(user => {
+        if (!item.msg.group && item.msg.from === user.email) {
+          item.msg['avatar'] = user.avatar
+          item.msg['username'] = user.username
+        }
+      })
+      return item
     }
   }
 }

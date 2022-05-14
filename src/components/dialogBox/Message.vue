@@ -1,12 +1,36 @@
 <template>
   <div class="message__block--main" :class="msgStyle()">
-    <p class="username" v-if="username">{{ username }}</p>
-    <div class="message__block" v-if="msg" :class="msgStyle()">
-      <pre v-if="parseMsg" v-html="parseMsg"></pre>
-      <pre v-else v-text="msg"></pre>
-      <!-- 空元素 用于消息气泡 -->
-      <div class="msg__bubble"></div>
-    </div>
+    <!-- 系统消息/好友申请 -->
+    <template v-if="data.type === 'system'">
+      <div class="sys__msg" v-if="msg">
+        <div class="sys__msg--header">
+          <div class="left-avatar">
+            <img :src="data.avatar" :alt="data.from">
+          </div>
+          <div class="right-info">
+            <p class="username">{{ data.username }}</p>
+            <p class="email">邮箱：{{ data.from }}</p>
+          </div>
+        </div>
+        <div class="sys__msg--content">
+          {{ data.content }}
+        </div>
+        <div class="sys__msg--footer">
+          <div class="cancel-btn btn">拒绝</div>
+          <div class="agree-btn btn" @click="handleUserSubscribe">同意</div>
+        </div>
+      </div>
+    </template>
+    <!-- 普通消息 -->
+    <template v-else>
+      <p class="username" v-if="username">{{ username }}</p>
+      <div class="message__block" v-if="msg" :class="msgStyle()">
+        <pre v-if="parseMsg" v-html="parseMsg"></pre>
+        <pre v-else v-text="msg"></pre>
+        <!-- 空元素 用于消息气泡 -->
+        <div class="msg__bubble"></div>
+      </div>
+    </template>
   </div>
 
 </template>
@@ -15,12 +39,12 @@ import { isURL } from '@/assets/js/reg.js'
 import { mapState } from 'vuex'
 export default {
   name: 'Message',
-  props: ['msg', 'sender', 'username'],
+  props: ['data', 'msg', 'username'],
   computed: {
     parseMsg () {
       let data = this.msg
       // 过滤 用户名
-      if (this.sender !== 'app') {
+      if (this.data.from !== 'app') {
         // 过滤信息
         const res = isURL(this.msg)
         if (res) {
@@ -33,18 +57,22 @@ export default {
       return false
     },
     ...mapState({
-      __self: state => state.auth.__self
+      __self: state => state.auth.__self.userInfo
     })
   },
   methods: {
     msgStyle () {
-      if (this.sender === 'app') {
+      if (this.data.from === 'app' || this.data.type === 'system') {
         return 'toCenter'
-      } else if (this.sender === this.__self.userInfo.email) {
+      } else if (this.data.from === this.__self.email) {
         return 'toRight'
       } else {
         return 'toLeft'
       }
+    },
+    handleUserSubscribe () {
+      // this.$store.dispatch('contact/reqAddFriends', { selfEmail: this.__self.email, target: this.data })
+      this.$socket.emit('contact:user-subscribe', { self: this.__self.email, target: this.data.from })
     }
   }
 }
@@ -181,6 +209,76 @@ export default {
     border-radius: 50%;
     z-index: 999;
     transform: rotate(45deg);
+  }
+}
+.sys__msg {
+  margin: 0 auto;
+  width: 50%;
+  border-radius: .16rem;
+  background-color: $bg_color;
+  padding: .2rem;
+  letter-spacing: .01rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: -.02rem .04rem .06rem $shadow_color;
+  &--header {
+    width: 100%;
+    height: 1rem;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    .left-avatar {
+      height: 0.5rem;
+      img {
+        width: 0.5rem;
+        height: .5rem;
+        border: .02rem solid #fff;
+      }
+    }
+    .right-info {
+      width: auto;
+      margin-left: .1rem;
+      .username {
+        height: 0.25rem;
+        line-height: 0.25rem;
+        font-size: 0.14rem;
+        font-weight: bold;
+        color: $dark_font_color;
+      }
+      .email {
+        height: 0.25rem;
+        line-height: 0.25rem;
+        font-size: 0.12rem;
+      }
+    }
+  }
+
+  &--content {
+    // height: 0.6rem;
+    padding: 0.06rem 0;
+    border-bottom: .01rem solid $border_light_color;
+    border-radius: .08rem;
+    color: #000;
+  }
+
+  &--footer {
+    .btn {
+      width: 45%;
+      height: 0.3rem;
+      line-height: 0.3rem;
+      border-radius: .08rem;
+      color: aliceblue;
+      background-color: $msg_bg_color;
+      margin-top: .2rem;
+      cursor: pointer;
+    }
+    .cancel-btn {
+      float: left;
+    }
+    .agree-btn {
+      float: right;
+    }
   }
 }
 </style>

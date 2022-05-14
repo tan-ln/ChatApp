@@ -24,6 +24,15 @@ export default {
       if (data.type === 'signup') {
         this.$store.dispatch('contact/reqRootGroup')
       }
+    },
+    // private message
+    __private (data) {
+      console.log(data)
+      // 订阅好友，保存联系人
+      if (data.type === 'subscribe') {
+        this.$store.commit('contact/setAllContacts', data.data.list)
+      }
+      this.$store.dispatch('chat/setConversations', data)
     }
   },
   methods: {

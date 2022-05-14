@@ -16,6 +16,7 @@ export default {
   hideModal (state) {
     state.modal.show = false
   },
+
   // 本地存储
   syncStorage (state) {
     if (!sessionStorage.getItem('msgQueue')) return
