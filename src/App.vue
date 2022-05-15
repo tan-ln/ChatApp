@@ -56,6 +56,12 @@ export default {
       if (this._gap_time <= 5) {
         this.$socket.emit('user:offLine', this.userInfo.email)
       }
+    },
+    loadHandler () {
+      // 刷新，重新注册 socket
+      if (this.getAuthState) {
+        this.$socket.emit('user:flushBrow', this.userInfo.email)
+      }
     }
   },
   created () {
@@ -67,10 +73,12 @@ export default {
     // 关闭聊天
     window.addEventListener('beforeunload', e => this.beforeunloadHandler(e))
     window.addEventListener('unload', e => this.unloadHandler(e))
+    window.addEventListener('load', e => this.loadHandler(e))
   },
   destroyed () {
     window.removeEventListener('beforeunload', e => this.beforeunloadHandler(e))
     window.removeEventListener('unload', e => this.unloadHandler(e))
+    window.addEventListener('load', e => this.loadHandler(e))
   }
 }
 </script>

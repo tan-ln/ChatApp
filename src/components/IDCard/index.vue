@@ -51,12 +51,13 @@ export default {
   computed: {
     ...mapState({
       self: state => state.auth.__self.userInfo,
+      contactsBook: state => state.contact.contactsBook,
       lastMsgQueue: state => state.chat.lastMsgQueue
     }),
     ...mapGetters('contact', ['getAvatar']),
     isFriends () {
       let bool = false
-      const contactsBook = this.$store.state.contact.contactsBook
+      const contactsBook = this.contactsBook
       for (let key in contactsBook) {
         contactsBook[key].forEach(item => {
           if (item.email === this.userInfo.email) {
@@ -95,6 +96,17 @@ export default {
         target: this.userInfo.email
       }
       this.$socket.emit('contact:req-subscribe', data)
+      // 本地消息处理
+      this.$store.dispatch('chat/setConversations', {
+        type: 'subscribe',
+        data: {
+          from: this.self.email,
+          to: this.userInfo.email,
+          content: '你已发送添加好友申请',
+          timestamp: Date.now(),
+          type: 'system'
+        }
+      })
       this.$store.commit('contact/showIDCard', false)
       this.$store.commit('contact/showExtends', false)
     }

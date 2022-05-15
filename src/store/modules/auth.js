@@ -29,7 +29,7 @@ const mutations = {
     sessionStorage.clear()
   },
   saveTarget (state, payload) {
-    const { group, from, rootGroup } = payload
+    const { group, master, rootGroup } = payload
     // 群组，从 rootGroup 或 groups 当中过滤
     if (group) {
       // root group
@@ -40,7 +40,7 @@ const mutations = {
       }
     } else {
       // 好友信息，从 rootGroup 过滤
-      const data = JSON.parse(rootGroup.gmember).filter(item => item.email === from)
+      const data = JSON.parse(rootGroup.gmember).filter(item => item.email === master)
       state.__target = data[0]
     }
     sessionStorage.setItem('__target', JSON.stringify(state.__target))

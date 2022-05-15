@@ -35,11 +35,12 @@ export default {
       // this.$router.push({ name: 'messages', params: { target: obj } })
       // 关闭群扩展面板
       this.$store.commit('contact/showExtends', false)
+      this.$store.commit('contact/showIDCard', false)
     },
     addInfo (item) {
       const list = this.rootGroup.gmember
       JSON.parse(list).map(user => {
-        if (!item.msg.group && item.msg.from === user.email) {
+        if (!item.msg.group && item.master === user.email) {
           item.msg['avatar'] = user.avatar
           item.msg['username'] = user.username
         }

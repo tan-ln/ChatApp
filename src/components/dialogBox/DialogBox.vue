@@ -15,10 +15,10 @@
         <i title="cut" class="iconfont">&#xe676;</i>
         <i title="clipboard" class="iconfont">&#xe645;</i>
       </div>
-      <InputArea />
+      <InputArea @handleMsgSend="handleMsgSend" />
     </div>
     <!-- 右侧扩展栏 -->
-    <ExtendsBar v-if="showExtends" :__self="__self.userInfo" :target="__target" :member6="member6" />
+    <ExtendsBar v-if="showExtends" :__self="__self" :target="__target" :member6="member6" />
     <!-- ID Card -->
     <transition
       enter-active-class="animate__animated animate__fadeIn"
@@ -55,16 +55,17 @@ export default {
     ...mapState({
       showIDCard: state => state.contact.showIDCard,
       IDCard: state => state.contact.IDCard,
-      __self: state => state.auth.__self,
+      __self: state => state.auth.__self.userInfo,
       __target: state => state.auth.__target,
-      showExtends: state => state.contact.showExtends
+      showExtends: state => state.contact.showExtends,
+      contactsBook: state => state.contact.contactsBook
     }),
     member6 () {
       if (!this.__target.gmember) return
       // total num
       const arr = JSON.parse(this.__target.gmember)
       // except me
-      const list = arr.filter(item => item.email !== this.__self.userInfo.email)
+      const list = arr.filter(item => item.email !== this.__self.email)
       // add icon btn
       const addImg = {
         msg: 'add Friends',
@@ -79,7 +80,7 @@ export default {
     isFriends () {
       if (this.__target.gname) return true
       let bool = false
-      const contactsBook = this.$store.state.contact.contactsBook
+      const contactsBook = this.contactsBook
       for (let key in contactsBook) {
         contactsBook[key].forEach(item => {
           if (item.email === this.__target.email) {
@@ -101,6 +102,26 @@ export default {
         //     this.hideScroll = true
         //   }, 600)
         // })
+      })
+    },
+    handleMsgSend (content) {
+      const msg = {
+        from: this.__self.email,
+        to: this.__target.gname ? 'all' : this.__target.email,
+        group: this.__target.gname || null,
+        content,
+        type: 'text',
+        timestamp: Date.now()
+      }
+      // 本地消息处理
+      this.$store.dispatch('chat/setConversations', {
+        type: 'plain_msg',
+        data: msg
+      })
+      // 消息发送
+      this.$socket.emit('msg:dispatch', {
+        type: 'plain_msg',
+        data: msg
       })
     }
   },

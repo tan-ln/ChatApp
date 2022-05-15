@@ -71,18 +71,13 @@ const getters = {
 const actions = {
   // 联系人列表
   reqContacts: async ({ commit, rootState }) => {
-    const contactsBook = sessionStorage.getItem('contactsBook')
-    if (contactsBook && contactsBook.length) {
-      commit('setAllContacts', JSON.parse(contactsBook))
+    const { email } = rootState.auth.__self.userInfo
+    const res = await post(`/api/contact/all-contacts`, { email })
+    if (res.code === 200) {
+      commit('setAllContacts', res.data)
     } else {
-      const { email } = rootState.auth.__self.userInfo
-      const res = await post(`/api/contact/all-contacts`, { email })
-      if (res.code === 200) {
-        commit('setAllContacts', res.data)
-      } else {
-        sessionStorage.removeItem('isSignIn')
-        commit('showModal', { title: res.code, msg: res.message }, { root: true })
-      }
+      sessionStorage.removeItem('isSignIn')
+      commit('showModal', { title: res.code, msg: res.message }, { root: true })
     }
   },
   reqRootGroup: async ({ commit, rootState }) => {

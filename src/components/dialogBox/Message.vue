@@ -3,6 +3,7 @@
     <!-- 系统消息/好友申请 -->
     <template v-if="data.type === 'system'">
       <div class="sys__msg" v-if="msg">
+        <div class="sys__msg--title">好友申请</div>
         <div class="sys__msg--header">
           <div class="left-avatar">
             <img :src="data.avatar" :alt="data.from">
@@ -15,10 +16,21 @@
         <div class="sys__msg--content">
           {{ data.content }}
         </div>
-        <div class="sys__msg--footer">
-          <div class="cancel-btn btn">拒绝</div>
-          <div class="agree-btn btn" @click="handleUserSubscribe">同意</div>
-        </div>
+        <!-- 底部按钮 -->
+        <template v-if="isFriends">
+          <div class="sys__msg--footer">
+            <div class="agreed btn">已同意</div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="sys__msg--footer" v-if="data.from === __self.email">
+            <div class="send-again btn">再次发送</div>
+          </div>
+          <div class="sys__msg--footer" v-else>
+            <div class="cancel-btn btn">拒绝</div>
+            <div class="agree-btn btn" @click="handleUserSubscribe">{{ '同意' }}</div>
+          </div>
+        </template>
       </div>
     </template>
     <!-- 普通消息 -->
@@ -57,8 +69,23 @@ export default {
       return false
     },
     ...mapState({
-      __self: state => state.auth.__self.userInfo
-    })
+      __self: state => state.auth.__self.userInfo,
+      __target: state => state.auth.__target,
+      contactsBook: state => state.contact.contactsBook
+    }),
+    isFriends () {
+      if (this.__target.gname) return true
+      let bool = false
+      const contactsBook = this.contactsBook
+      for (let key in contactsBook) {
+        contactsBook[key].forEach(item => {
+          if (item.email === this.__target.email) {
+            bool = true
+          }
+        })
+      }
+      return bool
+    }
   },
   methods: {
     msgStyle () {
@@ -72,13 +99,14 @@ export default {
     },
     handleUserSubscribe () {
       // this.$store.dispatch('contact/reqAddFriends', { selfEmail: this.__self.email, target: this.data })
-      this.$socket.emit('contact:user-subscribe', { self: this.__self.email, target: this.data.from })
+      this.$socket.emit('contact:user-subscribe', { self: this.__self.email, target: this.__target.email })
     }
   }
 }
 </script>
 
 <style lang="scss">
+@import "@/assets/styles/mixins.scss";
 @import "@/assets/styles/valiable.scss";
 .message__block--main {
   width: 100%;
@@ -216,15 +244,22 @@ export default {
   width: 50%;
   border-radius: .16rem;
   background-color: $bg_color;
-  padding: .2rem;
+  padding: .1rem;
   letter-spacing: .01rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   box-shadow: -.02rem .04rem .06rem $shadow_color;
+  &--title {
+    font-size: 0.16rem;
+    color: $dark_font_color;
+    font-weight: 800;
+    padding-bottom: 0.1rem;
+  }
+
   &--header {
     width: 100%;
-    height: 1rem;
+    height: .7rem;
     display: flex;
     flex-direction: row;
     text-align: left;
@@ -242,9 +277,10 @@ export default {
       .username {
         height: 0.25rem;
         line-height: 0.25rem;
-        font-size: 0.14rem;
+        // font-size: 0.14rem;
         font-weight: bold;
         color: $dark_font_color;
+        @include ellipse;
       }
       .email {
         height: 0.25rem;
@@ -259,12 +295,11 @@ export default {
     padding: 0.06rem 0;
     border-bottom: .01rem solid $border_light_color;
     border-radius: .08rem;
-    color: #000;
+    color: $msg_bg_color;
   }
 
   &--footer {
     .btn {
-      width: 45%;
       height: 0.3rem;
       line-height: 0.3rem;
       border-radius: .08rem;
@@ -274,10 +309,16 @@ export default {
       cursor: pointer;
     }
     .cancel-btn {
+      width: 45%;
       float: left;
     }
     .agree-btn {
+      width: 45%;
       float: right;
+    }
+    .send-again, .agreed {
+      width: 80%;
+      margin-left: 10%;
     }
   }
 }

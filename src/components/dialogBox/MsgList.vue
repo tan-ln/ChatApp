@@ -3,17 +3,17 @@
     <!-- <div class="sys_time">{{ getSysTime() }}</div> -->
     <div class="dialog__item"
       :class="{
-        'flexEnd': item.from === __self.userInfo.email,
+        'flexEnd': item.from === __self.email,
         'animate__animated animate__fadeInUp': cleanSide && idx === getCurMsgQueue.length - 1
       }"
       v-for="(item, idx) in getCurMsgQueue"
       :key="item.timestamp + item.content"
       ref="msgRef"
     >
-      <div class="dialog__item--info" v-if="showAvatar(item.from, item.type)">
-        <img class="avatar" :src="getInfo(item.from, 'avatar')" :alt="item.from" />
+      <div class="dialog__item--info" v-if="showAvatar(item.from, item.type)" @click="handleClickAvatar(item)">
+        <img class="avatar" :src="getInfo(item, 'avatar')" :alt="item.from" />
       </div>
-      <Message :data="item" :msg="item.content" :username="getInfo(item.from, 'username')" />
+      <Message :data="item" :msg="item.content" :username="getInfo(item, 'username')" />
     </div>
   </div>
 </template>
@@ -32,30 +32,25 @@ export default {
   },
   computed: {
     ...mapState({
-      __self: state => state.auth.__self,
+      __self: state => state.auth.__self.userInfo,
       __target: state => state.auth.__target,
+      rootGroup: state => state.contact.rootGroup,
       getCurMsgQueue: state => state.chat.curMsgQueue,
       getLastMsgQueue: state => state.chat.lastMsgQueue
     })
   },
   methods: {
     getSysTime () {
-      const time = new Date().toLocaleString()
-      return time
+      return new Date().toLocaleString()
     },
-    getInfo (email, attr) {
+    getInfo (data, attr, all) {
+      const { from } = data
       let res = null
-      // 群组消息
-      if (this.__target.gname) {
-        JSON.parse(this.__target.gmember).forEach(item => {
-          if (item.email === email) {
-            res = item[attr]
-          }
-        })
-      } else {
-        // 私聊消息
-        res = this.__target[attr]
-      }
+      JSON.parse(this.rootGroup.gmember).forEach(item => {
+        if (item.email === from) {
+          res = all ? item : item[attr]
+        }
+      })
       return res
     },
     showAvatar (from, type) {
@@ -64,13 +59,8 @@ export default {
         bool = true
       }
       return bool
-    }
-  },
-  mounted () {
-    this.$emit('attachScroll')
-  },
-  beforeUpdate () {
-    this.$nextTick(() => {
+    },
+    handleScroll () {
       const ele = this.$refs.dialog__list__wrapper
       // console.log(ele.clientHeight)
       if (this.mainHeight < ele.clientHeight) {
@@ -79,17 +69,24 @@ export default {
         const lastEl = msgEl[msgEl.length - 1]
         lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
       }
+    },
+    handleClickAvatar (item) {
+      const data = this.getInfo(item, '', true)
+      if (!this.__target.gname || this.__self.email === item.from) return
+      this.$store.commit('contact/showIDCard', data)
+    }
+  },
+  watch: {
+    getCurMsgQueue: 'handleScroll'
+  },
+  mounted () {
+    this.$emit('attachScroll')
+  },
+  updated () {
+    this.$nextTick(() => {
+      this.handleScroll()
     })
   }
-  // updated () {
-  //   const ele = this.$refs.dialog__list__wrapper
-  //   if (this.mainHeight < ele.clientHeight) {
-  //     this.cleanSide = false
-  //     const msgEl = this.$refs.msgRef
-  //     const lastEl = msgEl.reverse()[0]
-  //     lastEl.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'})
-  //   }
-  // }
 }
 </script>
 

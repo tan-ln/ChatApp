@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   name: 'InputArea',
   data () {
@@ -23,26 +22,11 @@ export default {
       focus: false
     }
   },
-  computed: {
-    ...mapState({
-      __self: state => state.auth.__self,
-      __target: state => state.auth.__target
-    })
-  },
   methods: {
     handleEnterSubmit (e) {
       e.preventDefault()
       if (this.textContent === '') return
-      const data = {
-        from: this.__self.userInfo.email,
-        to: 'all',
-        group: this.__target.gname || this.__target.email,
-        content: this.textContent.trim(),
-        type: 'text',
-        timestamp: Date.now()
-      }
-      // this.$store.commit('setConversations', { data })
-      this.$socket.emit('msg:dispatch', data)
+      this.$emit('handleMsgSend', this.textContent.trim())
       this.textContent = ''
       this.focus = false
     },

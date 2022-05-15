@@ -36,7 +36,7 @@ export default {
       const msg = this.entry.msg
       const target = this.target
       let bool = false
-      if ((msg.group && target.gname && target.gname === msg.group) || (!target.gname && !msg.group && target.email === msg.from)) {
+      if ((msg.group && target.gname && target.gname === msg.group) || (!target.gname && !msg.group && target.email === this.entry.master)) {
         bool = true
       }
       return bool
